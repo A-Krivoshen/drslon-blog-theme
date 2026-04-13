@@ -1,12 +1,13 @@
 <!-- wp:template-part {"slug":"header","tagName":"header"} /-->
 
-<!-- wp:group {"tagName":"main","layout":{"type":"constrained"},"style":{"spacing":{"padding":{"top":"30px","bottom":"48px"}}}} -->
-<main class="wp-block-group" style="padding-top:30px;padding-bottom:48px">
+<!-- wp:group {"tagName":"main","layout":{"type":"constrained"},"style":{"spacing":{"padding":{"top":"32px","bottom":"56px"}}}} -->
+<main class="wp-block-group" style="padding-top:32px;padding-bottom:56px">
 	<!-- wp:pattern {"slug":"drslon-blog/hero-home"} /-->
+
 	<!-- wp:query {"queryId":3,"query":{"perPage":10,"pages":0,"offset":0,"postType":"post","order":"desc","orderBy":"date","inherit":true},"layout":{"type":"constrained"}} -->
 	<div class="wp-block-query">
 		<!-- wp:post-template -->
-			<!-- wp:group {"style":{"spacing":{"padding":{"top":"24px","bottom":"24px"}},"border":{"bottom":{"color":"var:preset|color|border","width":"1px"}}},"layout":{"type":"constrained"}} -->
+			<!-- wp:group {"style":{"spacing":{"padding":{"top":"24px","bottom":"24px"},"blockGap":"10px"},"border":{"bottom":{"color":"var:preset|color|border","width":"1px"}}},"layout":{"type":"constrained"}} -->
 			<div class="wp-block-group" style="border-bottom-color:var(--wp--preset--color--border);border-bottom-width:1px;padding-top:24px;padding-bottom:24px">
 				<!-- wp:post-title {"isLink":true} /-->
 				<!-- wp:template-part {"slug":"post-meta"} /-->
@@ -14,6 +15,12 @@
 			</div>
 			<!-- /wp:group -->
 		<!-- /wp:post-template -->
+
+		<!-- wp:query-no-results -->
+			<!-- wp:paragraph -->
+			<p>Пока нет записей. Здесь скоро появятся новые технические публикации.</p>
+			<!-- /wp:paragraph -->
+		<!-- /wp:query-no-results -->
 
 		<!-- wp:query-pagination {"layout":{"type":"flex","justifyContent":"space-between"}} -->
 			<!-- wp:query-pagination-previous /-->
