@@ -1,11 +1,21 @@
-<!-- wp:group {"layout":{"type":"constrained"}} -->
-<div class="wp-block-group">
-	<!-- wp:heading {"level":3} -->
-	<h3>Навигация</h3>
+<!-- wp:group {"style":{"spacing":{"blockGap":"20px","padding":{"top":"20px","right":"20px","bottom":"20px","left":"20px"}},"border":{"width":"1px","color":"var:preset|color|border","radius":"12px"}},"layout":{"type":"constrained"}} -->
+<div class="wp-block-group" style="border-color:var(--wp--preset--color--border);border-width:1px;border-radius:12px;padding-top:20px;padding-right:20px;padding-bottom:20px;padding-left:20px">
+	<!-- wp:heading {"level":3,"fontSize":"sm"} -->
+	<h3 class="has-sm-font-size">Поиск и навигация</h3>
 	<!-- /wp:heading -->
 
 	<!-- wp:search {"label":"Поиск","showLabel":false,"buttonText":"Искать","buttonUseIcon":true} /-->
 
-	<!-- wp:categories /-->
+	<!-- wp:heading {"level":4,"fontSize":"xs","textColor":"muted"} -->
+	<h4 class="has-muted-color has-text-color has-xs-font-size">Рубрики</h4>
+	<!-- /wp:heading -->
+
+	<!-- wp:categories {"showHierarchy":true} /-->
+
+	<!-- wp:heading {"level":4,"fontSize":"xs","textColor":"muted"} -->
+	<h4 class="has-muted-color has-text-color has-xs-font-size">Свежие записи</h4>
+	<!-- /wp:heading -->
+
+	<!-- wp:latest-posts {"postsToShow":5,"displayPostDate":true} /-->
 </div>
 <!-- /wp:group -->
