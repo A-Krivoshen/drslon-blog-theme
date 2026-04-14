@@ -1,16 +1,28 @@
 <!-- wp:template-part {"slug":"header","tagName":"header"} /-->
 
-<!-- wp:group {"tagName":"main","layout":{"type":"constrained"},"style":{"spacing":{"padding":{"top":"48px","bottom":"48px"}}}} -->
-<main class="wp-block-group" style="padding-top:48px;padding-bottom:48px">
-	<!-- wp:heading {"level":1} -->
-	<h1>404</h1>
-	<!-- /wp:heading -->
+<!-- wp:group {"tagName":"main","layout":{"type":"constrained"},"style":{"spacing":{"padding":{"top":"48px","bottom":"56px"}}}} -->
+<main class="wp-block-group" style="padding-top:48px;padding-bottom:56px">
+	<!-- wp:group {"style":{"spacing":{"blockGap":"16px","padding":{"top":"30px","right":"28px","bottom":"30px","left":"28px"}},"border":{"width":"1px","color":"var:preset|color|border","radius":"14px"}},"layout":{"type":"constrained"}} -->
+	<div class="wp-block-group" style="border-color:var(--wp--preset--color--border);border-width:1px;border-radius:14px;padding-top:30px;padding-right:28px;padding-bottom:30px;padding-left:28px">
+		<!-- wp:heading {"level":1} -->
+		<h1>Страница не найдена</h1>
+		<!-- /wp:heading -->
 
-	<!-- wp:paragraph -->
-	<p>Страница не найдена. Возможно, ссылка устарела или URL был введён с приключениями.</p>
-	<!-- /wp:paragraph -->
+		<!-- wp:paragraph {"textColor":"muted"} -->
+		<p class="has-muted-color has-text-color">Похоже, адрес устарел или был введён с ошибкой. Попробуйте поиск по блогу или перейдите к свежим публикациям.</p>
+		<!-- /wp:paragraph -->
 
-	<!-- wp:search {"label":"Поиск","showLabel":false,"buttonText":"Искать","buttonUseIcon":true} /-->
+		<!-- wp:search {"label":"Поиск","showLabel":false,"buttonText":"Искать","buttonUseIcon":true} /-->
+
+		<!-- wp:buttons -->
+		<div class="wp-block-buttons">
+			<!-- wp:button -->
+			<div class="wp-block-button"><a class="wp-block-button__link wp-element-button" href="/">На главную</a></div>
+			<!-- /wp:button -->
+		</div>
+		<!-- /wp:buttons -->
+	</div>
+	<!-- /wp:group -->
 </main>
 <!-- /wp:group -->
 
