@@ -1,17 +1,56 @@
-<style>
-/* Жесткий фикс сетки и картинок для обхода кэша */
-.wp-block-query .wp-block-post-template { display: grid !important; grid-template-columns: repeat(2, 1fr) !important; gap: 2rem !important; }
-.wp-block-query .wp-block-post-template > * { min-width: 0 !important; overflow: hidden !important; }
-.wp-block-post-featured-image img { width: 100% !important; height: auto !important; aspect-ratio: 16/9 !important; object-fit: cover !important; border-radius: 8px !important; }
-@media (max-width: 768px) { .wp-block-query .wp-block-post-template { grid-template-columns: 1fr !important; } }
-</style>
-<main class="wp-block-group" style="margin-top: 2rem; margin-bottom: 3rem;">
+<!-- wp:template-part {"slug":"header","tagName":"header"} /-->
 
-    <div class="wp-block-group" style="background-color: #f3f4f6; border-radius:8px; margin-bottom:2rem; padding-top:2rem; padding-right:2rem; padding-bottom:2rem; padding-left:2rem;">
-        </div>
-    <div class="wp-block-query">
-        <div class="wp-block-group">
-                </div>
-            <div style="height:2rem" aria-hidden="true" class="wp-block-spacer"></div>
-        <p>Здесь пока нет записей.</p></div>
-    </main>
+<!-- wp:group {"tagName":"main","className":"drslon-archive-shell","layout":{"type":"constrained","contentSize":"860px"},"style":{"spacing":{"padding":{"top":"30px","bottom":"60px"}}}} -->
+<main class="wp-block-group drslon-archive-shell" style="padding-top:30px;padding-bottom:60px">
+	<!-- wp:group {"className":"drslon-archive-head","style":{"spacing":{"padding":{"top":"24px","right":"26px","bottom":"24px","left":"26px"},"margin":{"bottom":"24px"}},"border":{"radius":"14px"},"color":{"background":"var:preset|color|surface-light"}},"layout":{"type":"constrained"}} -->
+	<div class="wp-block-group drslon-archive-head has-surface-light-background-color has-background" style="border-radius:14px;margin-bottom:24px;padding-top:24px;padding-right:26px;padding-bottom:24px;padding-left:26px">
+		<!-- wp:query-title {"type":"archive"} /-->
+		<!-- wp:term-description /-->
+	</div>
+	<!-- /wp:group -->
+
+	<!-- wp:query {"query":{"inherit":true},"className":"drslon-archive-query","layout":{"type":"constrained"}} -->
+	<div class="wp-block-query drslon-archive-query">
+		<!-- wp:group {"className":"drslon-archive-summary","layout":{"type":"flex","flexWrap":"wrap"},"style":{"spacing":{"blockGap":"8px","margin":{"bottom":"16px"}}}} -->
+		<div class="wp-block-group drslon-archive-summary" style="margin-bottom:16px">
+			<!-- wp:paragraph {"fontSize":"xs","textColor":"muted"} -->
+			<p class="has-muted-color has-text-color has-xs-font-size">Статей в разделе:</p>
+			<!-- /wp:paragraph -->
+			<!-- wp:query-total {"type":"total","fontSize":"xs","textColor":"muted"} /-->
+		</div>
+		<!-- /wp:group -->
+
+		<!-- wp:post-template {"className":"drslon-archive-grid","layout":{"type":"grid","columnCount":2}} -->
+			<!-- wp:group {"className":"drslon-archive-card","layout":{"type":"constrained"}} -->
+			<div class="wp-block-group drslon-archive-card">
+				<!-- wp:post-featured-image {"isLink":true} /-->
+
+				<!-- wp:group {"className":"drslon-archive-card__body","layout":{"type":"constrained"}} -->
+				<div class="wp-block-group drslon-archive-card__body">
+					<!-- wp:template-part {"slug":"post-meta"} /-->
+					<!-- wp:post-title {"isLink":true,"level":3} /-->
+					<!-- wp:post-excerpt {"excerptLength":20} /-->
+					<!-- wp:read-more {"content":"Читать далее","fontSize":"sm"} /-->
+				</div>
+				<!-- /wp:group -->
+			</div>
+			<!-- /wp:group -->
+		<!-- /wp:post-template -->
+
+		<!-- wp:query-no-results -->
+			<!-- wp:paragraph -->
+			<p>По этому архиву пока нет записей.</p>
+			<!-- /wp:paragraph -->
+		<!-- /wp:query-no-results -->
+
+		<!-- wp:query-pagination {"className":"drslon-pagination drslon-archive-pagination","layout":{"type":"flex","justifyContent":"space-between","flexWrap":"wrap"}} -->
+			<!-- wp:query-pagination-previous /-->
+			<!-- wp:query-pagination-numbers /-->
+			<!-- wp:query-pagination-next /-->
+		<!-- /wp:query-pagination -->
+	</div>
+	<!-- /wp:query -->
+</main>
+<!-- /wp:group -->
+
+<!-- wp:template-part {"slug":"footer","tagName":"footer"} /-->
