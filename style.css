@@ -572,3 +572,32 @@ Tags: blog, block-theme, full-site-editing, editor-style, technical
     opacity: 1;
     transform: translateY(0);
 }
+
+/* =============================================
+   ФИНАЛЬНАЯ СЕТКА ДЛЯ РУБРИК (2 колонки)
+   ============================================= */
+.category-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 2.8rem !important;
+}
+
+/* На мобильных — 1 колонка */
+@media (max-width: 768px) {
+    .category-grid {
+        grid-template-columns: 1fr !important;
+        gap: 2rem !important;
+    }
+}
+
+/* Лёгкая анимация появления постов */
+.category-grid .wp-block-post {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.5s ease;
+}
+
+.category-grid .wp-block-post.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
