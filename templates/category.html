@@ -3,36 +3,40 @@
 <!-- wp:group {"tagName":"main","layout":{"type":"constrained","contentSize":"1460px"},"style":{"spacing":{"padding":{"top":"20px","bottom":"60px"}}}} -->
 <main class="wp-block-group" style="padding-top:20px;padding-bottom:60px">
 
-	<!-- wp:group {"className":"category-header","style":{"spacing":{"padding":{"top":"50px","right":"50px","bottom":"50px","left":"50px"}},"border":{"width":"1px","color":"var:preset|color|border","radius":"12px"},"color":{"background":"var:preset|color|surface"}}} -->
-	<div class="wp-block-group category-header has-background" style="border-color:var(--wp--preset--color--border);border-width:1px;border-radius:12px;background-color:var(--wp--preset--color--surface);padding-top:50px;padding-right:50px;padding-bottom:50px;padding-left:50px">
+	<!-- wp:group {"className":"category-header","style":{"spacing":{"padding":{"top":"60px","right":"50px","bottom":"60px","left":"50px"}},"border":{"width":"1px","color":"var:preset|color|border","radius":"12px"},"color":{"background":"var:preset|color|primary"}}} -->
+	<div class="wp-block-group category-header has-primary-background-color has-background" style="border-color:var(--wp--preset--color--border);border-width:1px;border-radius:12px;padding-top:60px;padding-right:50px;padding-bottom:60px;padding-left:50px">
+
 		<!-- wp:columns {"verticalAlignment":"center"} -->
 		<div class="wp-block-columns are-vertically-aligned-center">
-			<!-- wp:column {"width":"35%"} -->
-			<div class="wp-block-column" style="flex-basis:35%">
-				<!-- wp:cover {"useFeaturedImage":true,"dimRatio":40,"overlayColor":"primary","minHeight":320,"contentPosition":"bottom left"} -->
-				<div class="wp-block-cover" style="min-height:320px">
-					<span aria-hidden="true" class="wp-block-cover__background has-primary-background-color has-background-dim-40"></span>
+
+			<!-- wp:column {"width":"38%"} -->
+			<div class="wp-block-column" style="flex-basis:38%">
+				<!-- wp:cover {"useFeaturedImage":true,"dimRatio":30,"overlayColor":"primary","minHeight":340,"contentPosition":"bottom left","isDark":true} -->
+				<div class="wp-block-cover is-dark" style="min-height:340px">
+					<span aria-hidden="true" class="wp-block-cover__background has-primary-background-color has-background-dim-30"></span>
 					<div class="wp-block-cover__inner-container"></div>
 				</div>
 				<!-- /wp:cover -->
 			</div>
 			<!-- /wp:column -->
 
-			<!-- wp:column {"width":"65%"} -->
-			<div class="wp-block-column" style="flex-basis:65%">
-				<!-- wp:heading {"level":1,"fontSize":"x-large"} -->
-				<h1 class="wp-block-heading has-x-large-font-size"></h1>
+			<!-- wp:column {"width":"62%"} -->
+			<div class="wp-block-column" style="flex-basis:62%">
+				<!-- wp:heading {"level":1,"textColor":"white","fontSize":"x-large"} -->
+				<h1 class="wp-block-heading has-white-color has-x-large-font-size"></h1>
 				<!-- /wp:heading -->
 
-				<!-- wp:paragraph {"fontSize":"small"} -->
-				<p class="has-small-font-size"></p>
+				<!-- wp:paragraph {"textColor":"white","fontSize":"small"} -->
+				<p class="has-white-color has-small-font-size"></p>
 				<!-- /wp:paragraph -->
 
-				<!-- wp:term-description /-->
+				<!-- wp:term-description {"textColor":"white","fontSize":"base"} /-->
 			</div>
 			<!-- /wp:column -->
+
 		</div>
 		<!-- /wp:columns -->
+
 	</div>
 	<!-- /wp:group -->
 
