@@ -147,8 +147,9 @@ Tags: blog, block-theme, full-site-editing, editor-style, technical
 
 .drslon-blog-layout {
 	display: grid !important;
-	grid-template-columns: minmax(0, 1fr) 320px;
+	grid-template-columns: minmax(0, 1fr) 340px;
 	align-items: start;
+	column-gap: 36px;
 }
 
 .drslon-blog-layout > .wp-block-column {
@@ -158,6 +159,39 @@ Tags: blog, block-theme, full-site-editing, editor-style, technical
 .drslon-blog-layout > .wp-block-column:last-child {
 	position: sticky;
 	top: 20px;
+}
+
+.drslon-single-layout {
+	display: grid !important;
+	grid-template-columns: minmax(0, 1fr) 340px;
+	align-items: start;
+	column-gap: 36px;
+}
+
+.drslon-single-layout > .wp-block-column {
+	min-width: 0;
+}
+
+.drslon-single-layout > .wp-block-column:last-child {
+	position: sticky;
+	top: 20px;
+}
+
+.drslon-single-hero .wp-block-post-title {
+	margin-top: 0;
+}
+
+.drslon-single-hero .wp-block-post-featured-image {
+	margin-top: 0.35rem;
+}
+
+.drslon-single-content {
+	font-size: 1.06rem;
+	line-height: 1.8;
+}
+
+.drslon-single-content > *:first-child {
+	margin-top: 0;
 }
 
 .wp-block-latest-posts__list li,
@@ -174,22 +208,33 @@ Tags: blog, block-theme, full-site-editing, editor-style, technical
 		grid-template-columns: 1fr;
 	}
 
+	.drslon-single-layout {
+		grid-template-columns: 1fr;
+	}
+
 	.drslon-blog-layout > .wp-block-column:last-child {
 		position: static;
 	}
 
+	.drslon-single-layout > .wp-block-column:last-child {
+		position: static;
+	}
+
 	.drslon-list-sidebar-disabled .wp-block-columns > .wp-block-column,
-	.drslon-list-sidebar-disabled .drslon-blog-layout > .wp-block-column {
+	.drslon-list-sidebar-disabled .drslon-blog-layout > .wp-block-column,
+	.drslon-list-sidebar-disabled .drslon-single-layout > .wp-block-column {
 		flex-basis: 100% !important;
 	}
 }
 
 .drslon-list-sidebar-disabled .wp-block-columns > .wp-block-column:last-child,
-.drslon-list-sidebar-disabled .drslon-blog-layout > .wp-block-column:last-child {
+.drslon-list-sidebar-disabled .drslon-blog-layout > .wp-block-column:last-child,
+.drslon-list-sidebar-disabled .drslon-single-layout > .wp-block-column:last-child {
 	display: none;
 }
 
 .drslon-list-sidebar-disabled .wp-block-columns > .wp-block-column:first-child,
-.drslon-list-sidebar-disabled .drslon-blog-layout > .wp-block-column:first-child {
+.drslon-list-sidebar-disabled .drslon-blog-layout > .wp-block-column:first-child,
+.drslon-list-sidebar-disabled .drslon-single-layout > .wp-block-column:first-child {
 	flex-basis: 100% !important;
 }
