@@ -477,13 +477,16 @@ Tags: blog, block-theme, full-site-editing, editor-style, technical
 
 .drslon-archive-card {
 	height: 100%;
-	padding: 1.1rem 1.15rem;
+	padding: 0;
+	background: var(--wp--preset--color--surface);
+	border: 1px solid var(--wp--preset--color--border);
 	border-radius: 14px;
 	box-shadow: 0 6px 16px rgba(23, 33, 51, 0.05);
+	overflow: hidden;
 }
 
 .drslon-archive-card .wp-block-post-featured-image {
-	margin-bottom: 0.75rem;
+	margin: 0;
 }
 
 .drslon-archive-card .wp-block-post-featured-image img {
@@ -491,15 +494,24 @@ Tags: blog, block-theme, full-site-editing, editor-style, technical
 	width: 100%;
 	aspect-ratio: 16 / 9;
 	object-fit: cover;
-	border-radius: 10px;
+	border-radius: 0;
+}
+
+.drslon-archive-card__body {
+	padding: 0.9rem 1rem 1rem;
+}
+
+.drslon-archive-card .wp-block-template-part {
+	margin-bottom: 0.45rem;
 }
 
 .drslon-archive-card .wp-block-post-title {
 	margin-bottom: 0.45rem;
 	line-height: 1.3;
-	font-size: 1.07rem;
+	font-size: 1.4rem;
+	font-weight: 700;
 	display: -webkit-box;
-	-webkit-line-clamp: 3;
+	-webkit-line-clamp: 4;
 	-webkit-box-orient: vertical;
 	overflow: hidden;
 }
@@ -509,15 +521,20 @@ Tags: blog, block-theme, full-site-editing, editor-style, technical
 }
 
 .drslon-archive-card .wp-block-post-excerpt {
-	font-size: 0.9rem;
-	line-height: 1.55;
-	margin-bottom: 0;
-	max-height: 4.7em;
+	font-size: 1rem;
+	line-height: 1.6;
+	margin-bottom: 0.6rem;
+	max-height: 4.8em;
 	overflow: hidden;
 }
 
 .drslon-archive-card .wp-block-post-excerpt p {
 	margin: 0;
+}
+
+.drslon-archive-card .wp-block-read-more {
+	font-weight: 600;
+	text-decoration: none;
 }
 
 .drslon-archive-pagination {
@@ -537,5 +554,9 @@ Tags: blog, block-theme, full-site-editing, editor-style, technical
 	.drslon-archive-grid {
 		grid-template-columns: 1fr;
 		gap: 1rem;
+	}
+
+	.drslon-archive-card .wp-block-post-title {
+		font-size: 1.18rem;
 	}
 }
