@@ -258,3 +258,14 @@ Tags: blog, block-theme, full-site-editing, editor-style, technical
 .drslon-blog-layout .wp-block-post-template {
   gap: 2.8rem;
 }
+
+/* === STICKY SIDEBAR FIX (переопределяем) === */
+@media (min-width: 1100px) {
+	.drslon-blog-layout > .wp-block-column:last-child,
+	.drslon-single-layout > .wp-block-column:last-child {
+		position: sticky;
+		top: 92px;
+		align-self: start;
+		height: fit-content;
+	}
+}
