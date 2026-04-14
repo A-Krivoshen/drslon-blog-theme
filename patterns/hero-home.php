@@ -4,16 +4,17 @@
  * Slug: drslon-blog/hero-home
  * Categories: featured
  * Inserter: yes
+ * Description: Intro block for the home page with clear blog positioning.
  */
 ?>
-<!-- wp:group {"style":{"spacing":{"padding":{"top":"40px","bottom":"40px"}}},"layout":{"type":"constrained"}} -->
-<div class="wp-block-group" style="padding-top:40px;padding-bottom:40px">
-	<!-- wp:heading {"level":1,"fontSize":"xxl"} -->
-	<h1 class="has-xxl-font-size">DrSlon Blog</h1>
+<!-- wp:group {"style":{"spacing":{"padding":{"top":"24px","bottom":"28px"},"blockGap":"12px"},"border":{"bottom":{"color":"var:preset|color|border","width":"1px"}}},"layout":{"type":"constrained"}} -->
+<div class="wp-block-group" style="border-bottom-color:var(--wp--preset--color--border);border-bottom-width:1px;padding-top:24px;padding-bottom:28px">
+	<!-- wp:heading {"level":1,"fontSize":"xl"} -->
+	<h1 class="has-xl-font-size">DrSlon Blog</h1>
 	<!-- /wp:heading -->
 
-	<!-- wp:paragraph {"fontSize":"md"} -->
-	<p class="has-md-font-size">Технический блог о WordPress, Linux, DevOps, серверах и нормальной инженерной практике.</p>
+	<!-- wp:paragraph {"fontSize":"md","textColor":"muted"} -->
+	<p class="has-muted-color has-text-color has-md-font-size">Практика WordPress, Linux, Docker, Nginx, Python и серверного администрирования без лишнего шума.</p>
 	<!-- /wp:paragraph -->
 </div>
 <!-- /wp:group -->
