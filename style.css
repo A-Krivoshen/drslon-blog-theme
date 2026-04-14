@@ -461,16 +461,20 @@ Tags: blog, block-theme, full-site-editing, editor-style, technical
 .drslon-archive-query .wp-block-post-template {
 	display: grid;
 	grid-template-columns: repeat(2, minmax(0, 1fr));
-	gap: 1.35rem;
+	gap: 1.5rem;
+	margin: 0;
 }
 
 .drslon-archive-query .wp-block-post {
 	min-width: 0;
+	list-style: none;
 }
 
 .drslon-archive-card {
 	height: 100%;
-	padding: 1rem 1.05rem;
+	padding: 1.1rem 1.15rem;
+	border-radius: 14px;
+	box-shadow: 0 10px 24px rgba(23, 33, 51, 0.06);
 }
 
 .drslon-archive-card .wp-block-post-featured-image {
@@ -488,12 +492,29 @@ Tags: blog, block-theme, full-site-editing, editor-style, technical
 .drslon-archive-card .wp-block-post-title {
 	margin-bottom: 0.45rem;
 	line-height: 1.3;
+	font-size: 1.2rem;
+}
+
+.drslon-archive-card .wp-block-post-title a {
+	text-decoration: none;
 }
 
 .drslon-archive-card .wp-block-post-excerpt {
 	font-size: 0.95rem;
 	line-height: 1.65;
 	margin-bottom: 0;
+}
+
+.drslon-archive-pagination {
+	margin-top: 1.5rem;
+}
+
+.drslon-archive-pagination .wp-block-query-pagination-previous,
+.drslon-archive-pagination .wp-block-query-pagination-next {
+	padding: 0.45rem 0.7rem;
+	border: 1px solid var(--wp--preset--color--border);
+	border-radius: 8px;
+	text-decoration: none;
 }
 
 @media (max-width: 1099px) {
