@@ -471,6 +471,10 @@ Tags: blog, block-theme, full-site-editing, editor-style, technical
 	list-style: none;
 }
 
+.drslon-archive-summary {
+	align-items: center;
+}
+
 .drslon-archive-card {
 	height: 100%;
 	padding: 1.1rem 1.15rem;
@@ -508,10 +512,12 @@ Tags: blog, block-theme, full-site-editing, editor-style, technical
 	font-size: 0.9rem;
 	line-height: 1.55;
 	margin-bottom: 0;
-	display: -webkit-box;
-	-webkit-line-clamp: 4;
-	-webkit-box-orient: vertical;
+	max-height: 4.7em;
 	overflow: hidden;
+}
+
+.drslon-archive-card .wp-block-post-excerpt p {
+	margin: 0;
 }
 
 .drslon-archive-pagination {
