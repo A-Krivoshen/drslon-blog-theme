@@ -635,3 +635,13 @@ Tags: blog, block-theme, full-site-editing, editor-style, technical
     display: grid;
     gap: 2rem;
 }
+
+/* Фикс разрыва Grid-сетки большими картинками */
+.wp-block-post-template > * {
+    min-width: 0; /* Обязывает колонку не растягиваться под контент */
+}
+.wp-block-post-featured-image img {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+}
