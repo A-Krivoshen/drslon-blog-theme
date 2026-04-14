@@ -362,3 +362,52 @@ Tags: blog, block-theme, full-site-editing, editor-style, technical
 		flex: 0 0 360px;
 	}
 }
+
+/* === ULTIMATE STICKY SIDEBAR FIX (перебивает grid) === */
+@media (min-width: 1100px) {
+	.drslon-blog-layout,
+	.drslon-single-layout {
+		display: flex !important;
+		flex-wrap: nowrap !important;
+		align-items: flex-start !important;
+		gap: 40px !important;
+	}
+
+	.drslon-blog-layout > .wp-block-column:last-child,
+	.drslon-single-layout > .wp-block-column:last-child {
+		position: -webkit-sticky !important;
+		position: sticky !important;
+		top: 120px !important;
+		align-self: flex-start !important;
+		height: fit-content !important;
+		flex: 0 0 360px !important;
+	}
+}
+
+/* === FINAL STICKY SIDEBAR (на основе старой Arkai) === */
+@media (min-width: 1100px) {
+	.drslon-blog-layout,
+	.drslon-single-layout {
+		display: flex !important;
+		flex-wrap: nowrap !important;
+		align-items: flex-start !important;
+		gap: 40px !important;
+	}
+
+	.drslon-blog-layout > .wp-block-column:last-child,
+	.drslon-single-layout > .wp-block-column:last-child {
+		position: -webkit-sticky !important;
+		position: sticky !important;
+		top: 110px !important;
+		align-self: flex-start !important;
+		height: fit-content !important;
+		flex: 0 0 360px !important;
+		z-index: 10;
+	}
+}
+
+/* Дополнительно убираем конфликты Gutenberg */
+.drslon-single-layout .wp-block-group,
+.drslon-blog-layout .wp-block-group {
+	overflow: visible !important;
+}
