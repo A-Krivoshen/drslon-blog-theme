@@ -47,13 +47,13 @@
 		<div class="wp-block-column is-vertically-aligned-top" style="flex-basis:36%">
 			<!-- wp:group {"style":{"spacing":{"padding":{"top":"16px","right":"16px","bottom":"16px","left":"16px"},"blockGap":"12px"},"border":{"width":"1px","color":"var:preset|color|border","radius":"10px"},"color":{"background":"var:preset|color|surface"}},"layout":{"type":"constrained"}} -->
 			<div class="wp-block-group has-background" style="border-color:var(--wp--preset--color--border);border-width:1px;border-radius:10px;background-color:var(--wp--preset--color--surface);padding-top:16px;padding-right:16px;padding-bottom:16px;padding-left:16px">
-				<!-- wp:cover {"url":"https://krivoshein.site/wp-content/uploads/2025/05/chatgpt-image-21-maya-2025-g.-11_12_07-1.png","dimRatio":35,"overlayColor":"bg","isUserOverlayColor":true,"minHeight":320,"isDark":false,"style":{"border":{"radius":"8px"}},"layout":{"type":"constrained"}} -->
-				<div class="wp-block-cover is-light" style="border-radius:8px;min-height:320px"><span aria-hidden="true" class="wp-block-cover__background has-bg-background-color has-background-dim-35 has-background-dim"></span><img class="wp-block-cover__image-background" alt="Слон у компьютера" src="https://krivoshein.site/wp-content/uploads/2025/05/chatgpt-image-21-maya-2025-g.-11_12_07-1.png" data-object-fit="cover"/><div class="wp-block-cover__inner-container"><!-- wp:spacer {"height":"220px"} -->
+				<!-- wp:cover {"url":"https://krivoshein.site/wp-content/uploads/2025/05/chatgpt-image-21-maya-2025-g.-11_12_07-1.png","dimRatio":40,"overlayColor":"text","isUserOverlayColor":true,"minHeight":320,"isDark":false,"style":{"border":{"radius":"8px"}},"layout":{"type":"constrained"}} -->
+				<div class="wp-block-cover is-light" style="border-radius:8px;min-height:320px"><span aria-hidden="true" class="wp-block-cover__background has-text-background-color has-background-dim-40 has-background-dim"></span><img class="wp-block-cover__image-background" alt="Слон у компьютера" src="https://krivoshein.site/wp-content/uploads/2025/05/chatgpt-image-21-maya-2025-g.-11_12_07-1.png" data-object-fit="cover"/><div class="wp-block-cover__inner-container"><!-- wp:spacer {"height":"220px"} -->
 				<div style="height:220px" aria-hidden="true" class="wp-block-spacer"></div>
 				<!-- /wp:spacer -->
 
-				<!-- wp:paragraph {"align":"center","style":{"typography":{"fontStyle":"normal","fontWeight":"500"}},"textColor":"text"} -->
-				<p class="has-text-align-center has-text-color" style="font-style:normal;font-weight:500">Если вас нет в Интернете, то вас нет в бизнесе</p>
+				<!-- wp:paragraph {"align":"center","style":{"typography":{"fontStyle":"normal","fontWeight":"500"}},"textColor":"surface"} -->
+				<p class="has-text-align-center has-surface-color has-text-color" style="font-style:normal;font-weight:500">Если вас нет в Интернете, то вас нет в бизнесе</p>
 				<!-- /wp:paragraph --></div></div>
 				<!-- /wp:cover -->
 

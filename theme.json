@@ -28,47 +28,47 @@
         {
           "slug": "bg",
           "name": "Background",
-          "color": "#0b1020"
+          "color": "#f7f9fc"
         },
         {
           "slug": "surface",
           "name": "Surface",
-          "color": "#121a2b"
+          "color": "#ffffff"
         },
         {
           "slug": "surface-light",
           "name": "Surface Light",
-          "color": "#1b2640"
+          "color": "#eef3fb"
         },
         {
           "slug": "text",
           "name": "Text",
-          "color": "#e6edf7"
+          "color": "#172133"
         },
         {
           "slug": "muted",
           "name": "Muted",
-          "color": "#9fb0cc"
+          "color": "#52627d"
         },
         {
           "slug": "accent",
           "name": "Accent",
-          "color": "#4f8cff"
+          "color": "#1f5fd6"
         },
         {
           "slug": "accent-hover",
           "name": "Accent Hover",
-          "color": "#77a7ff"
+          "color": "#184db0"
         },
         {
           "slug": "border",
           "name": "Border",
-          "color": "#26324d"
+          "color": "#d8e0ee"
         },
         {
           "slug": "code-bg",
           "name": "Code Background",
-          "color": "#0f1728"
+          "color": "#f1f5fb"
         }
       ]
     },
@@ -142,6 +142,10 @@
     },
     "elements": {
       "button": {
+        "color": {
+          "background": "var(--wp--preset--color--accent)",
+          "text": "#ffffff"
+        },
         "border": {
           "radius": "8px"
         },
