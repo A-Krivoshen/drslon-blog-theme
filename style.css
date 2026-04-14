@@ -342,3 +342,23 @@ Tags: blog, block-theme, full-site-editing, editor-style, technical
 .drslon-list-sidebar-disabled .drslon-single-layout > .wp-block-column:first-child {
 	flex-basis: 100% !important;
 }
+
+/* === STRONG STICKY SIDEBAR FIX (flex override) === */
+@media (min-width: 1100px) {
+	.drslon-blog-layout,
+	.drslon-single-layout {
+		display: flex !important;
+		align-items: flex-start;
+		gap: 40px;
+	}
+
+	.drslon-blog-layout > .wp-block-column:last-child,
+	.drslon-single-layout > .wp-block-column:last-child {
+		position: -webkit-sticky;
+		position: sticky;
+		top: 105px;
+		align-self: flex-start;
+		height: fit-content;
+		flex: 0 0 360px;
+	}
+}
