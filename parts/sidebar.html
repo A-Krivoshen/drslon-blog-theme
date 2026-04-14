@@ -1,33 +1,17 @@
-<!-- wp:group {"className":"drslon-sidebar-sticky","style":{"spacing":{"blockGap":"20px","padding":{"top":"22px","right":"20px","bottom":"22px","left":"20px"}},"border":{"width":"1px","color":"var:preset|color|border","radius":"12px"},"color":{"background":"var:preset|color|surface"}},"layout":{"type":"constrained"}} -->
-<div class="wp-block-group drslon-sidebar-sticky has-background" style="border-color:var(--wp--preset--color--border);border-width:1px;border-radius:12px;background-color:var(--wp--preset--color--surface);padding-top:22px;padding-right:20px;padding-bottom:22px;padding-left:20px">
-	<!-- wp:heading {"level":3,"fontSize":"sm"} -->
-	<h3 class="has-sm-font-size">Навигация по блогу</h3>
+<!-- wp:group {"className":"drslon-sidebar","style":{"spacing":{"blockGap":"24px","padding":{"top":"28px","right":"24px","bottom":"28px","left":"24px"}},"border":{"width":"1px","color":"var:preset|color|border","radius":"12px"},"color":{"background":"var:preset|color|surface"}}} -->
+<div class="wp-block-group drslon-sidebar has-background" style="border-color:var(--wp--preset--color--border);border-width:1px;border-radius:12px;background-color:var(--wp--preset--color--surface);padding-top:28px;padding-right:24px;padding-bottom:28px;padding-left:24px">
+
+	<!-- wp:search {"label":"Поиск","showLabel":false,"buttonText":"Найти","buttonUseIcon":true,"style":{"border":{"radius":"8px"}}} /-->
+
+	<!-- wp:heading {"level":4,"fontSize":"sm","style":{"spacing":{"margin":{"bottom":"12px"}}}} -->
+	<h4 class="has-sm-font-size">Рубрики</h4>
 	<!-- /wp:heading -->
+	<!-- wp:categories {"showHierarchy":true,"showPostCounts":true} /-->
 
-	<!-- wp:paragraph {"fontSize":"xs","textColor":"muted"} -->
-	<p class="has-muted-color has-text-color has-xs-font-size">Поиск, рубрики и свежие материалы в одном месте.</p>
-	<!-- /wp:paragraph -->
+	<!-- wp:heading {"level":4,"fontSize":"sm","style":{"spacing":{"margin":{"top":"32px","bottom":"12px"}}}} -->
+	<h4 class="has-sm-font-size">Свежие записи</h4>
+	<!-- /wp:heading -->
+	<!-- wp:latest-posts {"postsToShow":5,"displayPostDate":true,"displayAuthor":false} /-->
 
-	<!-- wp:search {"label":"Поиск","showLabel":false,"buttonText":"Искать","buttonUseIcon":true} /-->
-
-	<!-- wp:group {"style":{"spacing":{"blockGap":"8px"}},"layout":{"type":"constrained"}} -->
-	<div class="wp-block-group">
-		<!-- wp:heading {"level":4,"fontSize":"xs","textColor":"muted"} -->
-		<h4 class="has-muted-color has-text-color has-xs-font-size">Рубрики</h4>
-		<!-- /wp:heading -->
-
-		<!-- wp:categories {"showHierarchy":true} /-->
-	</div>
-	<!-- /wp:group -->
-
-	<!-- wp:group {"style":{"spacing":{"blockGap":"8px"}},"layout":{"type":"constrained"}} -->
-	<div class="wp-block-group">
-		<!-- wp:heading {"level":4,"fontSize":"xs","textColor":"muted"} -->
-		<h4 class="has-muted-color has-text-color has-xs-font-size">Свежие записи</h4>
-		<!-- /wp:heading -->
-
-		<!-- wp:latest-posts {"postsToShow":6,"displayPostDate":true} /-->
-	</div>
-	<!-- /wp:group -->
 </div>
 <!-- /wp:group -->
