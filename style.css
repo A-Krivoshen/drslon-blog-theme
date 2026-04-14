@@ -629,3 +629,9 @@ Tags: blog, block-theme, full-site-editing, editor-style, technical
     opacity: 1;
     transform: translateY(0);
 }
+
+/* Фикс для сетки постов в архивах и рубриках */
+.wp-block-post-template.is-layout-grid {
+    display: grid;
+    gap: 2rem;
+}
