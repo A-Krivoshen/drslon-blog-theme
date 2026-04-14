@@ -33,3 +33,14 @@ function drslon_customize_category_posts( $wp_customize ) {
         ),
     ));
 }
+
+/* =============================================
+   Количество постов на страницах рубрик
+   ============================================= */
+add_action( 'pre_get_posts', 'drslon_set_posts_per_category' );
+function drslon_set_posts_per_category( $query ) {
+    if ( ! is_admin() && $query->is_main_query() && is_category() ) {
+        $posts_per_page = get_theme_mod( 'drslon_posts_per_category', 12 );
+        $query->set( 'posts_per_page', $posts_per_page );
+    }
+}
