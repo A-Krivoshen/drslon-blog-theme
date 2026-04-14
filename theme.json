@@ -393,8 +393,25 @@
         "typography": {
           "lineHeight": "1.75"
         }
+      },
+      "core/html": {
+        "spacing": {
+          "margin": {
+            "top": "1.4rem",
+            "bottom": "1.4rem"
+          }
+        }
+      },
+      "core/shortcode": {
+        "spacing": {
+          "margin": {
+            "top": "1.1rem",
+            "bottom": "1.1rem"
+          }
+        }
       }
-    }
+    },
+    "css": ".wp-site-blocks{overflow-x:clip;}\n.wp-block-post-content{word-break:break-word;overflow-wrap:anywhere;}\n.wp-block-post-content :where(img,video,canvas,svg){max-width:100%;height:auto;}\n.wp-block-post-content :where(iframe,embed,object){max-width:100%;}\n.wp-block-post-content table{display:block;width:100%;max-width:100%;overflow-x:auto;border-collapse:collapse;}\n.wp-block-post-content pre{max-width:100%;overflow-x:auto;}\n.wp-block-post-content :where(code,kbd,samp){word-break:break-word;}\n.wp-block-post-content .wp-block-columns{gap:clamp(1rem,2vw,1.5rem);}\n.wp-block-post-content .wp-block-column{min-width:0;}\n.wp-block-post-content :where([style*='display:flex'],[style*='display: grid']){max-width:100%;}\n.is-legacy-page-content > * + *{margin-block-start:clamp(1rem,1.1vw,1.35rem);}\n.is-legacy-page-content :where(h1,h2,h3,h4,h5,h6){overflow-wrap:anywhere;}\n.is-legacy-page-content :where(ul,ol){padding-inline-start:1.25rem;}\n.is-legacy-page-content :where(.wp-block-button__link,a.wp-element-button){text-decoration:none;}\n.is-legacy-page-content :where(.wp-block-separator){margin-block:clamp(1.3rem,1.8vw,2rem);}\n@media (max-width: 782px){.wp-site-blocks{overflow-x:hidden;}.wp-block-post-content table{font-size:0.95rem;}}"
   },
   "templateParts": [
     {
