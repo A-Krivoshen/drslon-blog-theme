@@ -16,8 +16,8 @@
 			<!-- wp:query {"queryId":1,"query":{"perPage":10,"pages":0,"offset":0,"postType":"post","order":"desc","orderBy":"date","inherit":true},"layout":{"type":"constrained"}} -->
 			<div class="wp-block-query">
 				<!-- wp:post-template -->
-					<!-- wp:group {"className":"drslon-list-post","layout":{"type":"constrained"}} -->
-					<div class="wp-block-group drslon-list-post">
+					<!-- wp:group {"className":"drslon-list-post drslon-list-card","layout":{"type":"constrained"}} -->
+					<div class="wp-block-group drslon-list-post drslon-list-card">
 						<!-- wp:post-featured-image {"isLink":true} /-->
 						<!-- wp:post-title {"isLink":true} /-->
 						<!-- wp:template-part {"slug":"post-meta"} /-->
@@ -32,7 +32,7 @@
 					<!-- /wp:paragraph -->
 				<!-- /wp:query-no-results -->
 
-				<!-- wp:query-pagination {"layout":{"type":"flex","justifyContent":"space-between","flexWrap":"wrap"}} -->
+				<!-- wp:query-pagination {"className":"drslon-pagination","layout":{"type":"flex","justifyContent":"space-between","flexWrap":"wrap"}} -->
 					<!-- wp:query-pagination-previous /-->
 					<!-- wp:query-pagination-numbers /-->
 					<!-- wp:query-pagination-next /-->

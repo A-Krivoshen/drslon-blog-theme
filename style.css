@@ -137,8 +137,16 @@ Tags: blog, block-theme, full-site-editing, editor-style, technical
 	padding-bottom: 1.35rem;
 }
 
+.drslon-list-card {
+	background: var(--wp--preset--color--surface);
+	border: 1px solid var(--wp--preset--color--border);
+	border-radius: 12px;
+	padding: 1rem 1.1rem;
+	margin-bottom: 1rem;
+}
+
 .drslon-list-post:first-child {
-	padding-top: 0;
+	padding-top: 1rem;
 }
 
 .drslon-list-post .wp-block-post-featured-image {
@@ -205,22 +213,34 @@ Tags: blog, block-theme, full-site-editing, editor-style, technical
 	margin-bottom: 0.5rem;
 }
 
-@media (min-width: 1100px) {
-	.drslon-blog-layout,
-	.drslon-single-layout {
-		overflow: visible;
-	}
+.drslon-pagination {
+	border-top: 1px solid var(--wp--preset--color--border);
+	padding-top: 1rem;
+	margin-top: 1.1rem;
+}
 
-	.drslon-blog-layout > .wp-block-column,
-	.drslon-single-layout > .wp-block-column {
-		overflow: visible;
-	}
+.drslon-pagination .wp-block-query-pagination-numbers {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.45rem;
+}
 
-	.drslon-blog-layout .drslon-sidebar-sticky,
-	.drslon-single-layout .drslon-sidebar-sticky {
-		position: sticky;
-		top: 92px;
-	}
+.drslon-pagination .page-numbers {
+	min-width: 2.15rem;
+	height: 2.15rem;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	border: 1px solid var(--wp--preset--color--border);
+	border-radius: 8px;
+	text-decoration: none;
+	background: var(--wp--preset--color--surface);
+}
+
+.drslon-pagination .page-numbers.current {
+	border-color: var(--wp--preset--color--accent);
+	color: var(--wp--preset--color--accent);
+	font-weight: 700;
 }
 
 @media (max-width: 1099px) {
