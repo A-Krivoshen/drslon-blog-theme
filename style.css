@@ -17,53 +17,81 @@ Tags: blog, block-theme, full-site-editing, editor-style, technical
 .drslon-site-header {
 	position: relative;
 	z-index: 20;
+	box-shadow: 0 6px 22px rgba(23, 33, 51, 0.05);
 }
 
 .drslon-site-header__inner {
-	row-gap: 0.65rem;
+	row-gap: 1rem;
 }
 
 .drslon-site-branding {
-	flex: 1 1 280px;
-	min-width: 240px;
+	flex: 1 1 340px;
+	min-width: 280px;
+}
+
+.drslon-site-branding .custom-logo {
+	max-height: 52px;
+	width: auto;
+}
+
+.drslon-site-branding .wp-block-site-title {
+	font-size: clamp(1.25rem, 1.05rem + 0.6vw, 1.6rem);
+	font-weight: 700;
+	line-height: 1.2;
+}
+
+.drslon-site-branding .wp-block-site-title a {
+	text-decoration: none;
+}
+
+.drslon-site-branding .wp-block-site-tagline {
+	font-size: 0.86rem;
+	line-height: 1.35;
 }
 
 .drslon-main-navigation {
-	flex: 1 1 460px;
+	flex: 1 1 520px;
 }
 
 .drslon-main-navigation .wp-block-navigation__container {
-	gap: 0.9rem;
+	gap: 1.3rem;
+}
+
+.drslon-main-navigation .wp-block-navigation-item__content {
+	font-size: 1rem;
+	font-weight: 600;
+	line-height: 1.3;
+	text-decoration: none;
 }
 
 .drslon-header-utility {
 	flex: 0 0 auto;
-}
-
-.drslon-header-utility-menu .wp-block-navigation__container {
-	gap: 0.65rem;
+	align-items: center;
 }
 
 .drslon-header-langs {
 	margin: 0;
 	white-space: nowrap;
+	font-size: 0.81rem;
+	letter-spacing: 0.02em;
 }
 
 .drslon-header-langs a {
 	text-decoration: none;
 }
 
-.drslon-header-socials {
-	margin: 0;
-}
-
 .drslon-header-search {
-	width: 180px;
-	min-width: 160px;
+	width: 220px;
+	min-width: 200px;
 }
 
 .drslon-header-search .wp-block-search__input {
-	height: 36px;
+	height: 40px;
+	font-size: 0.92rem;
+}
+
+.drslon-header-search .wp-block-search__button {
+	min-width: 40px;
 }
 
 .drslon-featured-post {
@@ -296,20 +324,26 @@ Tags: blog, block-theme, full-site-editing, editor-style, technical
 }
 
 @media (max-width: 1099px) {
+	.drslon-site-header {
+		box-shadow: 0 4px 14px rgba(23, 33, 51, 0.04);
+	}
+
 	.drslon-main-navigation {
 		order: 3;
 		flex-basis: 100%;
 	}
 
-	.drslon-header-utility-menu,
-	.drslon-header-langs,
-	.drslon-header-socials {
+	.drslon-main-navigation .wp-block-navigation-item__content {
+		font-size: 0.95rem;
+	}
+
+	.drslon-header-langs {
 		display: none;
 	}
 
 	.drslon-header-search {
-		width: 140px;
-		min-width: 120px;
+		width: 168px;
+		min-width: 148px;
 	}
 
 	.drslon-featured-post__layout {
@@ -345,6 +379,15 @@ Tags: blog, block-theme, full-site-editing, editor-style, technical
 
 /* === STRONG STICKY SIDEBAR FIX (flex override) === */
 @media (min-width: 1100px) {
+	.drslon-site-header__inner {
+		flex-wrap: nowrap !important;
+		column-gap: 1.5rem;
+	}
+
+	.drslon-header-utility {
+		margin-left: 0.75rem;
+	}
+
 	.drslon-blog-layout,
 	.drslon-single-layout {
 		display: flex !important;
@@ -413,235 +456,113 @@ Tags: blog, block-theme, full-site-editing, editor-style, technical
 }
 
 /* =============================================
-   СЕТКА ПОСТОВ В РУБРИКАХ
+   Архивы и рубрики: аккуратная сетка + пагинация
    ============================================= */
-.category-columns-1 .drslon-blog-layout .wp-block-post {
-    width: 100%;
+.drslon-archive-query .wp-block-post-template,
+.drslon-archive-grid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 1.55rem 1.55rem;
+	margin: 0;
+	align-items: start;
 }
 
-@media (min-width: 768px) {
-    .category-columns-2 .drslon-blog-layout {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 2.5rem;
-    }
+.drslon-archive-query .wp-block-post {
+	min-width: 0;
+	list-style: none;
 }
 
-@media (max-width: 767px) {
-    .category-columns-2 .drslon-blog-layout {
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 2rem;
-    }
+.drslon-archive-summary {
+	align-items: center;
 }
 
-/* Лёгкая анимация появления */
-.drslon-blog-layout .wp-block-post {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: all 0.4s ease;
+.drslon-archive-card {
+	height: 100%;
+	padding: 0;
+	background: var(--wp--preset--color--surface);
+	border: 1px solid var(--wp--preset--color--border);
+	border-radius: 14px;
+	box-shadow: 0 6px 16px rgba(23, 33, 51, 0.05);
+	overflow: hidden;
 }
 
-.drslon-blog-layout .wp-block-post:nth-child(1) { transition-delay: 0.05s; }
-.drslon-blog-layout .wp-block-post:nth-child(2) { transition-delay: 0.10s; }
-.drslon-blog-layout .wp-block-post:nth-child(3) { transition-delay: 0.15s; }
-.drslon-blog-layout .wp-block-post:nth-child(4) { transition-delay: 0.20s; }
-
-.drslon-blog-layout .wp-block-post.visible {
-    opacity: 1;
-    transform: translateY(0);
+.drslon-archive-card .wp-block-post-featured-image {
+	margin: 0;
 }
 
-/* =============================================
-   ФИНАЛЬНАЯ СЕТКА В РУБРИКАХ (2 колонки)
-   ============================================= */
-.category-columns-2 .wp-block-post-template {
-    display: grid !important;
-    grid-template-columns: repeat(2, 1fr) !important;
-    gap: 2.5rem !important;
+.drslon-archive-card .wp-block-post-featured-image img {
+	display: block;
+	width: 100%;
+	aspect-ratio: 16 / 9;
+	object-fit: cover;
+	border-radius: 0;
 }
 
-@media (max-width: 768px) {
-    .category-columns-2 .wp-block-post-template {
-        grid-template-columns: 1fr !important;
-        gap: 2rem !important;
-    }
+.drslon-archive-card__body {
+	padding: 0.95rem 1rem 1.05rem;
 }
 
-/* Анимация появления постов */
-.wp-block-post-template .wp-block-post {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: all 0.5s ease;
+.drslon-archive-card .wp-block-template-part {
+	margin-bottom: 0.45rem;
+	color: var(--wp--preset--color--muted);
+	font-size: 0.78rem;
+	line-height: 1.3;
 }
 
-.wp-block-post-template .wp-block-post.visible {
-    opacity: 1;
-    transform: translateY(0);
+.drslon-archive-card .wp-block-template-part a {
+	color: var(--wp--preset--color--muted);
+	text-decoration: none;
 }
 
-/* =============================================
-   ФИНАЛЬНАЯ СЕТКА В РУБРИКАХ (2 колонки)
-   ============================================= */
-.category-columns-2 .wp-block-post-template {
-    display: grid !important;
-    grid-template-columns: repeat(2, 1fr) !important;
-    gap: 2.5rem !important;
+.drslon-archive-card .wp-block-post-title {
+	margin-bottom: 0.45rem;
+	line-height: 1.3;
+	font-size: 1.28rem;
+	font-weight: 700;
+	color: var(--wp--preset--color--text);
 }
 
-@media (max-width: 768px) {
-    .category-columns-2 .wp-block-post-template {
-        grid-template-columns: 1fr !important;
-        gap: 2rem !important;
-    }
+.drslon-archive-card .wp-block-post-title a {
+	text-decoration: none;
+	color: var(--wp--preset--color--text);
 }
 
-/* Анимация появления постов */
-.wp-block-post-template .wp-block-post {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: all 0.5s ease;
+.drslon-archive-card .wp-block-post-excerpt {
+	font-size: 0.96rem;
+	line-height: 1.58;
+	margin-bottom: 0.6rem;
+	color: var(--wp--preset--color--muted);
 }
 
-.wp-block-post-template .wp-block-post.visible {
-    opacity: 1;
-    transform: translateY(0);
+.drslon-archive-card .wp-block-post-excerpt p {
+	margin: 0;
 }
 
-/* =============================================
-   ФИНАЛЬНАЯ СЕТКА ДЛЯ РУБРИК (работает!)
-   ============================================= */
-.category-grid {
-    display: grid !important;
-    gap: 2.8rem !important;
+.drslon-archive-card .wp-block-read-more {
+	font-weight: 600;
+	text-decoration: none;
 }
 
-.category-grid .wp-block-post {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: all 0.5s ease;
+.drslon-archive-pagination {
+	margin-top: 1.5rem;
 }
 
-.category-grid .wp-block-post.visible {
-    opacity: 1;
-    transform: translateY(0);
+.drslon-archive-pagination .wp-block-query-pagination-previous,
+.drslon-archive-pagination .wp-block-query-pagination-next {
+	padding: 0.45rem 0.7rem;
+	border: 1px solid var(--wp--preset--color--border);
+	border-radius: 8px;
+	text-decoration: none;
 }
 
-/* 2 колонки */
-.category-columns-2 .category-grid {
-    grid-template-columns: repeat(2, 1fr) !important;
-}
+@media (max-width: 1099px) {
+	.drslon-archive-query .wp-block-post-template,
+		.drslon-archive-grid {
+			grid-template-columns: 1fr;
+			gap: 1rem;
+		}
 
-/* 1 колонка */
-.category-columns-1 .category-grid {
-    grid-template-columns: 1fr !important;
-}
-
-/* Адаптив */
-@media (max-width: 768px) {
-    .category-columns-2 .category-grid {
-        grid-template-columns: 1fr !important;
-    }
-}
-
-/* =============================================
-   САМОЕ ПРОСТОЕ И СИЛЬНОЕ РЕШЕНИЕ ДЛЯ РУБРИК
-   ============================================= */
-.wp-block-query .wp-block-post-template {
-    display: grid !important;
-    grid-template-columns: repeat(2, 1fr) !important;
-    gap: 2.8rem !important;
-}
-
-/* На мобильных — 1 колонка */
-@media (max-width: 768px) {
-    .wp-block-query .wp-block-post-template {
-        grid-template-columns: 1fr !important;
-        gap: 2rem !important;
-    }
-}
-
-/* Анимация */
-.wp-block-post-template .wp-block-post {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: all 0.5s ease;
-}
-
-.wp-block-post-template .wp-block-post.visible {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-/* =============================================
-   ФИНАЛЬНАЯ СЕТКА ДЛЯ РУБРИК (2 колонки)
-   ============================================= */
-.category-grid {
-    display: grid !important;
-    grid-template-columns: repeat(2, 1fr) !important;
-    gap: 2.8rem !important;
-}
-
-/* На мобильных — 1 колонка */
-@media (max-width: 768px) {
-    .category-grid {
-        grid-template-columns: 1fr !important;
-        gap: 2rem !important;
-    }
-}
-
-/* Лёгкая анимация появления постов */
-.category-grid .wp-block-post {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: all 0.5s ease;
-}
-
-.category-grid .wp-block-post.visible {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-/* =============================================
-   ЧИСТАЯ СЕТКА ДЛЯ РУБРИК (2 колонки)
-   ============================================= */
-.category-grid {
-    display: grid !important;
-    grid-template-columns: repeat(2, 1fr) !important;
-    gap: 2.8rem !important;
-}
-
-@media (max-width: 768px) {
-    .category-grid {
-        grid-template-columns: 1fr !important;
-        gap: 2rem !important;
-    }
-}
-
-/* Анимация появления */
-.category-grid .wp-block-post {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: all 0.5s ease;
-}
-
-.category-grid .wp-block-post.visible {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-/* Фикс для сетки постов в архивах и рубриках */
-.wp-block-post-template.is-layout-grid {
-    display: grid;
-    gap: 2rem;
-}
-
-/* Фикс разрыва Grid-сетки большими картинками */
-.wp-block-post-template > * {
-    min-width: 0; /* Обязывает колонку не растягиваться под контент */
-}
-.wp-block-post-featured-image img {
-    width: 100%;
-    max-width: 100%;
-    height: auto;
-}
+		.drslon-archive-card .wp-block-post-title {
+			font-size: 1.12rem;
+		}
+	}
