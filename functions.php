@@ -44,3 +44,25 @@ function drslon_set_posts_per_category( $query ) {
         $query->set( 'posts_per_page', $posts_per_page );
     }
 }
+
+/* =============================================
+   Выбор количества колонок на страницах рубрик
+   ============================================= */
+add_action( 'customize_register', 'drslon_customize_category_layout' );
+function drslon_customize_category_layout( $wp_customize ) {
+
+    $wp_customize->add_setting( 'drslon_category_columns', array(
+        'default'           => '2',
+        'sanitize_callback' => 'sanitize_text_field',
+    ));
+
+    $wp_customize->add_control( 'drslon_category_columns', array(
+        'label'    => 'Количество колонок в рубрике',
+        'section'  => 'drslon_category_section',
+        'type'     => 'select',
+        'choices'  => array(
+            '1' => '1 колонка',
+            '2' => '2 колонки',
+        ),
+    ));
+}
