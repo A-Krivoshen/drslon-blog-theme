@@ -66,3 +66,15 @@ function drslon_customize_category_layout( $wp_customize ) {
         ),
     ));
 }
+
+/* =============================================
+   Добавляем класс колонок для страниц рубрик
+   ============================================= */
+add_filter( 'body_class', 'drslon_category_columns_body_class' );
+function drslon_category_columns_body_class( $classes ) {
+    if ( is_category() ) {
+        $columns = get_theme_mod( 'drslon_category_columns', '2' );
+        $classes[] = 'category-columns-' . $columns;
+    }
+    return $classes;
+}
