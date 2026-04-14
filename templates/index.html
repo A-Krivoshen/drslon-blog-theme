@@ -1,50 +1,15 @@
-<!-- wp:template-part {"slug":"header","tagName":"header"} /-->
+<style>
+/* Жесткий фикс сетки и картинок */
+.wp-block-query .wp-block-post-template { display: grid !important; grid-template-columns: repeat(2, 1fr) !important; gap: 2rem !important; }
+.wp-block-query .wp-block-post-template > * { min-width: 0 !important; overflow: hidden !important; }
+.wp-block-post-featured-image img { width: 100% !important; height: auto !important; aspect-ratio: 16/9 !important; object-fit: cover !important; border-radius: 8px !important; }
+@media (max-width: 768px) { .wp-block-query .wp-block-post-template { grid-template-columns: 1fr !important; } }
+</style>
+<main class="wp-block-group" style="margin-top: 2rem; margin-bottom: 3rem;">
 
-<!-- wp:group {"tagName":"main","layout":{"type":"constrained","contentSize":"1460px"},"style":{"spacing":{"padding":{"top":"28px","bottom":"56px"}}}} -->
-<main class="wp-block-group" style="padding-top:28px;padding-bottom:56px">
-	<!-- wp:columns {"verticalAlignment":"top","isStackedOnMobile":true,"className":"drslon-blog-layout","style":{"spacing":{"blockGap":{"left":"34px"}}}} -->
-	<div class="wp-block-columns are-vertically-aligned-top drslon-blog-layout">
-		<!-- wp:column -->
-		<div class="wp-block-column">
-			<!-- wp:query-title {"type":"archive"} /-->
-
-			<!-- wp:query {"queryId":1,"query":{"perPage":10,"pages":0,"offset":0,"postType":"post","order":"desc","orderBy":"date","inherit":true},"layout":{"type":"constrained"}} -->
-			<div class="wp-block-query">
-				<!-- wp:post-template -->
-					<!-- wp:group {"className":"drslon-list-post drslon-list-card","layout":{"type":"constrained"}} -->
-					<div class="wp-block-group drslon-list-post drslon-list-card">
-						<!-- wp:post-featured-image {"isLink":true} /-->
-						<!-- wp:post-title {"isLink":true} /-->
-						<!-- wp:template-part {"slug":"post-meta"} /-->
-						<!-- wp:post-excerpt {"moreText":"Читать далее"} /-->
-					</div>
-					<!-- /wp:group -->
-				<!-- /wp:post-template -->
-
-				<!-- wp:query-no-results -->
-					<!-- wp:paragraph -->
-					<p>Пока нет записей. Здесь скоро появятся новые технические материалы.</p>
-					<!-- /wp:paragraph -->
-				<!-- /wp:query-no-results -->
-
-				<!-- wp:query-pagination {"className":"drslon-pagination","layout":{"type":"flex","justifyContent":"space-between","flexWrap":"wrap"}} -->
-					<!-- wp:query-pagination-previous /-->
-					<!-- wp:query-pagination-numbers /-->
-					<!-- wp:query-pagination-next /-->
-				<!-- /wp:query-pagination -->
-			</div>
-			<!-- /wp:query -->
-		</div>
-		<!-- /wp:column -->
-
-		<!-- wp:column {"width":"360px"} -->
-		<div class="wp-block-column" style="flex-basis:360px">
-			<!-- wp:template-part {"slug":"sidebar"} /-->
-		</div>
-		<!-- /wp:column -->
-	</div>
-	<!-- /wp:columns -->
-</main>
-<!-- /wp:group -->
-
-<!-- wp:template-part {"slug":"footer","tagName":"footer"} /-->
+    <div class="wp-block-query">
+        <div class="wp-block-group">
+                </div>
+            <div style="height:2rem" aria-hidden="true" class="wp-block-spacer"></div>
+        <p>Здесь пока нет записей.</p></div>
+    </main>
