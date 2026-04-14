@@ -242,3 +242,19 @@ Tags: blog, block-theme, full-site-editing, editor-style, technical
 .drslon-list-sidebar-disabled .drslon-single-layout > .wp-block-column:first-child {
 	flex-basis: 100% !important;
 }
+
+/* === LAYOUT IMPROVEMENTS === */
+
+.drslon-single-layout .wp-block-column:last-child {
+  position: sticky;
+  top: 2rem;
+  align-self: start;
+}
+
+.drslon-single-layout .wp-block-post-content {
+  max-width: 100% !important;
+}
+
+.drslon-blog-layout .wp-block-post-template {
+  gap: 2.8rem;
+}
