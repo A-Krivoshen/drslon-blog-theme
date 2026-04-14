@@ -12,3 +12,115 @@ License: GPL-2.0-or-later
 Text Domain: drslon-blog
 Tags: blog, block-theme, full-site-editing, editor-style, technical
 */
+
+/* Blog home/list helpers */
+.drslon-featured-post {
+	background: var(--wp--preset--color--surface);
+	border: 1px solid var(--wp--preset--color--border);
+	border-radius: 12px;
+	padding: 24px;
+	margin-bottom: 24px;
+}
+
+.drslon-featured-post__eyebrow {
+	font-size: 0.85rem;
+	color: var(--wp--preset--color--muted);
+	text-transform: uppercase;
+	letter-spacing: 0.04em;
+	margin-bottom: 0.5rem;
+}
+
+.drslon-featured-post__title {
+	margin: 0 0 0.5rem;
+	line-height: 1.25;
+}
+
+.drslon-featured-post__title a {
+	text-decoration: none;
+}
+
+.drslon-featured-post__meta {
+	color: var(--wp--preset--color--muted);
+	font-size: 0.92rem;
+	margin-bottom: 0.9rem;
+}
+
+.drslon-featured-post__thumb img {
+	display: block;
+	width: 100%;
+	height: auto;
+	border-radius: 10px;
+	margin-bottom: 0.9rem;
+}
+
+.drslon-featured-post__excerpt p:last-child {
+	margin-bottom: 0;
+}
+
+.drslon-category-tiles {
+	margin-bottom: 1.6rem;
+}
+
+.drslon-category-tiles__title {
+	font-size: 1.15rem;
+	margin: 0 0 0.75rem;
+}
+
+.drslon-category-tiles__grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+	gap: 0.7rem;
+}
+
+.drslon-category-tiles__item {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 0.65rem 0.8rem;
+	background: var(--wp--preset--color--surface);
+	border: 1px solid var(--wp--preset--color--border);
+	border-radius: 10px;
+	text-decoration: none;
+	color: var(--wp--preset--color--text);
+}
+
+.drslon-category-tiles__item:hover {
+	border-color: var(--wp--preset--color--accent);
+}
+
+.drslon-category-tiles__name {
+	font-weight: 600;
+}
+
+.drslon-category-tiles__count {
+	font-size: 0.82rem;
+	color: var(--wp--preset--color--muted);
+}
+
+.drslon-list-post {
+	border-bottom: 1px solid var(--wp--preset--color--border);
+	padding-top: 1.2rem;
+	padding-bottom: 1.2rem;
+}
+
+.drslon-list-post:first-child {
+	padding-top: 0;
+}
+
+.drslon-list-post .wp-block-post-featured-image {
+	margin-bottom: 0.7rem;
+}
+
+@media (max-width: 900px) {
+	.drslon-list-sidebar-disabled .wp-block-columns > .wp-block-column {
+		flex-basis: 100% !important;
+	}
+}
+
+.drslon-list-sidebar-disabled .wp-block-columns > .wp-block-column:last-child {
+	display: none;
+}
+
+.drslon-list-sidebar-disabled .wp-block-columns > .wp-block-column:first-child {
+	flex-basis: 100% !important;
+}
