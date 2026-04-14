@@ -1,8 +1,31 @@
+<!-- wp:template-part {"slug":"header","tagName":"header"} /-->
+
+<!-- wp:group {"tagName":"main","layout":{"type":"constrained"}} -->
 <main class="wp-block-group" style="margin-top: 2rem; margin-bottom: 2rem;">
-    
+    <!-- wp:query {"query":{"inherit":true}} -->
     <div class="wp-block-query">
-        
-        <div class="wp-block-group">
-                </div>
-            <p>В этой рубрике пока нет записей.</p></div>
-    </main>
+        <!-- wp:post-template {"layout":{"type":"grid","columnCount":2}} -->
+            <!-- wp:group {"style":{"spacing":{"blockGap":"0.5rem"}}} -->
+            <div class="wp-block-group">
+                <!-- wp:post-featured-image {"isLink":true} /-->
+                <!-- wp:post-title {"isLink":true} -->
+                <!-- wp:post-excerpt {"excerptLength":20} /-->
+            </div>
+            <!-- /wp:group -->
+        <!-- /wp:post-template -->
+
+        <!-- wp:query-pagination {"layout":{"type":"flex","justifyContent":"space-between"}} -->
+            <!-- wp:query-pagination-previous /-->
+            <!-- wp:query-pagination-numbers /-->
+            <!-- wp:query-pagination-next /-->
+        <!-- /wp:query-pagination -->
+
+        <!-- wp:query-no-results -->
+            <!-- wp:paragraph --><p>В этой рубрике пока нет записей.</p><!-- /wp:paragraph -->
+        <!-- /wp:query-no-results -->
+    </div>
+    <!-- /wp:query -->
+</main>
+<!-- /wp:group -->
+
+<!-- wp:template-part {"slug":"footer","tagName":"footer"} /-->
