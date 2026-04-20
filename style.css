@@ -279,6 +279,11 @@ Tags: blog, block-theme, full-site-editing, editor-style, technical
 	margin-bottom: 0.25rem;
 }
 
+.drslon-archive-head .wp-block-heading {
+	margin-top: 0;
+	margin-bottom: 0.25rem;
+}
+
 .drslon-archive-head .wp-block-term-description {
 	font-size: 0.98rem;
 	color: var(--wp--preset--color--muted);
@@ -388,14 +393,6 @@ Tags: blog, block-theme, full-site-editing, editor-style, technical
 		margin-left: 0.75rem;
 	}
 
-	.drslon-blog-layout,
-	.drslon-single-layout {
-		display: flex;
-		flex-wrap: nowrap;
-		align-items: flex-start;
-		gap: 40px;
-	}
-
 	.drslon-blog-layout > .wp-block-column:last-child,
 	.drslon-single-layout > .wp-block-column:last-child {
 		position: sticky;
@@ -424,7 +421,6 @@ Tags: blog, block-theme, full-site-editing, editor-style, technical
 	margin: 0;
 	align-items: start;
 }
-/* === local home editorial override === */
 
 .drslon-archive-query .wp-block-post {
 	min-width: 0;
@@ -539,80 +535,4 @@ Tags: blog, block-theme, full-site-editing, editor-style, technical
 	.drslon-archive-card .wp-block-post-title {
 		font-size: 1.08rem;
 	}
-}
-
-.drslon-home-post .wp-block-template-part {
-    margin-bottom: 0.28rem;
-    font-size: 0.8rem;
-}
-
-.drslon-home-post .wp-block-post-title {
-    font-size: 1.36rem;
-    line-height: 1.22;
-    margin-bottom: 0.4rem;
-}
-
-.drslon-home-post .wp-block-post-excerpt {
-    font-size: 0.95rem;
-    line-height: 1.56;
-    margin-bottom: 0.25rem;
-}
-
-.drslon-home-post .wp-block-read-more {
-    font-size: 0.9rem;
-    font-weight: 700;
-    text-decoration: none;
-}
-
-.drslon-home-pagination {
-    margin-top: 1.3rem;
-}
-
-.drslon-home-layout > .wp-block-column:last-child {
-    position: static !important;
-    top: auto !important;
-}
-
-.drslon-sidebar {
-    box-shadow: 0 10px 22px rgba(23, 33, 51, 0.05);
-}
-
-.drslon-sidebar__panel .wp-block-heading {
-    font-weight: 700;
-}
-
-.drslon-sidebar .wp-block-categories-list,
-.drslon-sidebar .wp-block-latest-posts__list {
-    margin: 0;
-    padding-left: 1rem;
-}
-
-@media (max-width: 1099px) {
-    .drslon-featured-post {
-	padding: 18px;
-    }
-
-    .drslon-featured-post__layout {
-	grid-template-columns: 1fr;
-    }
-
-    .drslon-featured-post__thumb {
-	min-height: 210px;
-    }
-
-    .drslon-category-tiles__grid {
-	grid-template-columns: 1fr;
-    }
-
-    .drslon-home-post {
-	padding: 0.8rem;
-    }
-
-    .drslon-home-post .wp-block-columns {
-	gap: 0.75rem;
-    }
-
-    .drslon-home-post .wp-block-post-title {
-	font-size: 1.18rem;
-    }
 }
