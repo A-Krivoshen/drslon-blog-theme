@@ -8,27 +8,19 @@
 		<div class="wp-block-column">
 			<!-- wp:group {"className":"drslon-archive-head","style":{"spacing":{"padding":{"top":"20px","right":"24px","bottom":"20px","left":"24px"},"margin":{"bottom":"22px"}},"border":{"radius":"12px"},"color":{"background":"var:preset|color|surface-light"}},"layout":{"type":"constrained"}} -->
 			<div class="wp-block-group drslon-archive-head has-surface-light-background-color has-background" style="border-radius:12px;margin-bottom:22px;padding-top:20px;padding-right:24px;padding-bottom:20px;padding-left:24px">
-				<!-- wp:heading {"level":1} -->
-				<h1 class="wp-block-heading">Свежие материалы</h1>
-				<!-- /wp:heading -->
+				<!-- wp:query-title {"type":"archive"} /-->
 			</div>
 			<!-- /wp:group -->
 
 			<!-- wp:query {"query":{"inherit":true},"className":"drslon-archive-query","layout":{"type":"constrained"}} -->
 			<div class="wp-block-query drslon-archive-query">
-				<!-- wp:post-template {"className":"drslon-archive-grid","layout":{"type":"grid","columnCount":2}} -->
-					<!-- wp:group {"className":"drslon-archive-card","layout":{"type":"constrained"}} -->
-					<div class="wp-block-group drslon-archive-card">
+				<!-- wp:post-template -->
+					<!-- wp:group {"className":"drslon-list-card drslon-archive-card","layout":{"type":"constrained"}} -->
+					<div class="wp-block-group drslon-list-card drslon-archive-card">
 						<!-- wp:post-featured-image {"isLink":true} /-->
-
-						<!-- wp:group {"className":"drslon-archive-card__body","layout":{"type":"constrained"}} -->
-						<div class="wp-block-group drslon-archive-card__body">
-							<!-- wp:template-part {"slug":"post-meta"} /-->
-							<!-- wp:post-title {"isLink":true,"level":3} /-->
-							<!-- wp:post-excerpt {"excerptLength":18} /-->
-							<!-- wp:read-more {"content":"Читать далее","fontSize":"sm"} /-->
-						</div>
-						<!-- /wp:group -->
+						<!-- wp:post-title {"isLink":true,"level":3} /-->
+						<!-- wp:template-part {"slug":"post-meta"} /-->
+						<!-- wp:post-excerpt {"moreText":"Читать статью"} /-->
 					</div>
 					<!-- /wp:group -->
 				<!-- /wp:post-template -->
