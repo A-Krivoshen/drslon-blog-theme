@@ -24,11 +24,15 @@
 		</div>
 		<!-- /wp:group -->
 
-		<!-- wp:group {"className":"drslon-home-feed-wrap","layout":{"type":"constrained"}} -->
+		<!-- wp:group {"className":"drslon-home-feed-wrap","layout":{"type":"constrained"},"style":{"spacing":{"blockGap":"18px"}}} -->
 		<div class="wp-block-group drslon-home-feed-wrap">
-		    <!-- wp:heading {"level":2,"className":"drslon-home-feed__title"} -->
-		    <h2 class="wp-block-heading drslon-home-feed__title">Свежие материалы</h2>
-		    <!-- /wp:heading -->
+		    <!-- wp:group {"className":"drslon-home-feed__head","layout":{"type":"constrained"},"style":{"spacing":{"padding":{"top":"20px","right":"24px","bottom":"20px","left":"24px"}},"border":{"radius":"12px"},"color":{"background":"var:preset|color|surface-light"}}} -->
+		    <div class="wp-block-group drslon-home-feed__head has-surface-light-background-color has-background" style="border-radius:12px;padding-top:20px;padding-right:24px;padding-bottom:20px;padding-left:24px">
+			<!-- wp:heading {"level":2,"className":"drslon-home-feed__title"} -->
+			<h2 class="wp-block-heading drslon-home-feed__title">Свежие материалы</h2>
+			<!-- /wp:heading -->
+		    </div>
+		    <!-- /wp:group -->
 
 		    <!-- wp:query {"queryId":3,"query":{"perPage":10,"pages":0,"offset":0,"postType":"post","order":"desc","orderBy":"date","inherit":true},"layout":{"type":"constrained"}} -->
 		    <div class="wp-block-query">
