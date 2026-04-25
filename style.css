@@ -97,10 +97,10 @@ Tags: blog, block-theme, full-site-editing, editor-style, technical
 .drslon-featured-post {
 	background: var(--wp--preset--color--surface);
 	border: 1px solid var(--wp--preset--color--border);
-	border-radius: 12px;
-	padding: 24px;
-	margin-bottom: 28px;
-	box-shadow: 0 8px 24px rgba(23, 33, 51, 0.06);
+	border-radius: 14px;
+	padding: 26px;
+	margin-bottom: 22px;
+	box-shadow: 0 10px 30px rgba(23, 33, 51, 0.08);
 }
 
 .drslon-featured-post__eyebrow {
@@ -108,19 +108,26 @@ Tags: blog, block-theme, full-site-editing, editor-style, technical
 	color: var(--wp--preset--color--muted);
 	text-transform: uppercase;
 	letter-spacing: 0.04em;
-	margin-bottom: 0.5rem;
+	margin: 0 0 0.55rem;
 }
 
 .drslon-featured-post__title {
-	margin: 0 0 0.5rem;
+	margin: 0 0 0.55rem;
 	line-height: 1.25;
 }
 
 .drslon-featured-post__layout {
 	display: grid;
 	grid-template-columns: minmax(0, 1fr) minmax(220px, 42%);
-	gap: 1rem;
+	gap: 1.25rem;
 	align-items: start;
+}
+
+.drslon-featured-post__category {
+	margin: 0 0 0.5rem;
+	font-size: 0.85rem;
+	font-weight: 600;
+	color: var(--wp--preset--color--accent);
 }
 
 .drslon-featured-post__title a {
@@ -130,7 +137,7 @@ Tags: blog, block-theme, full-site-editing, editor-style, technical
 .drslon-featured-post__meta {
 	color: var(--wp--preset--color--muted);
 	font-size: 0.92rem;
-	margin-bottom: 0.9rem;
+	margin: 0 0 0.8rem;
 }
 
 .drslon-featured-post__thumb img {
@@ -143,7 +150,7 @@ Tags: blog, block-theme, full-site-editing, editor-style, technical
 }
 
 .drslon-featured-post__excerpt {
-	margin: 0 0 0.9rem;
+	margin: 0 0 1rem;
 }
 
 .drslon-featured-post__cta {
@@ -152,40 +159,53 @@ Tags: blog, block-theme, full-site-editing, editor-style, technical
 
 .drslon-featured-post__cta a {
 	display: inline-block;
-	padding: 0.5rem 0.9rem;
+	padding: 0.52rem 0.92rem;
 	border: 1px solid var(--wp--preset--color--accent);
 	border-radius: 8px;
 	text-decoration: none;
 }
 
 .drslon-category-tiles {
-	margin-bottom: 1.8rem;
+	margin-bottom: 1.15rem;
+}
+
+.drslon-category-tiles__heading {
+	margin-bottom: 0.8rem;
 }
 
 .drslon-category-tiles__title {
-	font-size: 1.15rem;
-	margin: 0 0 0.75rem;
+	font-size: 1.18rem;
+	margin: 0 0 0.35rem;
+}
+
+.drslon-category-tiles__lead {
+	margin: 0;
+	font-size: 0.92rem;
+	color: var(--wp--preset--color--muted);
 }
 
 .drslon-category-tiles__grid {
 	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
-	gap: 0.7rem;
+	grid-template-columns: repeat(auto-fit, minmax(195px, 1fr));
+	gap: 0.8rem;
 }
 
 .drslon-category-tiles__item {
 	display: block;
-	padding: 0.85rem 0.95rem;
+	padding: 0.9rem 0.95rem;
 	background: var(--wp--preset--color--surface);
 	border: 1px solid var(--wp--preset--color--border);
 	border-radius: 10px;
 	text-decoration: none;
 	color: var(--wp--preset--color--text);
-	min-height: 92px;
+	min-height: 108px;
+	transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
 }
 
 .drslon-category-tiles__item:hover {
 	border-color: var(--wp--preset--color--accent);
+	box-shadow: 0 6px 18px rgba(23, 33, 51, 0.08);
+	transform: translateY(-1px);
 }
 
 .drslon-category-tiles__head {
@@ -209,6 +229,13 @@ Tags: blog, block-theme, full-site-editing, editor-style, technical
 	font-size: 0.86rem;
 	line-height: 1.45;
 	color: var(--wp--preset--color--muted);
+}
+
+.drslon-category-tiles__cta {
+	display: inline-block;
+	margin-top: 0.65rem;
+	font-size: 0.84rem;
+	font-weight: 600;
 }
 
 .drslon-list-post {
@@ -293,15 +320,95 @@ Tags: blog, block-theme, full-site-editing, editor-style, technical
 	margin-top: 0.35rem;
 }
 
+.drslon-home-feed__head {
+	border: 1px solid var(--wp--preset--color--border);
+}
+
+.drslon-home-feed__title {
+	margin: 0;
+}
+
+.drslon-home-feed-list {
+	display: grid;
+	gap: 0.9rem;
+}
+
+.drslon-home-post {
+	background: var(--wp--preset--color--surface);
+	border: 1px solid var(--wp--preset--color--border);
+	border-radius: 12px;
+	padding: 1rem;
+}
+
+.drslon-home-post .wp-block-post-featured-image {
+	margin: 0;
+}
+
+.drslon-home-post .wp-block-post-featured-image img {
+	display: block;
+	width: 100%;
+	aspect-ratio: 16 / 10;
+	object-fit: cover;
+	border-radius: 9px;
+}
+
+.drslon-home-post .wp-block-post-title {
+	margin-top: 0.15rem;
+	margin-bottom: 0.35rem;
+}
+
+.drslon-home-post .wp-block-post-title a {
+	text-decoration: none;
+}
+
+.drslon-home-post .wp-block-post-excerpt {
+	margin-top: 0.2rem;
+	margin-bottom: 0.4rem;
+}
+
+.drslon-home-post .wp-block-post-excerpt p {
+	margin: 0;
+}
+
+.drslon-home-post .wp-block-read-more {
+	font-weight: 600;
+	text-decoration: none;
+}
+
 .wp-block-latest-posts__list li,
 .wp-block-categories-list li {
 	margin-bottom: 0.5rem;
 }
 
+.drslon-sidebar__panel .wp-block-heading {
+	letter-spacing: 0.01em;
+}
+
+.drslon-sidebar .wp-block-latest-posts__list,
+.drslon-sidebar .wp-block-categories-list,
+.drslon-sidebar .wp-block-archives-list {
+	margin: 0;
+	padding-left: 1.1rem;
+}
+
+.drslon-sidebar .wp-block-latest-posts__list li,
+.drslon-sidebar .wp-block-categories-list li,
+.drslon-sidebar .wp-block-archives-list li {
+	margin-bottom: 0.46rem;
+}
+
+.drslon-sidebar .wp-block-latest-posts__post-date {
+	display: block;
+	font-size: 0.82rem;
+	color: var(--wp--preset--color--muted);
+}
+
 .drslon-pagination {
 	border-top: 1px solid var(--wp--preset--color--border);
-	padding-top: 1rem;
-	margin-top: 1.1rem;
+	padding-top: 1.1rem;
+	margin-top: 1.25rem;
+	align-items: center;
+	gap: 0.7rem;
 }
 
 .drslon-pagination .wp-block-query-pagination-numbers {
@@ -311,8 +418,8 @@ Tags: blog, block-theme, full-site-editing, editor-style, technical
 }
 
 .drslon-pagination .page-numbers {
-	min-width: 2.15rem;
-	height: 2.15rem;
+	min-width: 2.2rem;
+	height: 2.2rem;
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
@@ -320,12 +427,22 @@ Tags: blog, block-theme, full-site-editing, editor-style, technical
 	border-radius: 8px;
 	text-decoration: none;
 	background: var(--wp--preset--color--surface);
+	font-weight: 500;
 }
 
 .drslon-pagination .page-numbers.current {
 	border-color: var(--wp--preset--color--accent);
 	color: var(--wp--preset--color--accent);
 	font-weight: 700;
+}
+
+.drslon-pagination .wp-block-query-pagination-previous,
+.drslon-pagination .wp-block-query-pagination-next {
+	padding: 0.38rem 0.7rem;
+	border: 1px solid var(--wp--preset--color--border);
+	border-radius: 8px;
+	text-decoration: none;
+	background: var(--wp--preset--color--surface);
 }
 
 @media (max-width: 1099px) {
@@ -429,6 +546,8 @@ Tags: blog, block-theme, full-site-editing, editor-style, technical
 
 .drslon-archive-summary {
 	align-items: center;
+	padding-left: 0.15rem;
+	padding-right: 0.15rem;
 }
 
 .drslon-archive-card {
@@ -439,7 +558,7 @@ Tags: blog, block-theme, full-site-editing, editor-style, technical
 	background: var(--wp--preset--color--surface);
 	border: 1px solid var(--wp--preset--color--border);
 	border-radius: 14px;
-	box-shadow: 0 4px 14px rgba(23, 33, 51, 0.05);
+	box-shadow: 0 5px 16px rgba(23, 33, 51, 0.06);
 	overflow: hidden;
 }
 
@@ -456,10 +575,10 @@ Tags: blog, block-theme, full-site-editing, editor-style, technical
 }
 
 .drslon-archive-card__body {
-	padding: 0.8rem 0.95rem 0.9rem;
+	padding: 0.9rem 1rem 0.95rem;
 	display: flex;
 	flex-direction: column;
-	row-gap: 0.38rem;
+	row-gap: 0.42rem;
 }
 
 .drslon-archive-card .wp-block-template-part {
@@ -476,8 +595,8 @@ Tags: blog, block-theme, full-site-editing, editor-style, technical
 
 .drslon-archive-card .wp-block-post-title {
 	margin-bottom: 0.25rem;
-	line-height: 1.22;
-	font-size: 1.16rem;
+	line-height: 1.26;
+	font-size: 1.12rem;
 	font-weight: 700;
 	color: var(--wp--preset--color--text);
 	display: -webkit-box;
@@ -492,7 +611,7 @@ Tags: blog, block-theme, full-site-editing, editor-style, technical
 }
 
 .drslon-archive-card .wp-block-post-excerpt {
-	font-size: 0.89rem;
+	font-size: 0.9rem;
 	line-height: 1.45;
 	margin-bottom: 0.32rem;
 	color: var(--wp--preset--color--muted);
@@ -513,19 +632,14 @@ Tags: blog, block-theme, full-site-editing, editor-style, technical
 }
 
 .drslon-archive-pagination {
-	margin-top: 1.2rem;
-}
-
-.drslon-archive-pagination .wp-block-query-pagination-previous,
-.drslon-archive-pagination .wp-block-query-pagination-next {
-	padding: 0.35rem 0.6rem;
-	border: 1px solid var(--wp--preset--color--border);
-	border-radius: 8px;
-	text-decoration: none;
-	font-size: 0.92rem;
+	margin-top: 1.3rem;
 }
 
 @media (max-width: 1099px) {
+	.drslon-home-post {
+		padding: 0.9rem;
+	}
+
 	.drslon-archive-query .wp-block-post-template,
 	.drslon-archive-grid {
 		grid-template-columns: 1fr;
@@ -535,4 +649,14 @@ Tags: blog, block-theme, full-site-editing, editor-style, technical
 	.drslon-archive-card .wp-block-post-title {
 		font-size: 1.08rem;
 	}
+}
+
+body.category.category-columns-1 .drslon-archive-query .wp-block-post-template,
+body.category.category-columns-1 .drslon-archive-grid {
+	grid-template-columns: 1fr;
+}
+
+body.category.category-columns-2 .drslon-archive-query .wp-block-post-template,
+body.category.category-columns-2 .drslon-archive-grid {
+	grid-template-columns: repeat(2, minmax(0, 1fr));
 }
