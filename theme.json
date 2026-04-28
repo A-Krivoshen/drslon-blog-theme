@@ -5,8 +5,8 @@
     "appearanceTools": true,
     "useRootPaddingAwareAlignments": true,
     "layout": {
-      "contentSize": "920px",
-      "wideSize": "1320px"
+      "contentSize": "1040px",
+      "wideSize": "1460px"
     },
     "spacing": {
       "units": [
