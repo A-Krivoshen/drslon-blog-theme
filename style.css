@@ -2499,13 +2499,13 @@ Tags: blog, block-theme, full-site-editing, editor-style, technical
     }
 }
 
-/* === sidebar sticky clean version === */
+/* === final sidebar behavior: sticky column, sidebar content natural === */
 
 @media (min-width: 1100px) {
-    /* blog home and archives: sticky sidebar */
     .drslon-blog-layout > .wp-block-column:last-child,
     .drslon-home-layout > .wp-block-column:last-child,
-    .drslon-archive-layout > .wp-block-column:last-child {
+    .drslon-archive-layout > .wp-block-column:last-child,
+    .drslon-single-layout > .wp-block-column:last-child {
         position: sticky !important;
         top: 12px !important;
         align-self: flex-start !important;
@@ -2514,89 +2514,39 @@ Tags: blog, block-theme, full-site-editing, editor-style, technical
 
     body.admin-bar .drslon-blog-layout > .wp-block-column:last-child,
     body.admin-bar .drslon-home-layout > .wp-block-column:last-child,
-    body.admin-bar .drslon-archive-layout > .wp-block-column:last-child {
+    body.admin-bar .drslon-archive-layout > .wp-block-column:last-child,
+    body.admin-bar .drslon-single-layout > .wp-block-column:last-child {
         top: 44px !important;
     }
 
-    .drslon-blog-layout .drslon-sidebar,
-    .drslon-home-layout .drslon-sidebar,
-    .drslon-archive-layout .drslon-sidebar {
-        max-height: calc(100vh - 24px) !important;
-        overflow: auto !important;
-        scrollbar-width: thin;
-    }
-
-    body.admin-bar .drslon-blog-layout .drslon-sidebar,
-    body.admin-bar .drslon-home-layout .drslon-sidebar,
-    body.admin-bar .drslon-archive-layout .drslon-sidebar {
-        max-height: calc(100vh - 56px) !important;
-    }
-
-    /* single posts: sidebar is normal, never sticky */
-    .drslon-single-layout > .wp-block-column:last-child {
+    .drslon-sidebar,
+    .drslon-sidebar__sticky,
+    .drslon-sidebar__flow,
+    .drslon-sidebar__panel,
+    .drslon-sidebar .wp-block-search,
+    .drslon-sidebar .wp-block-latest-posts,
+    .drslon-sidebar .wp-block-latest-posts__list,
+    .drslon-sidebar .wp-block-categories,
+    .drslon-sidebar .wp-block-categories-list {
         position: static !important;
-        top: auto !important;
-        align-self: stretch !important;
-        height: auto !important;
-    }
-
-    .drslon-single-layout .drslon-sidebar {
         max-height: none !important;
         overflow: visible !important;
     }
 }
 
 @media (max-width: 1099px) {
-    .drslon-sidebar {
-        max-height: none !important;
-        overflow: visible !important;
-    }
-}\n
-/* === sidebar split sticky: top panels fixed, categories flow normally === */
-
-@media (min-width: 1100px) {
     .drslon-blog-layout > .wp-block-column:last-child,
     .drslon-home-layout > .wp-block-column:last-child,
-    .drslon-archive-layout > .wp-block-column:last-child {
-        position: static !important;
-        top: auto !important;
-        align-self: stretch !important;
-        height: auto !important;
-    }
-
-    .drslon-blog-layout .drslon-sidebar,
-    .drslon-home-layout .drslon-sidebar,
-    .drslon-archive-layout .drslon-sidebar {
-        max-height: none !important;
-        overflow: visible !important;
-    }
-
-    .drslon-blog-layout .drslon-sidebar__sticky,
-    .drslon-home-layout .drslon-sidebar__sticky,
-    .drslon-archive-layout .drslon-sidebar__sticky {
-        position: sticky !important;
-        top: 12px !important;
-        z-index: 3;
-    }
-
-    body.admin-bar .drslon-blog-layout .drslon-sidebar__sticky,
-    body.admin-bar .drslon-home-layout .drslon-sidebar__sticky,
-    body.admin-bar .drslon-archive-layout .drslon-sidebar__sticky {
-        top: 44px !important;
-    }
-
-    .drslon-single-layout .drslon-sidebar__sticky {
-        position: static !important;
-        top: auto !important;
-    }
-}
-
-@media (max-width: 1099px) {
+    .drslon-archive-layout > .wp-block-column:last-child,
+    .drslon-single-layout > .wp-block-column:last-child,
     .drslon-sidebar,
-    .drslon-sidebar__sticky {
+    .drslon-sidebar__sticky,
+    .drslon-sidebar__flow,
+    .drslon-sidebar__panel {
         position: static !important;
         top: auto !important;
         max-height: none !important;
         overflow: visible !important;
+        height: auto !important;
     }
 }
