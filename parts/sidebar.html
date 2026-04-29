@@ -1,27 +1,39 @@
 <!-- wp:group {"className":"drslon-sidebar","style":{"spacing":{"blockGap":"22px","padding":{"top":"22px","right":"20px","bottom":"24px","left":"20px"}},"border":{"width":"1px","color":"var:preset|color|border","radius":"14px"},"color":{"background":"var:preset|color|surface"}}} -->
 <div class="wp-block-group drslon-sidebar has-background" style="border-color:var(--wp--preset--color--border);border-width:1px;border-radius:14px;background-color:var(--wp--preset--color--surface);padding-top:22px;padding-right:20px;padding-bottom:24px;padding-left:20px">
 
-    <!-- wp:group {"className":"drslon-sidebar__panel","style":{"spacing":{"blockGap":"12px","padding":{"top":"14px","right":"14px","bottom":"14px","left":"14px"}},"border":{"radius":"10px"},"color":{"background":"var:preset|color|surface-light"}}} -->
-    <div class="wp-block-group drslon-sidebar__panel has-surface-light-background-color has-background" style="border-radius:10px;padding-top:14px;padding-right:14px;padding-bottom:14px;padding-left:14px">
-        <!-- wp:search {"label":"Поиск","showLabel":false,"buttonText":"Найти","buttonUseIcon":true,"style":{"border":{"radius":"8px"}}} /-->
+    <!-- wp:group {"className":"drslon-sidebar__sticky","layout":{"type":"constrained"},"style":{"spacing":{"blockGap":"22px"}}} -->
+    <div class="wp-block-group drslon-sidebar__sticky">
+
+        <!-- wp:group {"className":"drslon-sidebar__panel","style":{"spacing":{"blockGap":"12px","padding":{"top":"14px","right":"14px","bottom":"14px","left":"14px"}},"border":{"radius":"10px"},"color":{"background":"var:preset|color|surface-light"}}} -->
+        <div class="wp-block-group drslon-sidebar__panel has-surface-light-background-color has-background" style="border-radius:10px;padding-top:14px;padding-right:14px;padding-bottom:14px;padding-left:14px">
+            <!-- wp:search {"label":"Поиск","showLabel":false,"buttonText":"Найти","buttonUseIcon":true,"style":{"border":{"radius":"8px"}}} /-->
+        </div>
+        <!-- /wp:group -->
+
+        <!-- wp:group {"className":"drslon-sidebar__panel","style":{"spacing":{"blockGap":"10px","padding":{"top":"14px","right":"14px","bottom":"14px","left":"14px"}},"border":{"radius":"10px"},"color":{"background":"var:preset|color|surface-light"}}} -->
+        <div class="wp-block-group drslon-sidebar__panel has-surface-light-background-color has-background" style="border-radius:10px;padding-top:14px;padding-right:14px;padding-bottom:14px;padding-left:14px">
+            <!-- wp:heading {"level":3,"fontSize":"sm","style":{"spacing":{"margin":{"bottom":"6px","top":"0"}}}} -->
+            <h3 class="wp-block-heading has-sm-font-size" style="margin-top:0;margin-bottom:6px">Свежие записи</h3>
+            <!-- /wp:heading -->
+            <!-- wp:latest-posts {"postsToShow":5,"displayPostDate":true,"displayAuthor":false} /-->
+        </div>
+        <!-- /wp:group -->
+
     </div>
     <!-- /wp:group -->
 
-    <!-- wp:group {"className":"drslon-sidebar__panel","style":{"spacing":{"blockGap":"10px","padding":{"top":"14px","right":"14px","bottom":"14px","left":"14px"}},"border":{"radius":"10px"},"color":{"background":"var:preset|color|surface-light"}}} -->
-    <div class="wp-block-group drslon-sidebar__panel has-surface-light-background-color has-background" style="border-radius:10px;padding-top:14px;padding-right:14px;padding-bottom:14px;padding-left:14px">
-        <!-- wp:heading {"level":3,"fontSize":"sm","style":{"spacing":{"margin":{"bottom":"6px","top":"0"}}}} -->
-        <h3 class="wp-block-heading has-sm-font-size" style="margin-top:0;margin-bottom:6px">Свежие записи</h3>
-        <!-- /wp:heading -->
-        <!-- wp:latest-posts {"postsToShow":5,"displayPostDate":true,"displayAuthor":false} /-->
-    </div>
-    <!-- /wp:group -->
+    <!-- wp:group {"className":"drslon-sidebar__flow","layout":{"type":"constrained"}} -->
+    <div class="wp-block-group drslon-sidebar__flow">
 
-    <!-- wp:group {"className":"drslon-sidebar__panel","style":{"spacing":{"blockGap":"10px","padding":{"top":"14px","right":"14px","bottom":"14px","left":"14px"}},"border":{"radius":"10px"},"color":{"background":"var:preset|color|surface-light"}}} -->
-    <div class="wp-block-group drslon-sidebar__panel has-surface-light-background-color has-background" style="border-radius:10px;padding-top:14px;padding-right:14px;padding-bottom:14px;padding-left:14px">
-        <!-- wp:heading {"level":3,"fontSize":"sm","style":{"spacing":{"margin":{"bottom":"6px","top":"0"}}}} -->
-        <h3 class="wp-block-heading has-sm-font-size" style="margin-top:0;margin-bottom:6px">Рубрики</h3>
-        <!-- /wp:heading -->
-        <!-- wp:categories {"showHierarchy":true,"showPostCounts":true} /-->
+        <!-- wp:group {"className":"drslon-sidebar__panel","style":{"spacing":{"blockGap":"10px","padding":{"top":"14px","right":"14px","bottom":"14px","left":"14px"}},"border":{"radius":"10px"},"color":{"background":"var:preset|color|surface-light"}}} -->
+        <div class="wp-block-group drslon-sidebar__panel has-surface-light-background-color has-background" style="border-radius:10px;padding-top:14px;padding-right:14px;padding-bottom:14px;padding-left:14px">
+            <!-- wp:heading {"level":3,"fontSize":"sm","style":{"spacing":{"margin":{"bottom":"6px","top":"0"}}}} -->
+            <h3 class="wp-block-heading has-sm-font-size" style="margin-top:0;margin-bottom:6px">Рубрики</h3>
+            <!-- /wp:heading -->
+            <!-- wp:categories {"showHierarchy":true,"showPostCounts":true} /-->
+        </div>
+        <!-- /wp:group -->
+
     </div>
     <!-- /wp:group -->
 
