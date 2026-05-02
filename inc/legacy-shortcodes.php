@@ -106,18 +106,17 @@ function drslon_category_tiles_shortcode(): string {
 
 	<div class="drslon-category-tiles__grid">
 	    <?php foreach ( $categories as $category ) : ?>
+		<?php if ( empty( $category->name ) ) { continue; } ?>
 		<?php $description = wp_trim_words( wp_strip_all_tags( (string) $category->description ), 18, '…' ); ?>
 		<a class="drslon-category-tiles__item" href="<?php echo esc_url( get_category_link( $category->term_id ) ); ?>">
 		    <span class="drslon-category-tiles__head">
 			<span class="drslon-category-tiles__name"><?php echo esc_html( $category->name ); ?></span>
-			<span class="drslon-category-tiles__count"><?php echo esc_html( number_format_i18n( (int) $category->count ) ); ?></span>
+			<span class="drslon-category-tiles__count"><?php echo esc_html( sprintf( _n( '%s пост', '%s постов', (int) $category->count, 'drslon-blog' ), number_format_i18n( (int) $category->count ) ) ); ?></span>
 		    </span>
 
 		    <?php if ( ! empty( $description ) ) : ?>
 			<span class="drslon-category-tiles__description"><?php echo esc_html( $description ); ?></span>
 		    <?php endif; ?>
-
-		    <span class="drslon-category-tiles__cta"><?php esc_html_e( 'Открыть рубрику', 'drslon-blog' ); ?></span>
 		</a>
 	    <?php endforeach; ?>
 	</div>
