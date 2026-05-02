@@ -3198,3 +3198,55 @@ Tags: blog, block-theme, full-site-editing, editor-style, technical
 	box-shadow: none !important;
     }
 }
+/* === Featured slider desktop overlay refresh === */
+@media (min-width: 1100px) {
+    .home .drslon-featured-slider__card {
+        position: relative !important;
+        display: block !important;
+        min-height: clamp(360px, 44vw, 520px) !important;
+        border-radius: 22px !important;
+        overflow: hidden !important;
+        background: #0f1f32 !important;
+        box-shadow: 0 22px 44px rgba(12, 24, 40, 0.2) !important;
+    }
+
+    .home .drslon-featured-slider__media {
+        display: block !important;
+        width: 100% !important;
+        height: 100% !important;
+        min-height: clamp(360px, 44vw, 520px) !important;
+    }
+
+    .home .drslon-featured-slider__image,
+    .home .drslon-featured-slider__media img {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover !important;
+        filter: saturate(102%) contrast(101%) !important;
+    }
+
+    .home .drslon-featured-slider__content {
+        position: absolute !important;
+        left: clamp(20px, 4vw, 48px) !important;
+        bottom: clamp(20px, 4vw, 42px) !important;
+        z-index: 2 !important;
+        width: min(520px, calc(100% - clamp(40px, 8vw, 96px))) !important;
+        padding: clamp(18px, 2.1vw, 30px) !important;
+        border-radius: 16px !important;
+        background: rgba(255, 255, 255, 0.97) !important;
+        box-shadow: 0 14px 36px rgba(15, 24, 36, 0.2) !important;
+        backdrop-filter: blur(2px);
+    }
+}
+
+@media (max-width: 1099px) {
+    .home .drslon-featured-slider__card {
+        display: grid !important;
+        grid-template-columns: 1fr !important;
+    }
+
+    .home .drslon-featured-slider__content {
+        position: static !important;
+        width: auto !important;
+    }
+}
