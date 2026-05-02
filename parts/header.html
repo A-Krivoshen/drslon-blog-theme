@@ -1,31 +1,53 @@
 <!-- wp:group {"tagName":"header","className":"drslon-site-header","style":{"spacing":{"padding":{"top":"22px","bottom":"22px"}},"border":{"bottom":{"color":"var:preset|color|border","width":"1px"}},"color":{"background":"var:preset|color|surface"}},"layout":{"type":"constrained","contentSize":"1460px"}} -->
-<header class="wp-block-group drslon-site-header has-background" style="border-bottom-color:var(--wp--preset--color--border);border-bottom-width:1px;background-color:var(--wp--preset--color--surface);padding-top:22px;padding-bottom:22px">
-	<!-- wp:group {"className":"drslon-site-header__inner","layout":{"type":"flex","justifyContent":"space-between","verticalAlignment":"center","flexWrap":"wrap"},"style":{"spacing":{"blockGap":"22px"}}} -->
-	<div class="wp-block-group drslon-site-header__inner">
-		<!-- wp:group {"className":"drslon-site-branding","layout":{"type":"flex","flexWrap":"nowrap","verticalAlignment":"center"},"style":{"spacing":{"blockGap":"14px"}}} -->
-		<div class="wp-block-group drslon-site-branding">
-			<!-- wp:site-logo {"width":52,"shouldSyncIcon":false} /-->
-			<!-- wp:group {"style":{"spacing":{"blockGap":"4px"}}} -->
-			<div class="wp-block-group">
-				<!-- wp:site-title {"level":0,"fontSize":"lg"} /-->
-				<!-- wp:site-tagline {"fontSize":"xs","textColor":"muted"} /-->
-			</div>
-			<!-- /wp:group -->
-		</div>
-		<!-- /wp:group -->
+<header class="wp-block-group drslon-site-header has-background" style="border-bottom-color:var(--wp--preset--color--border);border-bottom-width:1px;background-color:var(--wp--preset--color--surface);padding-top:22px;padding-bottom:22px"><!-- wp:group {"layout":{"type":"constrained"}} -->
+<div class="wp-block-group"><!-- wp:group {"layout":{"type":"flex","flexWrap":"nowrap","justifyContent":"center"}} -->
+<div class="wp-block-group"><!-- wp:site-logo {"width":52,"shouldSyncIcon":false,"align":"left"} /-->
 
-		<!-- wp:navigation {"overlayMenu":"mobile","className":"drslon-main-navigation","fontSize":"sm","layout":{"type":"flex","justifyContent":"center"}} /-->
+<!-- wp:site-title {"textAlign":"center"} /--></div>
+<!-- /wp:group --></div>
+<!-- /wp:group -->
 
-		<!-- wp:group {"className":"drslon-header-utility","layout":{"type":"flex","justifyContent":"right","verticalAlignment":"center","flexWrap":"nowrap"},"style":{"spacing":{"blockGap":"12px"}}} -->
-		<div class="wp-block-group drslon-header-utility">
-			<!-- wp:paragraph {"className":"drslon-header-langs","fontSize":"xs","textColor":"muted"} -->
-			<p class="drslon-header-langs has-muted-color has-text-color has-xs-font-size"><a href="#">RU</a> · <a href="#">EN</a></p>
-			<!-- /wp:paragraph -->
+<!-- wp:group {"align":"wide","layout":{"type":"constrained"}} -->
+<div class="wp-block-group alignwide"><!-- wp:group {"layout":{"type":"flex","flexWrap":"nowrap","justifyContent":"center"}} -->
+<div class="wp-block-group"><!-- wp:navigation {"overlayMenu":"mobile","className":"drslon-main-navigation","fontSize":"sm","layout":{"type":"flex","justifyContent":"center"}} -->
+<!-- wp:navigation-submenu {"label":"Обо мне","url":"/","kind":"custom"} -->
+<!-- wp:navigation-link {"label":"Резюме","url":"/resume/","kind":"custom"} /-->
+<!-- wp:navigation-link {"label":"Проекты","url":"/project/","kind":"custom"} /-->
+<!-- wp:navigation-link {"label":"Партнёры","url":"/partnery/","kind":"custom"} /-->
+<!-- /wp:navigation-submenu -->
 
-			<!-- wp:search {"label":"Поиск по сайту","showLabel":false,"buttonPosition":"button-inside","buttonUseIcon":true,"className":"drslon-header-search"} /-->
-		</div>
-		<!-- /wp:group -->
-	</div>
-	<!-- /wp:group -->
-</header>
+<!-- wp:navigation-link {"label":"Блог","url":"/blog/","kind":"custom","isTopLevelLink":true} /-->
+
+<!-- wp:navigation-submenu {"label":"Услуги","url":"/#uslugi","kind":"custom"} -->
+<!-- wp:navigation-link {"label":"Прайс-лист","url":"/prays-list/","kind":"custom"} /-->
+<!-- wp:navigation-link {"label":"Консультации","url":"/konsultatsii/","kind":"custom"} /-->
+<!-- /wp:navigation-submenu -->
+
+<!-- wp:navigation-submenu {"label":"Сервисы","url":"/servisy/","kind":"custom"} -->
+<!-- wp:navigation-link {"label":"Информация о домене","url":"/informatsiya-o-domene/","kind":"custom"} /-->
+<!-- wp:navigation-link {"label":"Конвертер Punycode для домена","url":"/konverter-punycode-dlya-domena/","kind":"custom"} /-->
+<!-- wp:navigation-link {"label":"Easy DNS Lookup","url":"/easy-dns-lookup/","kind":"custom"} /-->
+<!-- wp:navigation-link {"label":"Whois lookup","url":"/whois-lookup/","kind":"custom"} /-->
+<!-- wp:navigation-link {"label":"Онлайн-генератор расписаний Crontab","url":"/generator-crontab/","kind":"custom"} /-->
+<!-- wp:navigation-link {"label":"Генератор правил файрвола","url":"/konfigurator-fayrvola/","kind":"custom"} /-->
+<!-- wp:navigation-link {"label":"Калькулятор сетевых масок","url":"/kalkulyator-setevyh-masok/","kind":"custom"} /-->
+<!-- wp:navigation-link {"label":"Измеритель скорости интернета","url":"/izmeritel-skorosti-internetak/","kind":"custom"} /-->
+<!-- wp:navigation-link {"label":"WP Site Checker","url":"/wp-site-checker/","kind":"custom"} /-->
+<!-- /wp:navigation-submenu -->
+
+<!-- wp:navigation-link {"label":"Контакты","url":"/contacts/","kind":"custom","isTopLevelLink":true} /-->
+<!-- /wp:navigation -->
+<!-- wp:social-links {"align":"right"} -->
+<ul class="wp-block-social-links alignright"><!-- wp:social-link {"url":"https://t.me/drslon_channel","service":"telegram"} /-->
+
+<!-- wp:social-link {"url":"https://vk.com/drslon_channel","service":"vk"} /-->
+
+<!-- wp:social-link {"url":"https://mastodon.ml/@krivoshein","service":"mastodon"} /-->
+
+<!-- wp:social-link {"url":"https://www.linkedin.com/in/krivosheinaleksey/","service":"linkedin"} /-->
+
+<!-- wp:social-link {"url":"https://github.com/A-Krivoshen","service":"github"} /--></ul>
+<!-- /wp:social-links --></div>
+<!-- /wp:group --></div>
+<!-- /wp:group --></header>
 <!-- /wp:group -->

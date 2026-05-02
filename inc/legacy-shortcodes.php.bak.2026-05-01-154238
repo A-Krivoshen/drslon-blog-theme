@@ -182,40 +182,33 @@ add_shortcode( 'drslon_category_tiles', 'drslon_category_tiles_shortcode' );
  * Blog home sections: category -> 2 posts -> more button.
  */
 function drslon_blog_sections_shortcode(): string {
-    $categories = get_categories(
-        array(
-            'taxonomy'   => 'category',
-            'hide_empty' => true,
-            'parent'     => 0,
-            'orderby'    => 'count',
-            'order'      => 'DESC',
-        )
+    $category_slugs = array(
+        'linux',
+        'instrumenty',
+        'wordpress',
+        'novosti',
+        'devops',
+        'raznoe',
+        'vps',
+        'hosting',
+        'prodvizhenie-saytov',
+        'plaginy-wordpress',
+        'programmy-s-otkrytym-kodom-dlya-povsednevnoy-zhizni',
+        'business',
+        'laravel',
+        'propiton',
     );
-
-    if ( empty( $categories ) || ! is_array( $categories ) ) {
-        return '';
-    }
-
-    $categories = array_values(
-        array_filter(
-            $categories,
-            static function ( $category ) {
-                return $category instanceof WP_Term
-                    && 'uncategorized' !== $category->slug
-                    && (int) $category->count > 0;
-            }
-        )
-    );
-
-    if ( empty( $categories ) ) {
-        return '';
-    }
 
     ob_start();
     ?>
     <section class="drslon-blog-sections" aria-label="<?php esc_attr_e( 'Blog sections', 'drslon-blog' ); ?>">
-        <?php foreach ( $categories as $category ) : ?>
+        <?php foreach ( $category_slugs as $slug ) : ?>
             <?php
+            $category = get_category_by_slug( $slug );
+            if ( ! $category instanceof WP_Term ) {
+                continue;
+            }
+
             $query = new WP_Query(
                 array(
                     'post_type'           => 'post',
@@ -264,7 +257,7 @@ function drslon_blog_sections_shortcode(): string {
 
                 <div class="drslon-blog-sections__footer">
                     <a class="drslon-blog-sections__more" href="<?php echo esc_url( get_category_link( $category->term_id ) ); ?>">
-                        <?php esc_html_e( 'Смотреть все', 'drslon-blog' ); ?>
+                        <?php esc_html_e( 'Загрузить больше', 'drslon-blog' ); ?>
                     </a>
                 </div>
             </section>
@@ -276,7 +269,6 @@ function drslon_blog_sections_shortcode(): string {
     return (string) ob_get_clean();
 }
 add_shortcode( 'drslon_blog_sections', 'drslon_blog_sections_shortcode' );
-
 
 
 
