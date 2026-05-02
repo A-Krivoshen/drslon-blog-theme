@@ -3094,3 +3094,107 @@ Tags: blog, block-theme, full-site-editing, editor-style, technical
 	box-shadow: none !important;
     }
 }
+/* === HOTFIX: popular tiles target real home wrapper === */
+@media (min-width: 1100px) {
+    .drslon-home-tiles-wrap .drslon-category-tiles__grid {
+	display: grid !important;
+	grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+	gap: 14px !important;
+    }
+
+    .drslon-home-tiles-wrap .drslon-category-tiles__item {
+	position: relative !important;
+	display: flex !important;
+	flex-direction: column !important;
+	align-items: stretch !important;
+	min-height: 0 !important;
+	padding: 0 !important;
+	overflow: hidden !important;
+	background: #fff !important;
+	border: 1px solid rgba(184, 197, 214, 0.45) !important;
+	border-radius: 12px !important;
+	box-shadow: 0 6px 16px rgba(26, 38, 56, 0.05) !important;
+	color: var(--wp--preset--color--text) !important;
+	text-decoration: none !important;
+    }
+
+    .drslon-home-tiles-wrap .drslon-category-tiles__item::after,
+    .drslon-home-tiles-wrap .drslon-category-tiles__media::after {
+	content: none !important;
+	display: none !important;
+    }
+
+    .drslon-home-tiles-wrap .drslon-category-tiles__media {
+	position: relative !important;
+	inset: auto !important;
+	display: block !important;
+	width: 100% !important;
+	height: 112px !important;
+	min-height: 112px !important;
+	aspect-ratio: auto !important;
+	overflow: hidden !important;
+	border-radius: 0 !important;
+	background: #10263c !important;
+	box-shadow: none !important;
+	filter: none !important;
+	flex: 0 0 auto !important;
+    }
+
+    .drslon-home-tiles-wrap .drslon-category-tiles__image,
+    .drslon-home-tiles-wrap .drslon-category-tiles__media img {
+	display: block !important;
+	width: 100% !important;
+	height: 100% !important;
+	object-fit: cover !important;
+    }
+
+    .drslon-home-tiles-wrap .drslon-category-tiles__body {
+	position: static !important;
+	z-index: auto !important;
+	display: flex !important;
+	flex-direction: column !important;
+	gap: 0.35rem !important;
+	width: auto !important;
+	padding: 0.72rem 0.82rem 0.85rem !important;
+	background: #fff !important;
+    }
+
+    .drslon-home-tiles-wrap .drslon-category-tiles__name {
+	position: static !important;
+	display: block !important;
+	margin: 0 !important;
+	min-height: 0 !important;
+	color: var(--wp--preset--color--text) !important;
+	font-size: 1rem !important;
+	font-weight: 700 !important;
+	line-height: 1.2 !important;
+	text-shadow: none !important;
+	overflow: visible !important;
+    }
+
+    .drslon-home-tiles-wrap .drslon-category-tiles__description {
+	display: -webkit-box !important;
+	margin: 0 !important;
+	color: var(--wp--preset--color--muted) !important;
+	font-size: 0.82rem !important;
+	line-height: 1.38 !important;
+	overflow: hidden !important;
+	-webkit-line-clamp: 2 !important;
+	-webkit-box-orient: vertical !important;
+    }
+
+    .drslon-home-tiles-wrap .drslon-category-tiles__count {
+	position: static !important;
+	display: inline-flex !important;
+	align-self: flex-start !important;
+	margin: 0.1rem 0 0 !important;
+	padding: 0.2rem 0.5rem !important;
+	border-radius: 999px !important;
+	background: #2d6cdf !important;
+	color: #fff !important;
+	font-size: 0.76rem !important;
+	line-height: 1 !important;
+	font-weight: 700 !important;
+	box-shadow: none !important;
+    }
+}
