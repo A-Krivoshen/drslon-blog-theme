@@ -167,7 +167,7 @@ function drslon_category_tiles_shortcode(): string {
         $html .= '<span class="drslon-category-tiles__body">';
         $html .= '<span class="drslon-category-tiles__name">' . esc_html( $category->name ) . '</span>';
         $html .= '<span class="drslon-category-tiles__description">' . esc_html( $description ) . '</span>';
-        $html .= '<span class="drslon-category-tiles__count">' . esc_html( number_format_i18n( (int) $category->count ) ) . '</span>';
+        $html .= '<span class="drslon-category-tiles__count">' . sprintf( esc_html__( '%s постов', 'drslon-blog' ), esc_html( number_format_i18n( (int) $category->count ) ) ) . '</span>';
         $html .= '</span>';
         $html .= '</a>';
     }
