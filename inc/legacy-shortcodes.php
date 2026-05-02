@@ -182,33 +182,40 @@ add_shortcode( 'drslon_category_tiles', 'drslon_category_tiles_shortcode' );
  * Blog home sections: category -> 2 posts -> more button.
  */
 function drslon_blog_sections_shortcode(): string {
-    $category_slugs = array(
-        'linux',
-        'instrumenty',
-        'wordpress',
-        'novosti',
-        'devops',
-        'raznoe',
-        'vps',
-        'hosting',
-        'prodvizhenie-saytov',
-        'plaginy-wordpress',
-        'programmy-s-otkrytym-kodom-dlya-povsednevnoy-zhizni',
-        'business',
-        'laravel',
-        'propiton',
+    $categories = get_categories(
+        array(
+            'taxonomy'   => 'category',
+            'hide_empty' => true,
+            'parent'     => 0,
+            'orderby'    => 'count',
+            'order'      => 'DESC',
+        )
     );
+
+    if ( empty( $categories ) || ! is_array( $categories ) ) {
+        return '';
+    }
+
+    $categories = array_values(
+        array_filter(
+            $categories,
+            static function ( $category ) {
+                return $category instanceof WP_Term
+                    && 'uncategorized' !== $category->slug
+                    && (int) $category->count > 0;
+            }
+        )
+    );
+
+    if ( empty( $categories ) ) {
+        return '';
+    }
 
     ob_start();
     ?>
     <section class="drslon-blog-sections" aria-label="<?php esc_attr_e( 'Blog sections', 'drslon-blog' ); ?>">
-        <?php foreach ( $category_slugs as $slug ) : ?>
+        <?php foreach ( $categories as $category ) : ?>
             <?php
-            $category = get_category_by_slug( $slug );
-            if ( ! $category instanceof WP_Term ) {
-                continue;
-            }
-
             $query = new WP_Query(
                 array(
                     'post_type'           => 'post',
@@ -232,12 +239,9 @@ function drslon_blog_sections_shortcode(): string {
 
                 <div class="drslon-blog-sections__grid">
                     <?php while ( $query->have_posts() ) : ?>
-                        <?php
-                        $query->the_post();
-                        $excerpt = wp_trim_words( get_the_excerpt(), 22, '…' );
-                        ?>
+                        <?php $query->the_post(); ?>
                         <article class="drslon-blog-section-card">
-                            <a class="drslon-blog-section-card__thumb" href="<?php the_permalink(); ?>">
+                            <a class="drslon-blog-section-card__media" href="<?php the_permalink(); ?>">
                                 <?php if ( has_post_thumbnail() ) : ?>
                                     <?php the_post_thumbnail( 'medium_large' ); ?>
                                 <?php else : ?>
@@ -253,8 +257,6 @@ function drslon_blog_sections_shortcode(): string {
                                 <h3 class="drslon-blog-section-card__title">
                                     <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
                                 </h3>
-
-                                <p class="drslon-blog-section-card__excerpt"><?php echo esc_html( $excerpt ); ?></p>
                             </div>
                         </article>
                     <?php endwhile; ?>
@@ -262,7 +264,7 @@ function drslon_blog_sections_shortcode(): string {
 
                 <div class="drslon-blog-sections__footer">
                     <a class="drslon-blog-sections__more" href="<?php echo esc_url( get_category_link( $category->term_id ) ); ?>">
-                        <?php esc_html_e( 'Загрузить больше', 'drslon-blog' ); ?>
+                        <?php esc_html_e( 'Смотреть все', 'drslon-blog' ); ?>
                     </a>
                 </div>
             </section>
@@ -274,3 +276,8 @@ function drslon_blog_sections_shortcode(): string {
     return (string) ob_get_clean();
 }
 add_shortcode( 'drslon_blog_sections', 'drslon_blog_sections_shortcode' );
+
+
+
+
+
