@@ -281,3 +281,170 @@ add_shortcode( 'drslon_blog_sections', 'drslon_blog_sections_shortcode' );
 
 
 
+if ( ! function_exists( 'drslon_render_adjacent_post_card' ) ) {
+    function drslon_render_adjacent_post_card( ?WP_Post $post, string $direction, string $label ): string {
+        if ( ! $post instanceof WP_Post ) {
+            return '';
+        }
+
+        $post_id = (int) $post->ID;
+
+        if ( has_post_thumbnail( $post_id ) ) {
+            $media = get_the_post_thumbnail(
+                $post_id,
+                'medium',
+                array(
+                    'class' => 'drslon-post-nav-card__image',
+                )
+            );
+        } else {
+            $media = '<span class="drslon-post-nav-card__placeholder" aria-hidden="true"></span>';
+        }
+
+        return sprintf(
+            '<a class="drslon-post-nav-card drslon-post-nav-card--%1$s" href="%2$s"><span class="drslon-post-nav-card__media">%3$s</span><span class="drslon-post-nav-card__content"><span class="drslon-post-nav-card__eyebrow">%4$s</span><span class="drslon-post-nav-card__title">%5$s</span></span></a>',
+            esc_attr( $direction ),
+            esc_url( get_permalink( $post_id ) ),
+            $media,
+            esc_html( $label ),
+            esc_html( get_the_title( $post_id ) )
+        );
+    }
+}
+
+if ( ! function_exists( 'drslon_post_nav_cards_shortcode' ) ) {
+    function drslon_post_nav_cards_shortcode(): string {
+        if ( ! is_singular( 'post' ) ) {
+            return '';
+        }
+
+        $previous_post = get_previous_post();
+        $next_post     = get_next_post();
+
+        if ( ! $previous_post && ! $next_post ) {
+            return '';
+        }
+
+        $html  = '<div class="drslon-post-nav-cards">';
+        $html .= drslon_render_adjacent_post_card( $previous_post, 'previous', __( 'Предыдущая запись', 'drslon-blog' ) );
+        $html .= drslon_render_adjacent_post_card( $next_post, 'next', __( 'Следующая запись', 'drslon-blog' ) );
+        $html .= '</div>';
+
+        return $html;
+    }
+}
+add_shortcode( 'drslon_post_nav_cards', 'drslon_post_nav_cards_shortcode' );
+
+if ( ! function_exists( 'drslon_related_posts_shortcode' ) ) {
+    function drslon_related_posts_shortcode( $atts = array() ): string {
+        if ( ! is_singular( 'post' ) ) {
+            return '';
+        }
+
+        $current_post_id = (int) get_queried_object_id();
+
+        if ( ! $current_post_id ) {
+            return '';
+        }
+
+        $atts = shortcode_atts(
+            array(
+                'posts_per_page' => 3,
+            ),
+            $atts,
+            'drslon_related_posts'
+        );
+
+        $posts_per_page = max( 1, min( 6, (int) $atts['posts_per_page'] ) );
+        $category_ids   = wp_get_post_categories( $current_post_id, array( 'fields' => 'ids' ) );
+
+        $args = array(
+            'post_type'           => 'post',
+            'post_status'         => 'publish',
+            'posts_per_page'      => $posts_per_page,
+            'post__not_in'        => array( $current_post_id ),
+            'ignore_sticky_posts' => true,
+            'no_found_rows'       => true,
+        );
+
+        if ( ! empty( $category_ids ) ) {
+            $args['category__in'] = $category_ids;
+        }
+
+        $related_query = new WP_Query( $args );
+
+        if ( ! $related_query->have_posts() && ! empty( $category_ids ) ) {
+            unset( $args['category__in'] );
+            $related_query = new WP_Query( $args );
+        }
+
+        if ( ! $related_query->have_posts() ) {
+            return '';
+        }
+
+        ob_start();
+        ?>
+        <div class="drslon-related-posts">
+            <div class="drslon-related-posts__grid">
+                <?php while ( $related_query->have_posts() ) : ?>
+                    <?php
+                    $related_query->the_post();
+
+                    $post_id = get_the_ID();
+                    $terms   = get_the_category( $post_id );
+                    $term    = ! empty( $terms ) && $terms[0] instanceof WP_Term ? $terms[0]->name : '';
+                    $excerpt = wp_trim_words( wp_strip_all_tags( get_the_excerpt( $post_id ) ), 20, '…' );
+
+                    if ( has_post_thumbnail( $post_id ) ) {
+                        $media = get_the_post_thumbnail(
+                            $post_id,
+                            'medium_large',
+                            array(
+                                'class' => 'drslon-related-post__image',
+                            )
+                        );
+                    } else {
+                        $media = '<span class="drslon-related-post__placeholder" aria-hidden="true"></span>';
+                    }
+                    ?>
+                    <article class="drslon-related-post">
+                        <a class="drslon-related-post__media" href="<?php echo esc_url( get_permalink( $post_id ) ); ?>">
+                            <?php echo $media; ?>
+                        </a>
+
+                        <div class="drslon-related-post__content">
+                            <p class="drslon-related-post__meta">
+                                <?php echo esc_html( get_the_date( '', $post_id ) ); ?>
+                                <?php if ( '' !== $term ) : ?>
+                                    <span class="drslon-related-post__dot">·</span>
+                                    <?php echo esc_html( $term ); ?>
+                                <?php endif; ?>
+                            </p>
+
+                            <h3 class="drslon-related-post__title">
+                                <a href="<?php echo esc_url( get_permalink( $post_id ) ); ?>">
+                                    <?php echo esc_html( get_the_title( $post_id ) ); ?>
+                                </a>
+                            </h3>
+
+                            <?php if ( '' !== $excerpt ) : ?>
+                                <p class="drslon-related-post__excerpt"><?php echo esc_html( $excerpt ); ?></p>
+                            <?php endif; ?>
+
+                            <p class="drslon-related-post__footer">
+                                <a class="drslon-related-post__link" href="<?php echo esc_url( get_permalink( $post_id ) ); ?>">
+                                    <?php esc_html_e( 'Открыть', 'drslon-blog' ); ?>
+                                </a>
+                            </p>
+                        </div>
+                    </article>
+                <?php endwhile; ?>
+            </div>
+        </div>
+        <?php
+        wp_reset_postdata();
+
+        return (string) ob_get_clean();
+    }
+}
+add_shortcode( 'drslon_related_posts', 'drslon_related_posts_shortcode' );
