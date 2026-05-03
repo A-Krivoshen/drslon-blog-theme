@@ -3539,12 +3539,13 @@ Tags: blog, block-theme, full-site-editing, editor-style, technical
 		transform: none !important;
 	}
 }
+
 /* =========================================================
    FINAL OVERRIDE: /blog featured hero + popular tiles + CTA
-   Это временный чистый хвост. Старый мусор выше не трогаем.
+   Clean final tail for blog home.
    ========================================================= */
 
-/* --- featured slider: реальный hero с белой карточкой поверх --- */
+/* --- FEATURED HERO --- */
 .drslon-home-featured-wrap .drslon-featured-slider {
     position: relative !important;
     max-width: 100% !important;
@@ -3553,35 +3554,6 @@ Tags: blog, block-theme, full-site-editing, editor-style, technical
 .drslon-home-featured-wrap .drslon-featured-slider__heading {
     display: block !important;
     margin-bottom: 14px !important;
-}
-
-.drslon-home-featured-wrap .drslon-featured-slider__controls {
-    position: absolute !important;
-    left: 0 !important;
-    right: 0 !important;
-    top: 50% !important;
-    z-index: 8 !important;
-    display: flex !important;
-    justify-content: space-between !important;
-    align-items: center !important;
-    padding: 0 12px !important;
-    transform: translateY(-50%) !important;
-    pointer-events: none !important;
-}
-
-.drslon-home-featured-wrap .drslon-featured-slider__arrow {
-    pointer-events: auto !important;
-    width: 40px !important;
-    height: 40px !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    border: 1px solid rgba(34, 78, 136, 0.18) !important;
-    border-radius: 999px !important;
-    background: rgba(255, 255, 255, 0.94) !important;
-    color: #1f5fd6 !important;
-    box-shadow: 0 10px 24px rgba(18, 34, 54, 0.14) !important;
-    backdrop-filter: blur(6px) !important;
 }
 
 .drslon-home-featured-wrap .drslon-featured-slider__frame {
@@ -3595,7 +3567,7 @@ Tags: blog, block-theme, full-site-editing, editor-style, technical
     overflow-x: auto !important;
     overflow-y: hidden !important;
     scroll-snap-type: x mandatory !important;
-    padding: 0 0 56px 0 !important;
+    padding: 0 0 52px 0 !important;
     scrollbar-width: none !important;
 }
 
@@ -3607,9 +3579,9 @@ Tags: blog, block-theme, full-site-editing, editor-style, technical
     position: relative !important;
     flex: 0 0 100% !important;
     width: 100% !important;
-    min-height: 0 !important;
-    padding: 0 !important;
     display: block !important;
+    padding: 0 0 150px 0 !important;
+    min-height: 0 !important;
     scroll-snap-align: start !important;
     background: transparent !important;
     border: 0 !important;
@@ -3621,8 +3593,8 @@ Tags: blog, block-theme, full-site-editing, editor-style, technical
 .drslon-home-featured-wrap .drslon-featured-slider__media {
     display: block !important;
     width: 100% !important;
-    height: 460px !important;
-    min-height: 460px !important;
+    height: 395px !important;
+    min-height: 395px !important;
     overflow: hidden !important;
     border-radius: 20px !important;
     background: #10243a !important;
@@ -3635,7 +3607,7 @@ Tags: blog, block-theme, full-site-editing, editor-style, technical
     display: block !important;
     width: 100% !important;
     height: 100% !important;
-    min-height: 460px !important;
+    min-height: 395px !important;
     object-fit: cover !important;
     object-position: center center !important;
 }
@@ -3648,11 +3620,17 @@ Tags: blog, block-theme, full-site-editing, editor-style, technical
 
 .drslon-home-featured-wrap .drslon-featured-slider__content {
     position: absolute !important;
-    left: 32px !important;
-    bottom: -32px !important;
+    left: 50% !important;
+    bottom: -36px !important;
+    transform: translateX(-50%) !important;
     z-index: 6 !important;
-    width: min(560px, calc(100% - 64px)) !important;
-    padding: 24px 28px 26px !important;
+    width: min(620px, calc(100% - 96px)) !important;
+    max-width: 620px !important;
+    padding: 22px 24px 24px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
     background: rgba(255, 255, 255, 0.985) !important;
     border: 1px solid rgba(216, 224, 238, 0.92) !important;
     border-radius: 16px !important;
@@ -3662,11 +3640,12 @@ Tags: blog, block-theme, full-site-editing, editor-style, technical
 .drslon-home-featured-wrap .drslon-featured-slider__meta-line {
     display: flex !important;
     flex-wrap: wrap !important;
+    justify-content: center !important;
     align-items: center !important;
     gap: 10px !important;
-    margin: 0 0 10px 0 !important;
+    margin: 0 0 8px 0 !important;
     color: var(--wp--preset--color--muted) !important;
-    font-size: 0.86rem !important;
+    font-size: 0.82rem !important;
 }
 
 .drslon-home-featured-wrap .drslon-featured-slider__category {
@@ -3681,10 +3660,11 @@ Tags: blog, block-theme, full-site-editing, editor-style, technical
 }
 
 .drslon-home-featured-wrap .drslon-featured-slider__title {
-    margin: 0 0 12px 0 !important;
-    font-size: clamp(2rem, 1.45rem + 1.4vw, 3rem) !important;
-    line-height: 1.06 !important;
+    margin: 0 0 10px 0 !important;
+    font-size: clamp(1.75rem, 1.35rem + 1vw, 2.5rem) !important;
+    line-height: 1.08 !important;
     letter-spacing: -0.02em !important;
+    text-align: center !important;
 }
 
 .drslon-home-featured-wrap .drslon-featured-slider__title a {
@@ -3693,27 +3673,78 @@ Tags: blog, block-theme, full-site-editing, editor-style, technical
 }
 
 .drslon-home-featured-wrap .drslon-featured-slider__excerpt {
-    margin: 0 0 16px 0 !important;
-    max-width: 54ch !important;
+    margin: 0 0 14px 0 !important;
+    max-width: 46ch !important;
     color: #40546c !important;
-    font-size: 1rem !important;
-    line-height: 1.58 !important;
+    font-size: 0.96rem !important;
+    line-height: 1.5 !important;
+    text-align: left !important;
 }
 
 .drslon-home-featured-wrap .drslon-featured-slider__button {
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
-    padding: 11px 18px !important;
+    align-self: flex-start !important;
+    padding: 10px 16px !important;
     border-radius: 10px !important;
     background: #2d6cdf !important;
     color: #ffffff !important;
+    font-size: 0.92rem !important;
     font-weight: 700 !important;
     text-decoration: none !important;
     box-shadow: none !important;
 }
 
-/* --- popular tiles: белые карточки, не overlay --- */
+.drslon-home-featured-wrap .drslon-featured-slider__controls {
+    position: absolute !important;
+    left: 0 !important;
+    right: 0 !important;
+    top: 50% !important;
+    z-index: 8 !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    padding: 0 14px !important;
+    transform: translateY(-50%) !important;
+    pointer-events: none !important;
+}
+
+.drslon-home-featured-wrap .drslon-featured-slider__arrow {
+    pointer-events: auto !important;
+    width: 40px !important;
+    height: 40px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0 !important;
+    border: 1px solid rgba(34, 78, 136, 0.18) !important;
+    border-radius: 999px !important;
+    background: rgba(255, 255, 255, 0.94) !important;
+    color: #1f5fd6 !important;
+    box-shadow: 0 10px 24px rgba(18, 34, 54, 0.14) !important;
+    backdrop-filter: blur(6px) !important;
+    font-size: 0 !important;
+    line-height: 1 !important;
+}
+
+.drslon-home-featured-wrap .drslon-featured-slider__arrow::before {
+    display: block !important;
+    font-size: 28px !important;
+    line-height: 1 !important;
+    font-weight: 700 !important;
+    transform: translateY(-1px) !important;
+}
+
+.drslon-home-featured-wrap .drslon-featured-slider__arrow--prev::before {
+    content: "‹" !important;
+}
+
+.drslon-home-featured-wrap .drslon-featured-slider__arrow--next::before {
+    content: "›" !important;
+}
+
+/* --- POPULAR TILES --- */
 .drslon-home-tiles-wrap .drslon-category-tiles {
     max-width: 100% !important;
     margin: 0 !important;
@@ -3739,7 +3770,6 @@ Tags: blog, block-theme, full-site-editing, editor-style, technical
     position: relative !important;
     display: flex !important;
     flex-direction: column !important;
-    align-items: stretch !important;
     min-height: 0 !important;
     padding: 0 !important;
     overflow: hidden !important;
@@ -3765,17 +3795,12 @@ Tags: blog, block-theme, full-site-editing, editor-style, technical
 
 .drslon-home-tiles-wrap .drslon-category-tiles__media {
     position: relative !important;
-    inset: auto !important;
     display: block !important;
     width: 100% !important;
     height: 112px !important;
     min-height: 112px !important;
-    aspect-ratio: auto !important;
     overflow: hidden !important;
-    border-radius: 0 !important;
     background: #10263c !important;
-    box-shadow: none !important;
-    filter: none !important;
     flex: 0 0 auto !important;
 }
 
@@ -3788,22 +3813,14 @@ Tags: blog, block-theme, full-site-editing, editor-style, technical
 }
 
 .drslon-home-tiles-wrap .drslon-category-tiles__body {
-    position: static !important;
-    z-index: auto !important;
     display: flex !important;
     flex-direction: column !important;
     gap: 0.35rem !important;
-    width: auto !important;
     padding: 0.72rem 0.82rem 0.85rem !important;
     background: #ffffff !important;
 }
 
 .drslon-home-tiles-wrap .drslon-category-tiles__head {
-    position: static !important;
-    left: auto !important;
-    right: auto !important;
-    bottom: auto !important;
-    z-index: auto !important;
     display: flex !important;
     align-items: flex-start !important;
     justify-content: space-between !important;
@@ -3813,19 +3830,14 @@ Tags: blog, block-theme, full-site-editing, editor-style, technical
 }
 
 .drslon-home-tiles-wrap .drslon-category-tiles__name {
-    position: static !important;
     display: block !important;
     flex: 1 1 auto !important;
-    min-height: 0 !important;
     margin: 0 !important;
     color: var(--wp--preset--color--text) !important;
     font-size: 1rem !important;
     font-weight: 700 !important;
     line-height: 1.2 !important;
     text-shadow: none !important;
-    overflow: visible !important;
-    -webkit-line-clamp: unset !important;
-    -webkit-box-orient: unset !important;
 }
 
 .drslon-home-tiles-wrap .drslon-category-tiles__description {
@@ -3840,9 +3852,6 @@ Tags: blog, block-theme, full-site-editing, editor-style, technical
 }
 
 .drslon-home-tiles-wrap .drslon-category-tiles__count {
-    position: static !important;
-    top: auto !important;
-    right: auto !important;
     display: inline-flex !important;
     align-self: flex-start !important;
     margin: 0 !important;
@@ -3853,14 +3862,13 @@ Tags: blog, block-theme, full-site-editing, editor-style, technical
     font-size: 0.76rem !important;
     line-height: 1 !important;
     font-weight: 700 !important;
-    box-shadow: none !important;
 }
 
 .drslon-home-tiles-wrap .drslon-category-tiles__cta {
     display: none !important;
 }
 
-/* --- section button: по центру и без сюрпризов --- */
+/* --- SECTION BUTTON --- */
 .drslon-home-sections-wrap .drslon-blog-sections__footer {
     margin-top: 1rem !important;
     display: flex !important;
@@ -3885,7 +3893,7 @@ Tags: blog, block-theme, full-site-editing, editor-style, technical
     transform: none !important;
 }
 
-/* --- tablet/mobile --- */
+/* --- RESPONSIVE --- */
 @media (max-width: 1099px) {
     .drslon-home-featured-wrap .drslon-featured-slider__controls {
         top: 110px !important;
@@ -3899,6 +3907,7 @@ Tags: blog, block-theme, full-site-editing, editor-style, technical
 
     .drslon-home-featured-wrap .drslon-featured-slider__card {
         display: block !important;
+        padding-bottom: 0 !important;
     }
 
     .drslon-home-featured-wrap .drslon-featured-slider__media {
@@ -3919,10 +3928,27 @@ Tags: blog, block-theme, full-site-editing, editor-style, technical
         position: relative !important;
         left: auto !important;
         bottom: auto !important;
+        transform: none !important;
         width: auto !important;
+        max-width: none !important;
         margin: -28px 14px 0 !important;
         padding: 18px 18px 20px !important;
         border-radius: 14px !important;
+        align-items: flex-start !important;
+        text-align: left !important;
+    }
+
+    .drslon-home-featured-wrap .drslon-featured-slider__meta-line {
+        justify-content: flex-start !important;
+    }
+
+    .drslon-home-featured-wrap .drslon-featured-slider__title,
+    .drslon-home-featured-wrap .drslon-featured-slider__excerpt {
+        text-align: left !important;
+    }
+
+    .drslon-home-featured-wrap .drslon-featured-slider__button {
+        align-self: flex-start !important;
     }
 
     .drslon-home-tiles-wrap .drslon-category-tiles__grid {
@@ -3948,127 +3974,5 @@ Tags: blog, block-theme, full-site-editing, editor-style, technical
 
     .drslon-home-tiles-wrap .drslon-category-tiles__grid {
         grid-template-columns: 1fr !important;
-    }
-}
-/* === featured card center hotfix === */
-@media (min-width: 1100px) {
-    .drslon-home-featured-wrap .drslon-featured-slider__content {
-	left: 50% !important;
-	transform: translateX(-50%) !important;
-	bottom: -36px !important;
-	width: min(700px, calc(100% - 96px)) !important;
-	max-width: 700px !important;
-	margin: 0 !important;
-    }
-
-    .drslon-home-featured-wrap .drslon-featured-slider__card {
-	padding-bottom: 150px !important;
-    }
-}
-
-@media (max-width: 1099px) {
-    .drslon-home-featured-wrap .drslon-featured-slider__content {
-	transform: none !important;
-    }
-}
-
-/* === featured hero polish === */
-@media (min-width: 1100px) {
-    .drslon-home-featured-wrap .drslon-featured-slider__content {
-	width: min(620px, calc(100% - 96px)) !important;
-	max-width: 620px !important;
-	padding: 22px 24px 24px !important;
-    }
-
-    .drslon-home-featured-wrap .drslon-featured-slider__meta-line {
-	font-size: 0.82rem !important;
-	margin-bottom: 8px !important;
-    }
-
-    .drslon-home-featured-wrap .drslon-featured-slider__title {
-	font-size: clamp(1.75rem, 1.35rem + 1vw, 2.5rem) !important;
-	line-height: 1.08 !important;
-	margin-bottom: 10px !important;
-    }
-
-    .drslon-home-featured-wrap .drslon-featured-slider__excerpt {
-	font-size: 0.96rem !important;
-	line-height: 1.5 !important;
-	margin-bottom: 14px !important;
-	max-width: 50ch !important;
-    }
-
-    .drslon-home-featured-wrap .drslon-featured-slider__button {
-	padding: 10px 16px !important;
-	font-size: 0.92rem !important;
-    }
-
-    .drslon-home-featured-wrap .drslon-featured-slider__arrow {
-	position: relative !important;
-	display: inline-flex !important;
-	align-items: center !important;
-	justify-content: center !important;
-	padding: 0 !important;
-	font-size: 0 !important;
-	line-height: 1 !important;
-    }
-
-    .drslon-home-featured-wrap .drslon-featured-slider__arrow::before {
-	display: block !important;
-	font-size: 28px !important;
-	line-height: 1 !important;
-	font-weight: 700 !important;
-	transform: translateY(-1px) !important;
-    }
-
-    .drslon-home-featured-wrap .drslon-featured-slider__arrow--prev::before {
-	content: "‹" !important;
-    }
-
-    .drslon-home-featured-wrap .drslon-featured-slider__arrow--next::before {
-	content: "›" !important;
-    }
-}
-/* === featured card content center hotfix === */
-@media (min-width: 1100px) {
-    .drslon-home-featured-wrap .drslon-featured-slider__content {
-	display: flex !important;
-	flex-direction: column !important;
-	align-items: center !important;
-	text-align: center !important;
-    }
-
-    .drslon-home-featured-wrap .drslon-featured-slider__meta-line {
-	justify-content: center !important;
-	margin-left: auto !important;
-	margin-right: auto !important;
-    }
-
-    .drslon-home-featured-wrap .drslon-featured-slider__title,
-    .drslon-home-featured-wrap .drslon-featured-slider__excerpt {
-	margin-left: auto !important;
-	margin-right: auto !important;
-	text-align: center !important;
-    }
-
-    .drslon-home-featured-wrap .drslon-featured-slider__excerpt {
-	max-width: 44ch !important;
-    }
-
-    .drslon-home-featured-wrap .drslon-featured-slider__button {
-	align-self: center !important;
-    }
-}
-/* === featured card final text balance === */
-@media (min-width: 1100px) {
-    .drslon-home-featured-wrap .drslon-featured-slider__excerpt {
-	text-align: left !important;
-	max-width: 46ch !important;
-	margin-left: 0 !important;
-	margin-right: 0 !important;
-    }
-
-    .drslon-home-featured-wrap .drslon-featured-slider__button {
-	align-self: flex-start !important;
     }
 }
