@@ -282,7 +282,7 @@ add_shortcode( 'drslon_blog_sections', 'drslon_blog_sections_shortcode' );
 
 
 if ( ! function_exists( 'drslon_render_adjacent_post_card' ) ) {
-    function drslon_render_adjacent_post_card( ?WP_Post $post, string $direction, string $label ): string {
+    function drslon_render_adjacent_post_card( $post, string $direction, string $label ): string {
         if ( ! $post instanceof WP_Post ) {
             return '';
         }
