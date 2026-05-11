@@ -4955,3 +4955,100 @@ Tags: blog, block-theme, full-site-editing, editor-style, technical
                 pointer-events: auto !important;
         }
 }
+/* === 404 page === */
+.drslon-404-shell {
+        min-height: 52vh;
+        display: flex;
+        align-items: center;
+}
+
+.drslon-404-card {
+        box-shadow: 0 14px 34px rgba(23, 33, 51, 0.06);
+}
+
+.drslon-404-title {
+        margin-top: 0;
+        margin-bottom: 0.2rem;
+        line-height: 1.08;
+}
+
+.drslon-404-search {
+        margin-top: 0.4rem;
+}
+
+@media (max-width: 781px) {
+        .drslon-404-shell {
+                min-height: auto;
+        }
+
+        .drslon-404-card {
+                padding-left: 18px !important;
+                padding-right: 18px !important;
+        }
+
+        .drslon-404-title {
+                font-size: 2rem;
+        }
+}
+/* === 404 polish === */
+.drslon-404-shell {
+        min-height: 46vh;
+}
+
+.drslon-404-card .wp-block-buttons {
+        margin-top: 0.35rem;
+}
+
+.drslon-404-card .wp-block-search {
+        margin-top: 0.35rem;
+}
+
+@media (max-width: 781px) {
+        .drslon-404-shell {
+                min-height: auto;
+                padding-top: 38px !important;
+                padding-bottom: 38px !important;
+        }
+
+        .drslon-404-card {
+                padding-top: 26px !important;
+                padding-right: 18px !important;
+                padding-bottom: 26px !important;
+                padding-left: 18px !important;
+        }
+
+        .drslon-404-title {
+                font-size: 2.1rem !important;
+                line-height: 1.08 !important;
+        }
+
+        .drslon-404-card .wp-block-buttons {
+                gap: 10px !important;
+        }
+
+        .drslon-404-card .wp-block-button {
+                width: 100%;
+        }
+
+        .drslon-404-card .wp-block-button__link {
+                width: 100%;
+                text-align: center;
+                justify-content: center;
+        }
+
+        .drslon-404-card .wp-block-search__inside-wrapper {
+                display: grid !important;
+                grid-template-columns: 1fr auto !important;
+                gap: 10px !important;
+        }
+
+        .drslon-404-card .wp-block-search__input {
+                min-width: 0 !important;
+        }
+
+        body.error404 .cky-btn-revisit-wrapper,
+        body.error404 .cky-revisit-bottom-left,
+        body.error404 .cky-revisit-bottom-right {
+                display: none !important;
+        }
+}
