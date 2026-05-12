@@ -5094,3 +5094,99 @@ Tags: blog, block-theme, full-site-editing, editor-style, technical
 .drslon-inline-meta--views {
         white-space: nowrap;
 }
+
+/* === header tablet fix: 600-900px === */
+@media (min-width: 600px) and (max-width: 900px) {
+        .drslon-site-header__inner {
+                row-gap: 12px !important;
+        }
+
+        .drslon-site-branding {
+                width: 100%;
+                justify-content: center !important;
+                text-align: center !important;
+                gap: 12px !important;
+        }
+
+        .drslon-site-branding .wp-block-site-title {
+                font-size: 1.08rem !important;
+                line-height: 1.2 !important;
+                text-align: center !important;
+        }
+
+        .drslon-header-utility {
+                width: 100%;
+                justify-content: center !important;
+                margin-left: 0 !important;
+        }
+
+        .drslon-main-navigation {
+                width: 100%;
+                flex-basis: 100% !important;
+                justify-content: center !important;
+        }
+
+        .drslon-main-navigation .wp-block-navigation__container {
+                justify-content: center !important;
+                flex-wrap: wrap !important;
+                gap: 0.9rem !important;
+        }
+
+        .drslon-main-navigation .wp-block-navigation__responsive-container-open {
+                display: none !important;
+        }
+}
+
+/* === tablet fix: popular sections titles clipped on ~768px === */
+@media (min-width: 641px) and (max-width: 900px) {
+        .drslon-home-tiles-wrap .drslon-category-tiles__grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+                gap: 16px !important;
+        }
+
+        .drslon-home-tiles-wrap .drslon-category-tiles__item {
+                min-width: 0 !important;
+        }
+
+        .drslon-home-tiles-wrap .drslon-category-tiles__body {
+                padding: 12px 14px 14px !important;
+                min-width: 0 !important;
+                overflow: visible !important;
+        }
+
+        .drslon-home-tiles-wrap .drslon-category-tiles__head {
+                display: grid !important;
+                grid-template-columns: minmax(0, 1fr) auto !important;
+                column-gap: 8px !important;
+                align-items: start !important;
+                min-width: 0 !important;
+                overflow: visible !important;
+        }
+
+        .drslon-home-tiles-wrap .drslon-category-tiles__name,
+        .drslon-home-tiles-wrap .drslon-category-tiles__description {
+                min-width: 0 !important;
+                margin-left: 0 !important;
+                padding-left: 0 !important;
+                text-indent: 0 !important;
+                overflow: visible !important;
+        }
+
+        .drslon-home-tiles-wrap .drslon-category-tiles__name {
+                font-size: 1rem !important;
+                line-height: 1.2 !important;
+        }
+
+        .drslon-home-tiles-wrap .drslon-category-tiles__description {
+                font-size: 0.84rem !important;
+                line-height: 1.35 !important;
+                -webkit-line-clamp: 2 !important;
+        }
+
+        .drslon-home-tiles-wrap .drslon-category-tiles__count {
+                margin-left: 8px !important;
+                white-space: nowrap !important;
+                flex: 0 0 auto !important;
+        }
+}
+
