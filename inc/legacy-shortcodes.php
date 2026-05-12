@@ -435,3 +435,85 @@ if ( ! function_exists( 'drslon_related_posts_shortcode' ) ) {
     }
 }
 add_shortcode( 'drslon_related_posts', 'drslon_related_posts_shortcode' );
+
+if ( ! function_exists( 'drslon_post_extras_shortcode' ) ) {
+    function drslon_post_extras_shortcode(): string {
+        if ( ! is_singular( 'post' ) ) {
+            return '';
+        }
+
+        if ( ! function_exists( 'krv_render_post_extras' ) ) {
+            return '';
+        }
+
+        ob_start();
+        krv_render_post_extras();
+
+        return (string) ob_get_clean();
+    }
+}
+add_shortcode( 'drslon_post_extras', 'drslon_post_extras_shortcode' );
+
+if ( ! function_exists( 'drslon_reading_time_shortcode' ) ) {
+    function drslon_reading_time_shortcode(): string {
+        if ( ! is_singular( 'post' ) ) {
+            return '';
+        }
+
+        $post = get_post();
+        if ( ! $post instanceof WP_Post ) {
+            return '';
+        }
+
+        $content = wp_strip_all_tags( (string) $post->post_content );
+        preg_match_all( '/[\p{L}\p{N}_-]+/u', $content, $matches );
+
+        $words   = ! empty( $matches[0] ) ? count( $matches[0] ) : 0;
+        $minutes = (int) floor( $words / 120 );
+
+        if ( $minutes < 1 ) {
+            $minutes = 1;
+        }
+
+        if ( 1 === $minutes ) {
+            $label = '1 минута чтения';
+        } elseif ( $minutes >= 2 && $minutes <= 4 ) {
+            $label = $minutes . ' минуты чтения';
+        } else {
+            $label = $minutes . ' минут чтения';
+        }
+
+        return '<span class="drslon-inline-meta drslon-inline-meta--reading-time">' . esc_html( $label ) . '</span>';
+    }
+}
+add_shortcode( 'drslon_reading_time', 'drslon_reading_time_shortcode' );
+
+if ( ! function_exists( 'drslon_post_views_shortcode' ) ) {
+    function drslon_post_views_shortcode(): string {
+        if ( ! is_singular( 'post' ) ) {
+            return '';
+        }
+
+        $post_id = get_the_ID();
+        if ( ! $post_id ) {
+            return '';
+        }
+
+        $count = (int) get_post_meta( $post_id, 'post_views_count', true );
+
+        if ( $count % 10 === 1 && $count % 100 !== 11 ) {
+            $label = 'просмотр';
+        } elseif (
+            $count % 10 >= 2 &&
+            $count % 10 <= 4 &&
+            ! in_array( $count % 100, array( 12, 13, 14 ), true )
+        ) {
+            $label = 'просмотра';
+        } else {
+            $label = 'просмотров';
+        }
+
+        return '<span class="drslon-inline-meta drslon-inline-meta--views">' . esc_html( $count . ' ' . $label ) . '</span>';
+    }
+}
+add_shortcode( 'drslon_post_views', 'drslon_post_views_shortcode' );

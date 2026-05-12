@@ -5052,3 +5052,45 @@ Tags: blog, block-theme, full-site-editing, editor-style, technical
                 display: none !important;
         }
 }
+/* === single meta + extras === */
+.drslon-post-meta .wp-block-shortcode,
+.drslon-single-extras .wp-block-shortcode {
+        margin: 0;
+}
+
+.drslon-inline-meta {
+        display: inline-flex;
+        align-items: center;
+        font-size: 0.75rem;
+        line-height: 1.25;
+        color: var(--wp--preset--color--muted);
+}
+
+.drslon-single-extras .krv-post-extras {
+        clear: both;
+        margin-top: 0 !important;
+}
+
+.drslon-single-extras #telegram-comments {
+        margin-bottom: 20px !important;
+}
+
+.drslon-single-extras .krv-rsya-reco {
+        margin-top: 24px !important;
+}
+.drslon-post-meta .wp-block-shortcode {
+        margin: 0;
+        display: inline-flex;
+        align-items: center;
+}
+
+.drslon-post-meta .wp-block-shortcode p {
+        margin: 0;
+        display: inline-flex;
+        align-items: center;
+}
+
+.drslon-inline-meta--reading-time,
+.drslon-inline-meta--views {
+        white-space: nowrap;
+}
