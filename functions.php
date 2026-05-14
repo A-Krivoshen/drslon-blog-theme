@@ -151,3 +151,25 @@ add_action( 'wp_footer', function () {
 	</script>
 	<?php
 }, 100 );
+/**
+ * Desktop lightbox for images inside post/project content.
+ */
+add_action( 'wp_enqueue_scripts', function () {
+        if ( ! is_singular( array( 'post', 'project', 'arkai-portfolio' ) ) ) {
+                return;
+        }
+
+        $script_path = get_template_directory() . '/assets/js/content-lightbox.js';
+
+        if ( ! file_exists( $script_path ) ) {
+                return;
+        }
+
+        wp_enqueue_script(
+                'drslon-content-lightbox',
+                get_template_directory_uri() . '/assets/js/content-lightbox.js',
+                array(),
+                (string) filemtime( $script_path ),
+                true
+        );
+}, 30 );
