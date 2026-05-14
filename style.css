@@ -5604,3 +5604,184 @@ body:has(.drslon-main-navigation .wp-block-navigation__responsive-container.is-m
         }
 }
 
+/* === prod hotfix: mobile gutters and content width === */
+@media (max-width: 781px) {
+        .wp-site-blocks {
+                overflow-x: hidden;
+        }
+
+        body.single-post main.wp-block-group,
+        body.search main.wp-block-group,
+        body.archive main.wp-block-group,
+        body.category main.wp-block-group,
+        body.error404 main.wp-block-group {
+                padding-left: 12px !important;
+                padding-right: 12px !important;
+                box-sizing: border-box !important;
+        }
+
+        body.single-post .drslon-single-layout,
+        body.search .drslon-blog-layout,
+        body.archive .drslon-archive-layout,
+        body.category .drslon-archive-layout {
+                margin-left: 0 !important;
+                margin-right: 0 !important;
+                gap: 0 !important;
+        }
+
+        body.single-post .drslon-single-layout > .wp-block-column,
+        body.search .drslon-blog-layout > .wp-block-column,
+        body.archive .drslon-archive-layout > .wp-block-column,
+        body.category .drslon-archive-layout > .wp-block-column {
+                min-width: 0 !important;
+                max-width: 100% !important;
+                box-sizing: border-box !important;
+        }
+
+        body.single-post .drslon-single-hero,
+        body.single-post .drslon-single-content-wrap,
+        body.single-post .drslon-single-nav,
+        body.single-post .drslon-single-extras {
+                width: 100% !important;
+                max-width: 100% !important;
+                margin-left: 0 !important;
+                margin-right: 0 !important;
+                box-sizing: border-box !important;
+        }
+
+        body.single-post .drslon-single-hero {
+                padding-left: 14px !important;
+                padding-right: 14px !important;
+        }
+
+        body.single-post .drslon-single-content {
+                width: 100% !important;
+                max-width: 100% !important;
+                box-sizing: border-box !important;
+        }
+
+        body.single-post .drslon-single-content > * {
+                max-width: 100% !important;
+                box-sizing: border-box !important;
+        }
+
+        body.single-post .drslon-single-content > :where(p, h2, h3, h4, ul, ol, blockquote, pre, figure, .wp-block-image, .wp-block-table, .wp-block-html) {
+                margin-left: 0 !important;
+                margin-right: 0 !important;
+        }
+
+        body.single-post .drslon-single-content img,
+        body.single-post .drslon-single-content video,
+        body.single-post .drslon-single-content iframe {
+                max-width: 100% !important;
+                height: auto;
+        }
+
+        body.page .wp-block-post-content {
+                overflow-x: hidden;
+        }
+
+        body.page .wp-block-post-content > .alignwide,
+        body.page .wp-block-post-content > .alignfull {
+                width: 100% !important;
+                max-width: 100% !important;
+                margin-left: 0 !important;
+                margin-right: 0 !important;
+        }
+}
+/* === prod hotfix: mobile legacy pages width === */
+@media (max-width: 781px) {
+        body.page main.wp-block-group {
+                padding-left: 10px !important;
+                padding-right: 10px !important;
+                box-sizing: border-box !important;
+        }
+
+        body.page .is-legacy-page-content {
+                width: 100% !important;
+                max-width: 100% !important;
+                margin-left: 0 !important;
+                margin-right: 0 !important;
+                box-sizing: border-box !important;
+                overflow-x: hidden !important;
+        }
+
+        body.page .is-legacy-page-content > * {
+                max-width: 100% !important;
+                box-sizing: border-box !important;
+        }
+
+        body.page .is-legacy-page-content > .wp-block-group,
+        body.page .is-legacy-page-content > .wp-block-columns,
+        body.page .is-legacy-page-content > .wp-block-cover,
+        body.page .is-legacy-page-content > .alignwide,
+        body.page .is-legacy-page-content > .alignfull {
+                width: 100% !important;
+                max-width: 100% !important;
+                margin-left: 0 !important;
+                margin-right: 0 !important;
+        }
+
+        body.page .is-legacy-page-content .wp-block-group,
+        body.page .is-legacy-page-content .wp-block-column {
+                min-width: 0 !important;
+                box-sizing: border-box !important;
+        }
+
+        body.page .is-legacy-page-content .wp-block-columns {
+                gap: 14px !important;
+        }
+
+        body.page .is-legacy-page-content [style*="padding-left:"] {
+                padding-left: min(18px, 4vw) !important;
+        }
+
+        body.page .is-legacy-page-content [style*="padding-right:"] {
+                padding-right: min(18px, 4vw) !important;
+        }
+
+        body.page .is-legacy-page-content img,
+        body.page .is-legacy-page-content video,
+        body.page .is-legacy-page-content iframe {
+                max-width: 100% !important;
+                height: auto;
+        }
+}
+/* === prod hotfix: mobile legacy page buttons === */
+@media (max-width: 781px) {
+        body.page .is-legacy-page-content .wp-block-buttons,
+        body.page .is-legacy-page-content .wp-block-button,
+        body.page .is-legacy-page-content .wp-block-button__link {
+                max-width: 100% !important;
+                box-sizing: border-box !important;
+        }
+
+        body.page .is-legacy-page-content .wp-block-buttons {
+                width: 100% !important;
+                margin-left: auto !important;
+                margin-right: auto !important;
+        }
+
+        body.page .is-legacy-page-content .wp-block-button {
+                width: 100% !important;
+        }
+
+        body.page .is-legacy-page-content .wp-block-button__link {
+                width: 100% !important;
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                white-space: normal !important;
+                text-align: center !important;
+                padding-left: 14px !important;
+                padding-right: 14px !important;
+        }
+
+        body.page .is-legacy-page-content a[class*="button"],
+        body.page .is-legacy-page-content a[class*="btn"],
+        body.page .is-legacy-page-content button {
+                max-width: 100% !important;
+                box-sizing: border-box !important;
+                white-space: normal !important;
+        }
+}
