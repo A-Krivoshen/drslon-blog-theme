@@ -3893,6 +3893,75 @@ Tags: blog, block-theme, full-site-editing, editor-style, technical
     transform: none !important;
 }
 
+@keyframes drslon-rise-in {
+    from {
+        opacity: 0;
+        transform: translate3d(0, 16px, 0);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+@keyframes drslon-tilt-in {
+    from {
+        opacity: 0;
+        transform: perspective(900px) rotateX(4deg) rotateY(-2deg) translate3d(0, 14px, 0);
+    }
+
+    to {
+        opacity: 1;
+        transform: perspective(900px) rotateX(0) rotateY(0) translate3d(0, 0, 0);
+    }
+}
+
+@media (min-width: 1100px) {
+
+    .drslon-home-sections-wrap .drslon-blog-section-card {
+        animation: drslon-rise-in 0.46s ease-out backwards;
+    }
+
+    .drslon-home-sections-wrap .drslon-blog-sections__grid .drslon-blog-section-card:nth-child(2) {
+        animation-delay: 0.06s;
+    }
+
+    .drslon-home-tiles-wrap .drslon-category-tiles__item {
+        transform-origin: 50% 85%;
+        animation: drslon-tilt-in 0.54s cubic-bezier(0.22, 0.61, 0.36, 1) backwards;
+    }
+
+    .drslon-home-tiles-wrap .drslon-category-tiles__item:nth-child(2) {
+        animation-delay: 0.04s;
+    }
+
+    .drslon-home-tiles-wrap .drslon-category-tiles__item:nth-child(3) {
+        animation-delay: 0.08s;
+    }
+
+    .drslon-home-tiles-wrap .drslon-category-tiles__item:nth-child(4) {
+        animation-delay: 0.12s;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .drslon-home-sections-wrap .drslon-blog-section-card,
+    .drslon-home-tiles-wrap .drslon-category-tiles__item {
+        animation: none !important;
+        transition: none !important;
+    }
+
+    .drslon-home-sections-wrap .drslon-blog-section-card__media img,
+    .drslon-home-sections-wrap .drslon-blog-section-card__body,
+    .drslon-home-tiles-wrap .drslon-category-tiles__media,
+    .drslon-home-tiles-wrap .drslon-category-tiles__media img,
+    .drslon-home-tiles-wrap .drslon-category-tiles__body {
+        animation: none !important;
+        transition: none !important;
+    }
+}
+
 /* --- RESPONSIVE --- */
 @media (max-width: 1099px) {
     .drslon-home-featured-wrap .drslon-featured-slider__controls {
