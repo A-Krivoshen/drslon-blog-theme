@@ -5806,6 +5806,7 @@ body:has(.drslon-main-navigation .wp-block-navigation__responsive-container.is-m
                 align-items: center;
                 justify-content: center;
                 padding: 32px;
+                overflow: auto;
                 background: rgba(10, 18, 32, 0.88);
                 backdrop-filter: blur(8px);
         }
@@ -5840,10 +5841,11 @@ body:has(.drslon-main-navigation .wp-block-navigation__responsive-container.is-m
                 line-height: 1.5;
         }
 
-        .drslon-content-lightbox__close {
+        .drslon-content-lightbox__close,
+        .drslon-content-lightbox__zoom {
                 position: fixed;
                 top: 18px;
-                right: 18px;
+                z-index: 1;
                 display: inline-flex;
                 align-items: center;
                 justify-content: center;
@@ -5854,13 +5856,49 @@ body:has(.drslon-main-navigation .wp-block-navigation__responsive-container.is-m
                 border-radius: 999px;
                 background: rgba(255, 255, 255, 0.12);
                 color: #ffffff;
-                font-size: 30px;
                 line-height: 1;
                 cursor: pointer;
         }
 
+        .drslon-content-lightbox__close {
+                right: 18px;
+                font-size: 30px;
+        }
+
+        .drslon-content-lightbox__zoom {
+                left: 18px;
+                font-size: 24px;
+                font-weight: 700;
+        }
+
+        .drslon-content-lightbox__image {
+                cursor: zoom-in;
+        }
+
+        .drslon-content-lightbox.is-zoomed {
+                align-items: flex-start;
+                justify-content: flex-start;
+        }
+
+        .drslon-content-lightbox.is-zoomed .drslon-content-lightbox__inner {
+                width: fit-content;
+                max-width: none;
+                max-height: none;
+                margin: 0 auto;
+                padding: 64px 24px 32px;
+        }
+
+        .drslon-content-lightbox.is-zoomed .drslon-content-lightbox__image {
+                max-width: none;
+                max-height: none;
+                height: auto;
+                cursor: zoom-out;
+        }
+
         .drslon-content-lightbox__close:hover,
-        .drslon-content-lightbox__close:focus {
+        .drslon-content-lightbox__close:focus,
+        .drslon-content-lightbox__zoom:hover,
+        .drslon-content-lightbox__zoom:focus {
                 background: rgba(255, 255, 255, 0.2);
                 outline: none;
         }
