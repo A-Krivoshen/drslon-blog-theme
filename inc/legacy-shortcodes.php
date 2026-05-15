@@ -167,7 +167,7 @@ function drslon_category_tiles_shortcode(): string {
         $html .= '<span class="drslon-category-tiles__body">';
         $html .= '<span class="drslon-category-tiles__name">' . esc_html( $category->name ) . '</span>';
         $html .= '<span class="drslon-category-tiles__description">' . esc_html( $description ) . '</span>';
-        $html .= '<span class="drslon-category-tiles__count">' . esc_html( number_format_i18n( (int) $category->count ) ) . '</span>';
+        $html .= '<span class="drslon-category-tiles__count">' . sprintf( esc_html__( '%s постов', 'drslon-blog' ), esc_html( number_format_i18n( (int) $category->count ) ) ) . '</span>';
         $html .= '</span>';
         $html .= '</a>';
     }
@@ -281,3 +281,243 @@ add_shortcode( 'drslon_blog_sections', 'drslon_blog_sections_shortcode' );
 
 
 
+if ( ! function_exists( 'drslon_render_adjacent_post_card' ) ) {
+    function drslon_render_adjacent_post_card( $post, string $direction, string $label ): string {
+        if ( ! $post instanceof WP_Post ) {
+            return '';
+        }
+
+        $post_id = (int) $post->ID;
+
+        if ( has_post_thumbnail( $post_id ) ) {
+            $media = get_the_post_thumbnail(
+                $post_id,
+                'medium',
+                array(
+                    'class' => 'drslon-post-nav-card__image',
+                )
+            );
+        } else {
+            $media = '<span class="drslon-post-nav-card__placeholder" aria-hidden="true"></span>';
+        }
+
+        return sprintf(
+            '<a class="drslon-post-nav-card drslon-post-nav-card--%1$s" href="%2$s"><span class="drslon-post-nav-card__media">%3$s</span><span class="drslon-post-nav-card__content"><span class="drslon-post-nav-card__eyebrow">%4$s</span><span class="drslon-post-nav-card__title">%5$s</span></span></a>',
+            esc_attr( $direction ),
+            esc_url( get_permalink( $post_id ) ),
+            $media,
+            esc_html( $label ),
+            esc_html( get_the_title( $post_id ) )
+        );
+    }
+}
+
+if ( ! function_exists( 'drslon_post_nav_cards_shortcode' ) ) {
+    function drslon_post_nav_cards_shortcode(): string {
+        if ( ! is_singular( 'post' ) ) {
+            return '';
+        }
+
+        $previous_post = get_previous_post();
+        $next_post     = get_next_post();
+
+        if ( ! $previous_post && ! $next_post ) {
+            return '';
+        }
+
+        $html  = '<div class="drslon-post-nav-cards">';
+        $html .= drslon_render_adjacent_post_card( $previous_post, 'previous', __( 'Предыдущая запись', 'drslon-blog' ) );
+        $html .= drslon_render_adjacent_post_card( $next_post, 'next', __( 'Следующая запись', 'drslon-blog' ) );
+        $html .= '</div>';
+
+        return $html;
+    }
+}
+add_shortcode( 'drslon_post_nav_cards', 'drslon_post_nav_cards_shortcode' );
+
+if ( ! function_exists( 'drslon_related_posts_shortcode' ) ) {
+    function drslon_related_posts_shortcode( $atts = array() ): string {
+        if ( ! is_singular( 'post' ) ) {
+            return '';
+        }
+
+        $current_post_id = (int) get_queried_object_id();
+
+        if ( ! $current_post_id ) {
+            return '';
+        }
+
+        $atts = shortcode_atts(
+            array(
+                'posts_per_page' => 3,
+            ),
+            $atts,
+            'drslon_related_posts'
+        );
+
+        $posts_per_page = max( 1, min( 6, (int) $atts['posts_per_page'] ) );
+        $category_ids   = wp_get_post_categories( $current_post_id, array( 'fields' => 'ids' ) );
+
+        $args = array(
+            'post_type'           => 'post',
+            'post_status'         => 'publish',
+            'posts_per_page'      => $posts_per_page,
+            'post__not_in'        => array( $current_post_id ),
+            'ignore_sticky_posts' => true,
+            'no_found_rows'       => true,
+        );
+
+        if ( ! empty( $category_ids ) ) {
+            $args['category__in'] = $category_ids;
+        }
+
+        $related_query = new WP_Query( $args );
+
+        if ( ! $related_query->have_posts() && ! empty( $category_ids ) ) {
+            unset( $args['category__in'] );
+            $related_query = new WP_Query( $args );
+        }
+
+        if ( ! $related_query->have_posts() ) {
+            return '';
+        }
+
+        $html = '<div class="drslon-related-posts"><div class="drslon-related-posts__grid">';
+
+        while ( $related_query->have_posts() ) {
+            $related_query->the_post();
+
+            $post_id   = get_the_ID();
+            $terms     = get_the_category( $post_id );
+            $term      = ! empty( $terms ) && $terms[0] instanceof WP_Term ? $terms[0]->name : '';
+            $excerpt   = wp_trim_words( wp_strip_all_tags( get_the_excerpt( $post_id ) ), 20, '…' );
+            $permalink = get_permalink( $post_id );
+            $title     = get_the_title( $post_id );
+            $date      = get_the_date( '', $post_id );
+
+            if ( has_post_thumbnail( $post_id ) ) {
+                $media = get_the_post_thumbnail(
+                    $post_id,
+                    'medium_large',
+                    array(
+                        'class' => 'drslon-related-post__image',
+                    )
+                );
+            } else {
+                $media = '<span class="drslon-related-post__placeholder" aria-hidden="true"></span>';
+            }
+
+            $meta = esc_html( $date );
+            if ( '' !== $term ) {
+                $meta .= '<span class="drslon-related-post__dot">·</span>' . esc_html( $term );
+            }
+
+            $html .= '<article class="drslon-related-post">';
+            $html .= '<a class="drslon-related-post__media" href="' . esc_url( $permalink ) . '">' . $media . '</a>';
+            $html .= '<div class="drslon-related-post__content">';
+            $html .= '<p class="drslon-related-post__meta">' . $meta . '</p>';
+            $html .= '<h3 class="drslon-related-post__title"><a href="' . esc_url( $permalink ) . '">' . esc_html( $title ) . '</a></h3>';
+
+            if ( '' !== $excerpt ) {
+                $html .= '<p class="drslon-related-post__excerpt">' . esc_html( $excerpt ) . '</p>';
+            }
+
+            $html .= '<p class="drslon-related-post__footer"><a class="drslon-related-post__link" href="' . esc_url( $permalink ) . '">' . esc_html__( 'Открыть', 'drslon-blog' ) . '</a></p>';
+            $html .= '</div>';
+            $html .= '</article>';
+        }
+
+        wp_reset_postdata();
+
+        $html .= '</div></div>';
+
+        return $html;
+    }
+}
+add_shortcode( 'drslon_related_posts', 'drslon_related_posts_shortcode' );
+
+if ( ! function_exists( 'drslon_post_extras_shortcode' ) ) {
+    function drslon_post_extras_shortcode(): string {
+        if ( ! is_singular( 'post' ) ) {
+            return '';
+        }
+
+        if ( ! function_exists( 'krv_render_post_extras' ) ) {
+            return '';
+        }
+
+        ob_start();
+        krv_render_post_extras();
+
+        return (string) ob_get_clean();
+    }
+}
+add_shortcode( 'drslon_post_extras', 'drslon_post_extras_shortcode' );
+
+if ( ! function_exists( 'drslon_reading_time_shortcode' ) ) {
+    function drslon_reading_time_shortcode(): string {
+        if ( ! is_singular( 'post' ) ) {
+            return '';
+        }
+
+        $post = get_post();
+        if ( ! $post instanceof WP_Post ) {
+            return '';
+        }
+
+        $content = wp_strip_all_tags( (string) $post->post_content );
+        preg_match_all( '/[\p{L}\p{N}_-]+/u', $content, $matches );
+
+        $words   = ! empty( $matches[0] ) ? count( $matches[0] ) : 0;
+        $minutes = (int) floor( $words / 120 );
+
+        if ( $minutes < 1 ) {
+            $minutes = 1;
+        }
+
+        if ( 1 === $minutes ) {
+            $label = '1 минута чтения';
+        } elseif ( $minutes >= 2 && $minutes <= 4 ) {
+            $label = $minutes . ' минуты чтения';
+        } else {
+            $label = $minutes . ' минут чтения';
+        }
+
+        return '<span class="drslon-inline-meta drslon-inline-meta--reading-time">' . esc_html( $label ) . '</span>';
+    }
+}
+add_shortcode( 'drslon_reading_time', 'drslon_reading_time_shortcode' );
+
+if ( ! function_exists( 'drslon_post_views_shortcode' ) ) {
+    function drslon_post_views_shortcode(): string {
+        if ( ! is_singular( 'post' ) ) {
+            return '';
+        }
+
+        $post_id = get_the_ID();
+        if ( ! $post_id ) {
+            return '';
+        }
+
+        $count = (int) get_post_meta( $post_id, 'arkai_post_views', true );
+
+        if ( 0 === $count ) {
+            $count = (int) get_post_meta( $post_id, 'post_views_count', true );
+        }
+
+        if ( $count % 10 === 1 && $count % 100 !== 11 ) {
+            $label = 'просмотр';
+        } elseif (
+            $count % 10 >= 2 &&
+            $count % 10 <= 4 &&
+            ! in_array( $count % 100, array( 12, 13, 14 ), true )
+        ) {
+            $label = 'просмотра';
+        } else {
+            $label = 'просмотров';
+        }
+
+        return '<span class="drslon-inline-meta drslon-inline-meta--views">' . esc_html( $count . ' ' . $label ) . '</span>';
+    }
+}
+add_shortcode( 'drslon_post_views', 'drslon_post_views_shortcode' );

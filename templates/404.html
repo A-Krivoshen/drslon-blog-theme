@@ -1,28 +1,36 @@
 <!-- wp:template-part {"slug":"header","tagName":"header"} /-->
 
-<!-- wp:group {"tagName":"main","layout":{"type":"constrained"},"style":{"spacing":{"padding":{"top":"48px","bottom":"56px"}}}} -->
-<main class="wp-block-group" style="padding-top:48px;padding-bottom:56px">
-	<!-- wp:group {"style":{"spacing":{"blockGap":"16px","padding":{"top":"30px","right":"28px","bottom":"30px","left":"28px"}},"border":{"width":"1px","color":"var:preset|color|border","radius":"14px"}},"layout":{"type":"constrained"}} -->
-	<div class="wp-block-group" style="border-color:var(--wp--preset--color--border);border-width:1px;border-radius:14px;padding-top:30px;padding-right:28px;padding-bottom:30px;padding-left:28px">
-		<!-- wp:heading {"level":1} -->
-		<h1>Страница не найдена</h1>
-		<!-- /wp:heading -->
+<!-- wp:group {"tagName":"main","className":"drslon-404-shell","layout":{"type":"constrained","contentSize":"760px"},"style":{"spacing":{"padding":{"top":"72px","bottom":"72px"}}}} -->
+<main class="wp-block-group drslon-404-shell" style="padding-top:72px;padding-bottom:72px">
 
-		<!-- wp:paragraph {"textColor":"muted"} -->
-		<p class="has-muted-color has-text-color">Похоже, адрес устарел или был введён с ошибкой. Попробуйте поиск по блогу или перейдите к свежим публикациям.</p>
-		<!-- /wp:paragraph -->
+    <!-- wp:group {"className":"drslon-404-card","layout":{"type":"constrained"},"style":{"spacing":{"padding":{"top":"34px","right":"28px","bottom":"34px","left":"28px"},"blockGap":"16px"},"border":{"radius":"16px","width":"1px","color":"var:preset|color|border"},"color":{"background":"var:preset|color|surface"}}} -->
+    <div class="wp-block-group drslon-404-card has-background" style="border-color:var(--wp--preset--color--border);border-width:1px;border-radius:16px;background-color:var(--wp--preset--color--surface);padding-top:34px;padding-right:28px;padding-bottom:34px;padding-left:28px">
 
-		<!-- wp:search {"label":"Поиск","showLabel":false,"buttonText":"Искать","buttonUseIcon":true} /-->
+	<!-- wp:heading {"level":1,"textAlign":"center","className":"drslon-404-title"} -->
+	<h1 class="wp-block-heading has-text-align-center drslon-404-title">404 — Страница не найдена</h1>
+	<!-- /wp:heading -->
 
-		<!-- wp:buttons -->
-		<div class="wp-block-buttons">
-			<!-- wp:button -->
-			<div class="wp-block-button"><a class="wp-block-button__link wp-element-button" href="/">На главную</a></div>
-			<!-- /wp:button -->
-		</div>
-		<!-- /wp:buttons -->
+	<!-- wp:paragraph {"align":"center","textColor":"muted","fontSize":"md"} -->
+	<p class="has-text-align-center has-muted-color has-text-color has-md-font-size">Такого адреса на сайте нет. Возможно, ссылка устарела или в URL закралась опечатка.</p>
+	<!-- /wp:paragraph -->
+
+	<!-- wp:buttons {"layout":{"type":"flex","justifyContent":"center","flexWrap":"wrap"}} -->
+	<div class="wp-block-buttons">
+	    <!-- wp:button -->
+	    <div class="wp-block-button"><a class="wp-block-button__link wp-element-button" href="/">Перейти на главную</a></div>
+	    <!-- /wp:button -->
+
+	    <!-- wp:button {"className":"is-style-outline"} -->
+	    <div class="wp-block-button is-style-outline"><a class="wp-block-button__link wp-element-button" href="/blog/">Открыть блог</a></div>
+	    <!-- /wp:button -->
 	</div>
-	<!-- /wp:group -->
+	<!-- /wp:buttons -->
+
+	<!-- wp:search {"label":"Поиск по сайту","showLabel":false,"placeholder":"Поиск по сайту…","width":100,"widthUnit":"%","buttonText":"Найти","className":"drslon-404-search"} /-->
+
+    </div>
+    <!-- /wp:group -->
+
 </main>
 <!-- /wp:group -->
 
