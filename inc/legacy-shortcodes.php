@@ -499,7 +499,11 @@ if ( ! function_exists( 'drslon_post_views_shortcode' ) ) {
             return '';
         }
 
-        $count = (int) get_post_meta( $post_id, 'post_views_count', true );
+        $count = (int) get_post_meta( $post_id, 'arkai_post_views', true );
+
+        if ( 0 === $count ) {
+            $count = (int) get_post_meta( $post_id, 'post_views_count', true );
+        }
 
         if ( $count % 10 === 1 && $count % 100 !== 11 ) {
             $label = 'просмотр';
