@@ -13,6 +13,22 @@ Text Domain: drslon-blog
 Tags: blog, block-theme, full-site-editing, editor-style, technical
 */
 
+/*
+Style.css TOC (high-level)
+
+See detailed map: docs/style-css-map.md
+
+- header
+- sidebar
+- blog home
+- featured slider
+- archive cards
+- single
+- mobile/prod hotfixes
+- legacy pages
+- lightbox
+*/
+
 /* Blog home/list helpers */
 .drslon-site-header {
 	position: relative;
