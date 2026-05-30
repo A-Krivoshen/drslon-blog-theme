@@ -5,6 +5,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 require_once get_template_directory() . '/inc/legacy-compat.php';
 require_once get_template_directory() . '/inc/legacy-shortcodes.php';
+require_once get_template_directory() . '/inc/admin-sticky.php';
 
 /* =============================================
    Настройка количества постов на страницах рубрик
