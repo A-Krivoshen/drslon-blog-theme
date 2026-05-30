@@ -115,11 +115,8 @@ add_action( 'manage_post_posts_custom_column', function ( string $column, int $p
 		return;
 	}
 
-	$status   = (string) get_post_status( $post_id );
+	$status    = (string) get_post_status( $post_id );
 	$is_sticky = is_sticky( $post_id );
-
-	// Data hook for Quick Edit JS.
-	echo '<span class="drslon-sticky-flag" data-sticky="' . esc_attr( $is_sticky ? '1' : '0' ) . '" data-status="' . esc_attr( $status ) . '"></span>';
 
 	if ( 'publish' !== $status ) {
 		echo '<span aria-hidden="true">—</span>';
@@ -128,74 +125,3 @@ add_action( 'manage_post_posts_custom_column', function ( string $column, int $p
 
 	echo $is_sticky ? esc_html__( 'Yes', 'drslon-blog' ) : esc_html__( 'No', 'drslon-blog' );
 }, 10, 2 );
-
-/**
- * Quick Edit: sticky checkbox.
- */
-add_action( 'quick_edit_custom_box', function ( string $column_name, string $post_type ): void {
-	if ( 'post' !== $post_type ) {
-		return;
-	}
-
-	if ( 'drslon_sticky' !== $column_name ) {
-		return;
-	}
-
-	wp_nonce_field( 'drslon_sticky_post_save', 'drslon_sticky_post_nonce' );
-	?>
-	<fieldset class="inline-edit-col-right">
-		<div class="inline-edit-col">
-			<label class="alignleft">
-				<input type="checkbox" name="drslon_sticky_enabled" value="1" />
-				<span class="checkbox-title"><?php esc_html_e( 'Закрепить', 'drslon-blog' ); ?></span>
-			</label>
-			<p class="description drslon-sticky-help" style="display:none; margin: 6px 0 0;">
-				<?php esc_html_e( 'Закрепление доступно только для опубликованных записей.', 'drslon-blog' ); ?>
-			</p>
-		</div>
-	</fieldset>
-	<?php
-}, 10, 2 );
-
-/**
- * Admin JS: populate and disable Quick Edit checkbox based on row state.
- */
-add_action( 'admin_enqueue_scripts', function ( string $hook_suffix ): void {
-	if ( 'edit.php' !== $hook_suffix ) {
-		return;
-	}
-
-	$screen = function_exists( 'get_current_screen' ) ? get_current_screen() : null;
-	if ( ! $screen || 'post' !== ( $screen->post_type ?? '' ) ) {
-		return;
-	}
-
-	wp_add_inline_script(
-		'jquery',
-		"(function($){\n" .
-		"\tif (typeof inlineEditPost === 'undefined' || !inlineEditPost.edit) { return; }\n" .
-		"\tvar _edit = inlineEditPost.edit;\n" .
-		"\tinlineEditPost.edit = function(id){\n" .
-		"\t\t_edit.apply(this, arguments);\n" .
-		"\t\tvar postId = 0;\n" .
-		"\t\tif (typeof(id) === 'object') { postId = parseInt(this.getId(id), 10); }\n" .
-		"\t\tif (!postId) { return; }\n" .
-		"\t\tvar $row = $('#post-' + postId);\n" .
-		"\t\tvar $flag = $row.find('.drslon-sticky-flag').first();\n" .
-		"\t\tvar sticky = String($flag.data('sticky') || '0') === '1';\n" .
-		"\t\tvar status = String($flag.data('status') || '');\n" .
-		"\t\tvar $editRow = $('#edit-' + postId);\n" .
-		"\t\tvar $cb = $editRow.find('input[name=\"drslon_sticky_enabled\"]');\n" .
-		"\t\tif (!$cb.length) { return; }\n" .
-		"\t\t$cb.prop('checked', sticky);\n" .
-		"\t\tif (status !== 'publish') {\n" .
-		"\t\t\t$cb.prop('disabled', true);\n" .
-		"\t\t\t$editRow.find('.drslon-sticky-help').show();\n" .
-		"\t\t} else {\n" .
-		"\t\t\t$cb.prop('disabled', false);\n" .
-		"\t\t\t$editRow.find('.drslon-sticky-help').hide();\n" .
-		"\t\t}\n" .
-		"\t};\n" .
-		"})(jQuery);\n"
-	);
-} );
