@@ -5776,6 +5776,13 @@ body:has(.drslon-main-navigation .wp-block-navigation__responsive-container.is-m
                 height: auto;
         }
 
+        body.single-project .drslon-single-content,
+        body.single-project .entry-content,
+        body.single-project .wp-block-post-content {
+                padding-left: 16px !important;
+                padding-right: 16px !important;
+        }
+
         body.page .wp-block-post-content {
                 overflow-x: hidden;
         }
