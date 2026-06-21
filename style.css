@@ -5776,11 +5776,14 @@ body:has(.drslon-main-navigation .wp-block-navigation__responsive-container.is-m
                 height: auto;
         }
 
+        body.single-post .drslon-single-content,
         body.single-project .drslon-single-content,
+        body.single-post .entry-content,
         body.single-project .entry-content,
+        body.single-post .wp-block-post-content,
         body.single-project .wp-block-post-content {
-                padding-left: 16px !important;
-                padding-right: 16px !important;
+                padding-left: 12px !important;
+                padding-right: 12px !important;
         }
 
         body.page .wp-block-post-content {
