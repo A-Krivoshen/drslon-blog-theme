@@ -84,11 +84,13 @@ function drslon_category_columns_body_class( $classes ) {
  * Enqueue theme stylesheet.
  */
 add_action( 'wp_enqueue_scripts', function () {
+	$style_path = get_stylesheet_directory() . '/style.css';
+
 	wp_enqueue_style(
 		'drslon-blog-theme-style',
 		get_stylesheet_uri(),
 		array(),
-		wp_get_theme()->get( 'Version' )
+		file_exists( $style_path ) ? (string) filemtime( $style_path ) : wp_get_theme()->get( 'Version' )
 	);
 }, 20 );
 
