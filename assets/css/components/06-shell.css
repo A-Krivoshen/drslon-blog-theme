@@ -14,64 +14,13 @@
 
 @media (max-width: 781px) {
         .drslon-site-header {
-                padding-top: 14px !important;
-                padding-bottom: 14px !important;
-        }
-
-        .drslon-site-header__inner {
-                display: flex !important;
-                flex-wrap: wrap !important;
-                justify-content: center !important;
-                align-items: center !important;
-                gap: 12px 16px !important;
-        }
-
-        .drslon-site-branding {
-                order: 1;
-                flex: 0 0 100% !important;
-                min-width: 0 !important;
-                justify-content: center !important;
-                text-align: center;
-                gap: 10px;
-        }
-
-        .drslon-site-branding .custom-logo,
-        .drslon-site-branding .custom-logo img {
-                max-height: 48px;
-                width: auto;
-        }
-
-        .drslon-site-branding .wp-block-site-title {
-                max-width: 280px;
-                font-size: 1rem !important;
-                line-height: 1.18 !important;
-                text-align: center;
-        }
-
-        .drslon-header-utility {
-                order: 2;
-                flex: 0 1 auto !important;
-                justify-content: center !important;
-                margin: 0 !important;
-        }
-
-        .drslon-site-header .drslon-header-social {
-                justify-content: center !important;
-                margin: 0 !important;
+                padding-top: 12px !important;
+                padding-bottom: 12px !important;
         }
 
         .drslon-site-header .drslon-header-social .wp-social-link {
                 width: 34px;
                 height: 34px;
-        }
-
-        .drslon-main-navigation {
-                order: 3;
-                flex: 0 0 auto !important;
-                flex-basis: auto !important;
-                width: auto !important;
-                justify-content: center !important;
-                margin: 0 !important;
         }
 
         .drslon-main-navigation .wp-block-navigation__responsive-container-open {
