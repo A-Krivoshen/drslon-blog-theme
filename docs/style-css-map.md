@@ -1,6 +1,26 @@
 # Style.css Map (DrSlon Blog Theme)
 
-Источник: audit-only разбор `style.css` (5974 строки). Документ помогает быстро находить зоны ответственности и места повышенного риска.
+> **v0.3.0:** стили разбиты на `assets/css/components/*.css`.  
+> `style.css` — только заголовок темы для WordPress.  
+> Ниже — исторический индекс монолита (номера строк до split).
+
+## Файлы компонентов (актуально)
+
+| Файл | Содержимое |
+|------|------------|
+| `01-base.css` | Header base, featured-post, layout grids, sidebar base |
+| `02-archive.css` | Archive cards, category columns, archive polish |
+| `03-blog-home.css` | Featured slider, category tiles, home editorial waves |
+| `04-blog-sections.css` | Blog sections, tiles hotfixes, slider overlay, animations |
+| `05-single.css` | Post nav cards, related posts |
+| `06-shell.css` | Header/footer mobile, 404, legacy pages, lightbox |
+| `07-header-sticky.css` | Fixed/sticky header, plugin-page shell, sprint A/B |
+
+---
+
+## Архив: индекс монолита (до v0.3.0)
+
+Источник: audit-only разбор `style.css` (~6300 строк). Документ помогает быстро находить зоны ответственности и места повышенного риска.
 
 ## Индекс секций (диапазоны строк)
 

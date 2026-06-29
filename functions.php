@@ -82,17 +82,44 @@ function drslon_category_columns_body_class( $classes ) {
 }
 
 /**
- * Enqueue theme stylesheet.
+ * Enqueue theme stylesheet shell + CSS components.
  */
 add_action( 'wp_enqueue_scripts', function () {
-	$style_path = get_stylesheet_directory() . '/style.css';
+	$theme_dir  = get_template_directory();
+	$theme_uri  = get_template_directory_uri();
+	$style_path = $theme_dir . '/style.css';
+	$version    = file_exists( $style_path ) ? (string) filemtime( $style_path ) : wp_get_theme()->get( 'Version' );
 
-	wp_enqueue_style(
-		'drslon-blog-theme-style',
-		get_stylesheet_uri(),
-		array(),
-		file_exists( $style_path ) ? (string) filemtime( $style_path ) : wp_get_theme()->get( 'Version' )
+	wp_enqueue_style( 'drslon-blog-theme-style', get_stylesheet_uri(), array(), $version );
+
+	$components = array(
+		'drslon-css-base'          => 'assets/css/components/01-base.css',
+		'drslon-css-archive'       => 'assets/css/components/02-archive.css',
+		'drslon-css-blog-home'     => 'assets/css/components/03-blog-home.css',
+		'drslon-css-blog-sections' => 'assets/css/components/04-blog-sections.css',
+		'drslon-css-single'        => 'assets/css/components/05-single.css',
+		'drslon-css-shell'         => 'assets/css/components/06-shell.css',
+		'drslon-css-header-sticky' => 'assets/css/components/07-header-sticky.css',
 	);
+
+	$prev = 'drslon-blog-theme-style';
+
+	foreach ( $components as $handle => $relative_path ) {
+		$path = $theme_dir . '/' . $relative_path;
+
+		if ( ! file_exists( $path ) ) {
+			continue;
+		}
+
+		wp_enqueue_style(
+			$handle,
+			$theme_uri . '/' . $relative_path,
+			array( $prev ),
+			(string) filemtime( $path )
+		);
+
+		$prev = $handle;
+	}
 }, 20 );
 
 /**
