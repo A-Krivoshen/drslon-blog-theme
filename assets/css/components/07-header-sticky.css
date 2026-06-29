@@ -267,6 +267,16 @@
 	.drslon-header-utility {
 		margin-left: 0.75rem;
 	}
+
+	.drslon-header-utility > p:has(.drslon-header-max) {
+		margin: 0 0 0 -8px !important;
+		display: flex;
+		align-items: center;
+	}
+
+	.drslon-header-utility > .drslon-header-max {
+		margin-left: -8px;
+	}
 }
 
 @media (max-width: 1099px) {
