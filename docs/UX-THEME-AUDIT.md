@@ -1,10 +1,10 @@
 # UX/UI аудит темы `drslon-blog-theme`
 
-> Июнь 2026. Статус спринтов A–C.
+> Июнь 2026. Статус спринтов A–D.
 
 ## Вердикт
 
-Тема сильна как **технический блог** (7.5/10), слабее как оболочка **коммерческого hub** (5/10 до спринтов). После A–C — **~8/10** для смешанного сайта (услуги + блог).
+Тема сильна как **технический блог** (7.5/10), слабее как оболочка **коммерческого hub** (5/10 до спринтов). После A–D — **~8.5/10** для смешанного сайта (услуги + блог).
 
 ## Спринты (выполнено)
 
@@ -13,6 +13,8 @@
 | **A** | 0.2.1 | Accent `#5181fe`, CTA «Прайс», MAX, `/servisy/`, `drslon-plugin-page` |
 | **B** | 0.2.2 | IA «Услуги», lean mobile header, компактный footer, `prefers-reduced-motion` |
 | **C** | 0.3.0 | CSS → 7 components, blog shortcodes → плагин, эта документация |
+| **D** | 0.3.2–0.3.3 | Footer icon chips; header MAX icon; Telegram channel vs DM labels; focus-visible; CSS cleanup `01-base`; slider reduced-motion |
+| **D+** | 0.3.3 | Спринт D code-review fixes: parity header/footer MAX, a11y, `filemtime` в плагине |
 
 ## Остаётся (не срочно)
 
@@ -38,7 +40,7 @@ assets/css/components/
 
 ## Шорткоды блога (в плагине)
 
-Реализация: `drslon-site-core/includes/shortcodes/blog-shortcodes.php`
+Реализация: `drslon-site-core-main/includes/shortcodes/blog-shortcodes.php`
 
 | Шорткод | Назначение |
 |---------|------------|

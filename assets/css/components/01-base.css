@@ -57,31 +57,6 @@
 	align-items: center;
 }
 
-.drslon-header-langs {
-	margin: 0;
-	white-space: nowrap;
-	font-size: 0.81rem;
-	letter-spacing: 0.02em;
-}
-
-.drslon-header-langs a {
-	text-decoration: none;
-}
-
-.drslon-header-search {
-	width: 220px;
-	min-width: 200px;
-}
-
-.drslon-header-search .wp-block-search__input {
-	height: 40px;
-	font-size: 0.92rem;
-}
-
-.drslon-header-search .wp-block-search__button {
-	min-width: 40px;
-}
-
 .drslon-featured-post {
 	background: var(--wp--preset--color--surface);
 	border: 1px solid var(--wp--preset--color--border);
@@ -358,75 +333,6 @@
 .drslon-list-sidebar-disabled .drslon-blog-layout > .wp-block-column:first-child,
 .drslon-list-sidebar-disabled .drslon-single-layout > .wp-block-column:first-child {
 	flex-basis: 100% !important;
-}
-
-/* === STRONG STICKY SIDEBAR FIX (flex override) === */
-@media (min-width: 1100px) {
-	.drslon-site-header__inner {
-		flex-wrap: nowrap !important;
-		column-gap: 1.5rem;
-	}
-
-	.drslon-header-utility {
-		margin-left: 0.75rem;
-	}
-
-	.drslon-blog-layout,
-	.drslon-single-layout {
-		display: flex !important;
-		align-items: flex-start;
-		gap: 40px;
-	}
-
-	.drslon-blog-layout > .wp-block-column:last-child,
-	.drslon-single-layout > .wp-block-column:last-child {
-        position: static !important;
-		top: 105px;
-		align-self: flex-start;
-		height: fit-content;
-		flex: 0 0 360px;
-	}
-}
-
-/* === ULTIMATE STICKY SIDEBAR FIX (перебивает grid) === */
-@media (min-width: 1100px) {
-	.drslon-blog-layout,
-	.drslon-single-layout {
-		display: flex !important;
-		flex-wrap: nowrap !important;
-		align-items: flex-start !important;
-		gap: 40px !important;
-	}
-
-	.drslon-blog-layout > .wp-block-column:last-child,
-	.drslon-single-layout > .wp-block-column:last-child {
-        position: static !important;
-		top: 120px !important;
-		align-self: flex-start !important;
-		height: fit-content !important;
-		flex: 0 0 360px !important;
-	}
-}
-
-/* === FINAL STICKY SIDEBAR (на основе старой Arkai) === */
-@media (min-width: 1100px) {
-	.drslon-blog-layout,
-	.drslon-single-layout {
-		display: flex !important;
-		flex-wrap: nowrap !important;
-		align-items: flex-start !important;
-		gap: 40px !important;
-	}
-
-	.drslon-blog-layout > .wp-block-column:last-child,
-	.drslon-single-layout > .wp-block-column:last-child {
-        position: static !important;
-		top: 110px !important;
-		align-self: flex-start !important;
-		height: fit-content !important;
-		flex: 0 0 360px !important;
-		z-index: 10;
-	}
 }
 
 /* Дополнительно убираем конфликты Gutenberg */

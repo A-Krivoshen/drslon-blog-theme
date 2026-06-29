@@ -8,6 +8,35 @@ require_once get_template_directory() . '/inc/legacy-shortcodes.php';
 require_once get_template_directory() . '/inc/admin-sticky.php';
 require_once get_template_directory() . '/inc/plugin-page-shell.php';
 
+/**
+ * Header Telegram social link: channel (subscribe), not personal DM.
+ */
+add_filter( 'render_block', 'drslon_header_telegram_channel_a11y', 10, 2 );
+function drslon_header_telegram_channel_a11y( $block_content, $block ) {
+	if ( empty( $block['blockName'] ) || 'core/social-link' !== $block['blockName'] ) {
+		return $block_content;
+	}
+
+	if ( empty( $block['attrs']['service'] ) || 'telegram' !== $block['attrs']['service'] ) {
+		return $block_content;
+	}
+
+	if ( false === strpos( $block_content, 'drslon_channel' ) ) {
+		return $block_content;
+	}
+
+	if ( false !== strpos( $block_content, 'aria-label=' ) ) {
+		return $block_content;
+	}
+
+	return preg_replace(
+		'/<a\s+/',
+		'<a aria-label="Telegram-канал" title="Telegram-канал" ',
+		$block_content,
+		1
+	);
+}
+
 /* =============================================
    Настройка количества постов на страницах рубрик
    ============================================= */
@@ -181,9 +210,11 @@ add_action( 'wp_footer', function () {
 				nextLeft = 0;
 			}
 
+			const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
 			viewport.scrollTo({
 				left: nextLeft,
-				behavior: 'smooth'
+				behavior: reduceMotion ? 'auto' : 'smooth'
 			});
 		}
 
