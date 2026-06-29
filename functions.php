@@ -94,6 +94,24 @@ add_action( 'wp_enqueue_scripts', function () {
 	);
 }, 20 );
 
+/**
+ * Desktop sticky header with compact-on-scroll behavior.
+ */
+add_action( 'wp_enqueue_scripts', function () {
+	$script_path = get_template_directory() . '/assets/js/sticky-header.js';
+
+	if ( ! file_exists( $script_path ) ) {
+		return;
+	}
+
+	wp_enqueue_script(
+		'drslon-sticky-header',
+		get_template_directory_uri() . '/assets/js/sticky-header.js',
+		array(),
+		(string) filemtime( $script_path ),
+		true
+	);
+}, 25 );
 
 /**
  * Blog featured slider controls.
