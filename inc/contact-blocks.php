@@ -32,6 +32,55 @@ function drslon_header_max_shortcode(): string {
 add_shortcode( 'drslon_header_max', 'drslon_header_max_shortcode' );
 
 /**
+ * Telegram + MAX row for the bottom of the mobile navigation drawer.
+ */
+function drslon_mobile_menu_contacts_markup(): string {
+	$telegram_icon = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M21.543 2.498a1.53 1.53 0 0 0-1.58-.26L3.55 8.617a1.54 1.54 0 0 0 .08 2.893l4.11 1.353 1.59 5.01a1.54 1.54 0 0 0 2.52.66l2.29-2.21 3.78 2.78a1.54 1.54 0 0 0 2.42-.9L21.98 4.01a1.53 1.53 0 0 0-.437-1.512ZM9.33 11.97l8.09-4.98-6.7 6.46-.26 2.76-1.13-4.24Z"/></svg>';
+
+	return sprintf(
+		'<div class="drslon-mobile-menu-contacts" role="group" aria-label="%1$s"><p class="drslon-mobile-menu-contacts__label">%2$s</p><div class="drslon-mobile-menu-contacts__row"><a class="drslon-mobile-menu-contacts__btn drslon-mobile-menu-contacts__btn--telegram" href="%3$s" target="_blank" rel="noopener noreferrer" aria-label="%4$s" title="%4$s">%5$s<span>Telegram</span></a><a class="drslon-mobile-menu-contacts__btn drslon-mobile-menu-contacts__btn--max" href="%6$s" aria-label="%7$s" title="MAX">%8$s<span>MAX</span></a></div></div>',
+		esc_attr__( 'Контакты', 'drslon-blog' ),
+		esc_html__( 'Связаться', 'drslon-blog' ),
+		esc_url( 'https://t.me/drslon_channel' ),
+		esc_attr__( 'Telegram-канал', 'drslon-blog' ),
+		$telegram_icon,
+		esc_url( home_url( '/max' ) ),
+		esc_attr__( 'MAX — написать в мессенджере', 'drslon-blog' ),
+		drslon_max_icon_markup()
+	);
+}
+
+/**
+ * Append contact chips to the mobile navigation overlay.
+ */
+add_filter( 'render_block', 'drslon_navigation_append_mobile_contacts', 12, 2 );
+function drslon_navigation_append_mobile_contacts( string $block_content, array $block ): string {
+	if ( empty( $block['blockName'] ) || 'core/navigation' !== $block['blockName'] ) {
+		return $block_content;
+	}
+
+	$class_name = (string) ( $block['attrs']['className'] ?? '' );
+	if ( strpos( $class_name, 'drslon-main-navigation' ) === false && strpos( $block_content, 'drslon-main-navigation' ) === false ) {
+		return $block_content;
+	}
+
+	if ( strpos( $block_content, 'drslon-mobile-menu-contacts' ) !== false ) {
+		return $block_content;
+	}
+
+	$contacts = drslon_mobile_menu_contacts_markup();
+	$updated  = preg_replace(
+		'#(class="wp-block-navigation__responsive-container-content"[^>]*>\s*<ul[^>]*wp-block-navigation__container[^>]*>.*?</ul>)#s',
+		'$1' . $contacts,
+		$block_content,
+		1,
+		$count
+	);
+
+	return $count ? $updated : $block_content;
+}
+
+/**
  * Footer connect row shortcode.
  */
 function drslon_footer_connect_shortcode(): string {

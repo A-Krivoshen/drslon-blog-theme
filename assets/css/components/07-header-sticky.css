@@ -358,22 +358,18 @@ body.drslon-plugin-page .is-legacy-front-page-content > [class^="krv-"] {
 	margin-right: auto;
 }
 
-/* === Mobile header: compact 2-row toolbar === */
+/* === Mobile header: brand left, burger right (thumb zone) === */
 @media (max-width: 781px) {
 	.drslon-site-header__inner {
-		display: grid !important;
-		grid-template-columns: auto 1fr auto auto;
-		grid-template-areas:
-			"brand brand brand brand"
-			"menu spacer social max";
-		align-items: center;
-		column-gap: 10px;
-		row-gap: 10px;
+		display: flex !important;
+		flex-wrap: nowrap !important;
+		align-items: center !important;
+		justify-content: space-between !important;
+		gap: 10px !important;
 	}
 
 	.drslon-site-branding {
-		grid-area: brand;
-		flex: unset !important;
+		flex: 1 1 auto !important;
 		width: auto !important;
 		min-width: 0 !important;
 		justify-content: flex-start !important;
@@ -407,54 +403,20 @@ body.drslon-plugin-page .is-legacy-front-page-content > [class^="krv-"] {
 	}
 
 	.drslon-header-utility {
-		display: contents;
+		display: flex !important;
+		flex: 0 0 auto !important;
+		align-items: center !important;
+		justify-content: flex-end !important;
+		margin: 0 !important;
 	}
 
-	.drslon-header-search {
+	.drslon-header-utility > :not(.drslon-main-navigation) {
 		display: none !important;
 	}
 
 	.drslon-main-navigation {
-		grid-area: menu;
 		width: auto !important;
 		margin: 0 !important;
-	}
-
-	.drslon-header-cta {
-		display: none !important;
-	}
-
-	.drslon-header-social {
-		grid-area: social;
-		justify-self: end;
-		margin: 0 !important;
-	}
-
-	.drslon-header-utility > p:has(.drslon-header-max),
-	.drslon-header-utility > p:has(.krv-max-social-chip) {
-		grid-area: max;
-		justify-self: end;
-		display: block;
-		margin: 0 !important;
-	}
-
-	.drslon-header-utility > .drslon-header-max,
-	.drslon-header-utility > .krv-max-social-chip,
-	.drslon-header-utility > p:has(.drslon-header-max) .drslon-header-max,
-	.drslon-header-utility > p:has(.krv-max-social-chip) .krv-max-social-chip {
-		grid-area: max;
-		justify-self: end;
-	}
-
-	.drslon-header-max,
-	.drslon-header-utility > p:has(.drslon-header-max) .drslon-header-max {
-		width: 34px;
-		height: 34px;
-	}
-
-	.drslon-header-max .drslon-max-icon {
-		width: 18px;
-		height: 18px;
 	}
 }
 
