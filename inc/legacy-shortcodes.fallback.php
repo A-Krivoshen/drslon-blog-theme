@@ -292,7 +292,7 @@ if ( ! function_exists( 'drslon_render_adjacent_post_card' ) ) {
         if ( has_post_thumbnail( $post_id ) ) {
             $media = get_the_post_thumbnail(
                 $post_id,
-                'medium',
+                'thumbnail',
                 array(
                     'class' => 'drslon-post-nav-card__image',
                 )

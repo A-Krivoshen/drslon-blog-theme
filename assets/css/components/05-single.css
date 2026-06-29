@@ -1,6 +1,31 @@
 /* DrSlon Blog — 05-single.css */
 
-/* === single: post nav cards + related posts === */
+/* === single: hero image + post nav cards + related posts === */
+
+.drslon-single-hero .wp-block-post-featured-image {
+        width: 100%;
+        max-height: 380px;
+        margin-top: 0.35rem;
+        margin-bottom: 0;
+        overflow: hidden;
+        border-radius: 10px;
+}
+
+.drslon-single-hero .wp-block-post-featured-image picture {
+        display: block;
+        width: 100%;
+        height: 380px;
+        max-height: 380px;
+}
+
+.drslon-single-hero .wp-block-post-featured-image img {
+        display: block;
+        width: 100%;
+        height: 380px;
+        max-height: 380px;
+        object-fit: cover;
+        object-position: center;
+}
 
 .drslon-single-nav .wp-block-shortcode,
 .drslon-single-related .wp-block-shortcode {
@@ -14,12 +39,12 @@
 }
 
 .drslon-post-nav-card {
+        --drslon-post-nav-thumb: 120px;
         display: grid;
-        grid-template-columns: 132px minmax(0, 1fr);
-        gap: 16px;
-        align-items: stretch;
+        grid-template-columns: var(--drslon-post-nav-thumb) minmax(0, 1fr);
+        gap: 14px;
+        align-items: center;
         min-width: 0;
-        min-height: 132px;
         padding: 14px;
         border: 1px solid var(--wp--preset--color--border);
         border-radius: 14px;
@@ -27,6 +52,7 @@
         box-shadow: 0 10px 24px rgba(23, 33, 51, 0.05);
         color: inherit;
         text-decoration: none;
+        overflow: hidden;
         transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
 }
 
@@ -38,7 +64,13 @@
 
 .drslon-post-nav-card__media {
         display: block;
-        min-width: 0;
+        width: var(--drslon-post-nav-thumb);
+        max-width: var(--drslon-post-nav-thumb);
+        aspect-ratio: 4 / 3;
+        overflow: hidden;
+        border-radius: 10px;
+        background: var(--wp--preset--color--surface-light);
+        flex-shrink: 0;
 }
 
 .drslon-post-nav-card__image,
@@ -46,21 +78,29 @@
         display: block;
         width: 100%;
         height: 100%;
-        min-height: 104px;
-        border-radius: 10px;
-        object-fit: cover;
+        margin: 0;
+        border-radius: inherit;
         background: var(--wp--preset--color--surface-light);
+}
+
+.drslon-post-nav-card__image img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
 }
 
 .drslon-post-nav-card__content {
         display: flex;
         flex-direction: column;
         justify-content: center;
+        gap: 0.35rem;
         min-width: 0;
 }
 
 .drslon-post-nav-card--next {
-        grid-template-columns: minmax(0, 1fr) 132px;
+        grid-template-columns: minmax(0, 1fr) var(--drslon-post-nav-thumb);
 }
 
 .drslon-post-nav-card--next .drslon-post-nav-card__media {
@@ -84,8 +124,11 @@
 }
 
 .drslon-post-nav-card__title {
-        display: block;
-        font-size: 1rem;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 3;
+        overflow: hidden;
+        font-size: 0.98rem;
         line-height: 1.35;
         font-weight: 700;
         color: var(--wp--preset--color--foreground);
@@ -196,6 +239,16 @@
 }
 
 @media (max-width: 781px) {
+        .drslon-single-hero .wp-block-post-featured-image {
+                max-height: 240px;
+        }
+
+        .drslon-single-hero .wp-block-post-featured-image picture,
+        .drslon-single-hero .wp-block-post-featured-image img {
+                height: 240px;
+                max-height: 240px;
+        }
+
         .drslon-post-nav-cards,
         .drslon-related-posts__grid {
                 grid-template-columns: 1fr;
@@ -203,8 +256,8 @@
 
         .drslon-post-nav-card,
         .drslon-post-nav-card--next {
-                grid-template-columns: 96px minmax(0, 1fr);
-                min-height: 104px;
+                --drslon-post-nav-thumb: 88px;
+                grid-template-columns: var(--drslon-post-nav-thumb) minmax(0, 1fr);
         }
 
         .drslon-post-nav-card--next .drslon-post-nav-card__media,
@@ -217,8 +270,8 @@
                 align-items: flex-start;
         }
 
-        .drslon-post-nav-card__image,
-        .drslon-post-nav-card__placeholder {
-                min-height: 76px;
+        .drslon-post-nav-card__title {
+                -webkit-line-clamp: 2;
+                font-size: 0.92rem;
         }
 }
