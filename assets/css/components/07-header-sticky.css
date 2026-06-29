@@ -268,14 +268,15 @@
 		margin-left: 0.75rem;
 	}
 
-	.drslon-header-utility > p:has(.drslon-header-max) {
-		margin: 0 0 0 -8px !important;
-		display: flex;
-		align-items: center;
+	.drslon-header-utility > .drslon-header-social + p:has(.drslon-header-max),
+	.drslon-header-utility > .drslon-header-social + .drslon-header-max {
+		margin-left: -14px !important;
 	}
 
-	.drslon-header-utility > .drslon-header-max {
-		margin-left: -8px;
+	.drslon-header-utility > p:has(.drslon-header-max) {
+		margin: 0 !important;
+		display: flex;
+		align-items: center;
 	}
 }
 
