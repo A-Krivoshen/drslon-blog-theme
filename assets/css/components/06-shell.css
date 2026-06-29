@@ -1034,6 +1034,13 @@
         margin-left: 10px !important;
         border-radius: 8px !important;
 }
+/* Mobile menu contacts: only in the phone drawer, never in desktop nav */
+@media (min-width: 782px) {
+        .drslon-main-navigation .drslon-mobile-menu-contacts-wrap {
+                display: none !important;
+        }
+}
+
 /* === mobile menu final polish === */
 @media (max-width: 781px) {
         .drslon-main-navigation .wp-block-navigation__responsive-container.is-menu-open {
