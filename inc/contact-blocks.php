@@ -32,22 +32,29 @@ function drslon_header_max_shortcode(): string {
 add_shortcode( 'drslon_header_max', 'drslon_header_max_shortcode' );
 
 /**
- * Telegram + MAX row for the bottom of the mobile navigation drawer.
+ * Three contact chips for the mobile menu (right after «Контакты»).
  */
 function drslon_mobile_menu_contacts_markup(): string {
 	$telegram_icon = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M21.543 2.498a1.53 1.53 0 0 0-1.58-.26L3.55 8.617a1.54 1.54 0 0 0 .08 2.893l4.11 1.353 1.59 5.01a1.54 1.54 0 0 0 2.52.66l2.29-2.21 3.78 2.78a1.54 1.54 0 0 0 2.42-.9L21.98 4.01a1.53 1.53 0 0 0-.437-1.512ZM9.33 11.97l8.09-4.98-6.7 6.46-.26 2.76-1.13-4.24Z"/></svg>';
+	$email_icon    = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Zm0 2v.35l8 5.15 8-5.15V6H4Zm16 2.76-7.55 4.86a1 1 0 0 1-1.02 0L4 8.76V18h16V8.76Z"/></svg>';
+	$email         = 'aleksey@krivoshein.site';
 
-	return sprintf(
-		'<div class="drslon-mobile-menu-contacts" role="group" aria-label="%1$s"><p class="drslon-mobile-menu-contacts__label">%2$s</p><div class="drslon-mobile-menu-contacts__row"><a class="drslon-mobile-menu-contacts__btn drslon-mobile-menu-contacts__btn--telegram" href="%3$s" target="_blank" rel="noopener noreferrer" aria-label="%4$s" title="%4$s">%5$s<span>Telegram</span></a><a class="drslon-mobile-menu-contacts__btn drslon-mobile-menu-contacts__btn--max" href="%6$s" aria-label="%7$s" title="MAX">%8$s<span>MAX</span></a></div></div>',
+	$inner = sprintf(
+		'<div class="drslon-mobile-menu-contacts" role="group" aria-label="%1$s"><p class="drslon-mobile-menu-contacts__label">%2$s</p><div class="drslon-mobile-menu-contacts__row"><a class="drslon-mobile-menu-contacts__chip drslon-mobile-menu-contacts__chip--telegram" href="%3$s" target="_blank" rel="noopener noreferrer" aria-label="%4$s" title="%4$s">%5$s</a><a class="drslon-mobile-menu-contacts__chip drslon-mobile-menu-contacts__chip--email" href="%6$s" aria-label="%7$s" title="%7$s">%8$s</a><a class="drslon-mobile-menu-contacts__chip drslon-mobile-menu-contacts__chip--max" href="%9$s" aria-label="%10$s" title="MAX">%11$s</a></div></div>',
 		esc_attr__( 'Контакты', 'drslon-blog' ),
 		esc_html__( 'Связаться', 'drslon-blog' ),
 		esc_url( 'https://t.me/drslon_channel' ),
 		esc_attr__( 'Telegram-канал', 'drslon-blog' ),
 		$telegram_icon,
+		esc_url( 'mailto:' . $email ),
+		esc_attr( $email ),
+		$email_icon,
 		esc_url( home_url( '/max' ) ),
 		esc_attr__( 'MAX — написать в мессенджере', 'drslon-blog' ),
 		drslon_max_icon_markup()
 	);
+
+	return '<li class="drslon-mobile-menu-contacts-wrap wp-block-navigation-item">' . $inner . '</li>';
 }
 
 /**
@@ -69,8 +76,21 @@ function drslon_navigation_append_mobile_contacts( string $block_content, array 
 	}
 
 	$contacts = drslon_mobile_menu_contacts_markup();
-	$updated  = preg_replace(
-		'#(class="wp-block-navigation__responsive-container-content"[^>]*>\s*<ul[^>]*wp-block-navigation__container[^>]*>.*?</ul>)#s',
+
+	$updated = preg_replace(
+		'#(<li[^>]*wp-block-navigation-link[^>]*>\s*<a class="wp-block-navigation-item__content"[^>]*href="[^"]*/contacts/?[^"]*"[^>]*>.*?</li>)#s',
+		'$1' . $contacts,
+		$block_content,
+		1,
+		$count
+	);
+
+	if ( $count ) {
+		return $updated;
+	}
+
+	$updated = preg_replace(
+		'#(<li[^>]*wp-block-navigation-link[^>]*>\s*<a class="wp-block-navigation-item__content"[^>]*>.*?Контакты.*?</li>)#s',
 		'$1' . $contacts,
 		$block_content,
 		1,
