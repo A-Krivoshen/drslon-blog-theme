@@ -295,15 +295,6 @@
 		font-size: 0.95rem;
 	}
 
-	.drslon-header-langs {
-		display: none;
-	}
-
-	.drslon-header-search {
-		width: 168px;
-		min-width: 148px;
-	}
-
 	.drslon-featured-post__layout {
 		grid-template-columns: 1fr;
 	}

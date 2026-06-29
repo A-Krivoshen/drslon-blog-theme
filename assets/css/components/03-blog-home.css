@@ -1350,3 +1350,87 @@
         max-width: none !important;
     }
 }
+
+/* === blog home responsive: featured slider + category tiles === */
+@media (max-width: 1099px) {
+    .drslon-home-featured-wrap .drslon-featured-slider__controls {
+        top: 110px !important;
+        padding: 0 10px !important;
+        transform: none !important;
+    }
+
+    .drslon-home-featured-wrap .drslon-featured-slider__viewport {
+        padding: 0 0 18px 0 !important;
+    }
+
+    .drslon-home-featured-wrap .drslon-featured-slider__card {
+        display: block !important;
+        padding-bottom: 0 !important;
+    }
+
+    .drslon-home-featured-wrap .drslon-featured-slider__media {
+        height: auto !important;
+        min-height: 260px !important;
+        border-radius: 16px !important;
+    }
+
+    .drslon-home-featured-wrap .drslon-featured-slider__image,
+    .drslon-home-featured-wrap .drslon-featured-slider__media img,
+    .drslon-home-featured-wrap .drslon-featured-slider__placeholder {
+        height: auto !important;
+        min-height: 260px !important;
+        aspect-ratio: 16 / 9 !important;
+    }
+
+    .drslon-home-featured-wrap .drslon-featured-slider__content {
+        position: relative !important;
+        left: auto !important;
+        bottom: auto !important;
+        transform: none !important;
+        width: auto !important;
+        max-width: none !important;
+        margin: -28px 14px 0 !important;
+        padding: 18px 18px 20px !important;
+        border-radius: 14px !important;
+        align-items: flex-start !important;
+        text-align: left !important;
+    }
+
+    .drslon-home-featured-wrap .drslon-featured-slider__meta-line {
+        justify-content: flex-start !important;
+    }
+
+    .drslon-home-featured-wrap .drslon-featured-slider__title,
+    .drslon-home-featured-wrap .drslon-featured-slider__excerpt {
+        text-align: left !important;
+    }
+
+    .drslon-home-featured-wrap .drslon-featured-slider__button {
+        align-self: flex-start !important;
+    }
+
+    .drslon-home-tiles-wrap .drslon-category-tiles__grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    }
+}
+
+@media (max-width: 640px) {
+    .drslon-home-featured-wrap .drslon-featured-slider__arrow {
+        width: 34px !important;
+        height: 34px !important;
+    }
+
+    .drslon-home-featured-wrap .drslon-featured-slider__media {
+        min-height: 220px !important;
+    }
+
+    .drslon-home-featured-wrap .drslon-featured-slider__image,
+    .drslon-home-featured-wrap .drslon-featured-slider__media img,
+    .drslon-home-featured-wrap .drslon-featured-slider__placeholder {
+        min-height: 220px !important;
+    }
+
+    .drslon-home-tiles-wrap .drslon-category-tiles__grid {
+        grid-template-columns: 1fr !important;
+    }
+}

@@ -1,10 +1,10 @@
 # UX/UI аудит темы `drslon-blog-theme`
 
-> Июнь 2026. Статус спринтов A–D.
+> Июнь 2026. Статус спринтов A–E.
 
 ## Вердикт
 
-Тема сильна как **технический блог** (7.5/10), слабее как оболочка **коммерческого hub** (5/10 до спринтов). После A–D — **~8.5/10** для смешанного сайта (услуги + блог).
+Тема сильна как **технический блог** (7.5/10), слабее как оболочка **коммерческого hub** (5/10 до спринтов). После A–E — **~9/10** для смешанного сайта (услуги + блог).
 
 ## Спринты (выполнено)
 
@@ -13,17 +13,15 @@
 | **A** | 0.2.1 | Accent `#5181fe`, CTA «Прайс», MAX, `/servisy/`, `drslon-plugin-page` |
 | **B** | 0.2.2 | IA «Услуги», lean mobile header, компактный footer, `prefers-reduced-motion` |
 | **C** | 0.3.0 | CSS → 7 components, blog shortcodes → плагин, эта документация |
-| **D** | 0.3.2–0.3.3 | Footer icon chips; header MAX icon; Telegram channel vs DM labels; focus-visible; CSS cleanup `01-base`; slider reduced-motion |
-| **D+** | 0.3.3 | Спринт D code-review fixes: parity header/footer MAX, a11y, `filemtime` в плагине |
+| **D** | 0.3.2–0.3.3 | Footer chips, MAX/a11y parity, plugin `filemtime`, `01-base` cleanup |
+| **E** | 0.4.0 | Conditional CSS, `08-footer`, contact shortcodes, plugin-bridge, header search, `featured-slider.js`, CSS dedup |
 
 ## Остаётся (не срочно)
 
-- Поиск в header (сейчас только sidebar)
-- Спрятать переводчик на mobile
-- Дальнейшая чистка дублей в `06-shell.css` (бывшие prod hotfixes)
-- Полный перенос `legacy-compat.php` в плагин
+- Дальнейшая чистка дублей в `06-shell.css` (mobile hotfixes, ~1600 строк)
+- CSS bundle/minify для production (опционально)
 
-## CSS после спринта C
+## CSS после спринта E
 
 ```
 assets/css/components/
@@ -32,8 +30,9 @@ assets/css/components/
 ├── 03-blog-home.css     — featured slider, tiles, home editorial
 ├── 04-blog-sections.css — blog sections grid, animations
 ├── 05-single.css        — single post, nav cards, related
-├── 06-shell.css         — footer, mobile hotfixes, legacy pages, lightbox
-└── 07-header-sticky.css — fixed header, sprint A/B
+├── 06-shell.css         — mobile hotfixes, legacy pages, lightbox
+├── 07-header-sticky.css — fixed header, CTA, header search
+└── 08-footer.css        — footer columns, connect chips
 ```
 
 `style.css` — только метаданные темы для WordPress.

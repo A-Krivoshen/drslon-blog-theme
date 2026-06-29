@@ -1,6 +1,6 @@
 # Style.css Map (DrSlon Blog Theme)
 
-> **v0.3.0:** стили разбиты на `assets/css/components/*.css`.  
+> **v0.4.0:** стили разбиты на `assets/css/components/*.css`, conditional enqueue.
 > `style.css` — только заголовок темы для WordPress.  
 > Ниже — исторический индекс монолита (номера строк до split).
 
@@ -13,8 +13,11 @@
 | `03-blog-home.css` | Featured slider, category tiles, home editorial waves |
 | `04-blog-sections.css` | Blog sections, tiles hotfixes, slider overlay, animations |
 | `05-single.css` | Post nav cards, related posts |
-| `06-shell.css` | Header/footer mobile, 404, legacy pages, lightbox |
-| `07-header-sticky.css` | Fixed/sticky header, plugin-page shell, sprint A/B |
+| `06-shell.css` | Mobile hotfixes, 404, legacy pages, lightbox |
+| `07-header-sticky.css` | Fixed/sticky header, CTA, header search |
+| `08-footer.css` | Footer layout, connect icon chips |
+
+Условная загрузка: `inc/enqueue-assets.php` (archive/blog-home/sections/single — по контексту страницы).
 
 ---
 

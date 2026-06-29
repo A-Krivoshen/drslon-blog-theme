@@ -13,9 +13,11 @@ if ( function_exists( 'drslon_featured_post_shortcode' ) ) {
 	return;
 }
 
-$plugin_file = WP_PLUGIN_DIR . '/drslon-site-core-main/includes/shortcodes/blog-shortcodes.php';
+require_once get_template_directory() . '/inc/plugin-bridge.php';
 
-if ( is_readable( $plugin_file ) ) {
+$plugin_file = drslon_locate_site_core_file( 'includes/shortcodes/blog-shortcodes.php' );
+
+if ( null !== $plugin_file ) {
 	require_once $plugin_file;
 	return;
 }
