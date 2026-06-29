@@ -163,9 +163,9 @@
 	}
 
 	.drslon-site-header.is-scrolled .drslon-site-branding .wp-block-site-title {
-		font-size: 0.9rem !important;
+		font-size: 0.74rem !important;
 		line-height: 1.1 !important;
-		max-width: 210px;
+		max-width: none;
 	}
 
 	.drslon-site-header.is-scrolled .drslon-header-social .wp-social-link {
@@ -378,14 +378,32 @@ body.drslon-plugin-page .is-legacy-front-page-content > [class^="krv-"] {
 		min-width: 0 !important;
 		justify-content: flex-start !important;
 		text-align: left;
-		gap: 10px;
+		gap: 8px;
+	}
+
+	.drslon-site-branding .custom-logo,
+	.drslon-site-branding .custom-logo img {
+		width: 36px !important;
+		height: 36px !important;
+		max-width: 36px !important;
+		max-height: 36px !important;
 	}
 
 	.drslon-site-branding .wp-block-site-title {
+		min-width: 0;
 		max-width: none;
-		font-size: 0.92rem !important;
-		line-height: 1.15 !important;
+		margin: 0;
+		font-size: 0.76rem !important;
+		line-height: 1.12 !important;
 		text-align: left;
+	}
+
+	.drslon-site-branding .wp-block-site-title a {
+		display: -webkit-box;
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: 2;
+		overflow: hidden;
+		overflow-wrap: anywhere;
 	}
 
 	.drslon-header-utility {

@@ -75,16 +75,10 @@
 
         .drslon-site-header .drslon-site-branding .custom-logo,
         .drslon-site-header .drslon-site-branding .custom-logo img {
-                width: 44px !important;
-                height: 44px !important;
-                max-width: 44px !important;
-                max-height: 44px !important;
-        }
-
-        .drslon-site-header .drslon-site-branding .wp-block-site-title {
-                max-width: 285px;
-                font-size: 1rem !important;
-                line-height: 1.16 !important;
+                width: 36px !important;
+                height: 36px !important;
+                max-width: 36px !important;
+                max-height: 36px !important;
         }
 }
 
@@ -104,15 +98,7 @@
         }
 }
 
-@media (max-width: 781px) {
-        .drslon-site-header .drslon-site-branding .custom-logo,
-        .drslon-site-header .drslon-site-branding .custom-logo img {
-                width: 44px !important;
-                height: 44px !important;
-                max-width: 44px !important;
-                max-height: 44px !important;
-        }
-}
+
 /* === /blog mobile featured tighten pass === */
 
 @media (max-width: 640px) {
@@ -527,8 +513,8 @@
                 margin-top: -22px !important;
         }
 }
-/* === header tablet fix: 600-900px === */
-@media (min-width: 600px) and (max-width: 900px) {
+/* === header tablet fix: 782-900px (not phone) === */
+@media (min-width: 782px) and (max-width: 900px) {
         .drslon-site-header__inner {
                 row-gap: 12px !important;
         }
@@ -869,8 +855,8 @@
         white-space: nowrap;
 }
 
-/* === header tablet fix: 600-900px === */
-@media (min-width: 600px) and (max-width: 900px) {
+/* === header tablet fix: 782-900px (not phone) === */
+@media (min-width: 782px) and (max-width: 900px) {
         .drslon-site-header__inner {
                 row-gap: 12px !important;
         }
