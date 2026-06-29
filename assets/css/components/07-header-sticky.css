@@ -219,8 +219,9 @@
 	width: 40px;
 	height: 40px;
 	border-radius: 999px;
-	border: 1px solid rgba(6, 175, 251, 0.28);
-	background: linear-gradient(145deg, #f4f8ff 0%, #ffffff 55%);
+	border: 1px solid var(--wp--preset--color--border);
+	background: #ffffff;
+	color: var(--wp--preset--color--accent-hover);
 	text-decoration: none;
 	flex-shrink: 0;
 	box-shadow: 0 4px 14px rgba(15, 23, 42, 0.05);
@@ -232,14 +233,17 @@
 }
 
 .drslon-header-max .drslon-max-icon {
+	display: block;
 	width: 22px;
 	height: 22px;
+	fill: currentColor;
 }
 
 .drslon-header-max:hover {
-	border-color: rgba(137, 0, 172, 0.35);
-	background: linear-gradient(145deg, #f0f5ff 0%, #ffffff 60%);
-	box-shadow: 0 10px 22px rgba(0, 28, 241, 0.16);
+	border-color: #b9caff;
+	background: #eef4ff;
+	color: var(--wp--preset--color--accent-hover);
+	box-shadow: 0 10px 22px rgba(81, 129, 254, 0.14);
 	transform: translateY(-1px);
 }
 
