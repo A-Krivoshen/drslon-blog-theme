@@ -6020,19 +6020,41 @@ body:has(.drslon-main-navigation .wp-block-navigation__responsive-container.is-m
 	overflow: visible !important;
 }
 
-.wp-site-blocks > header.wp-block-template-part {
-	position: sticky;
-	top: 0;
-	z-index: 200;
-}
+@media (max-width: 1099px) {
+	.wp-site-blocks > header.wp-block-template-part {
+		position: sticky;
+		top: 0;
+		z-index: 200;
+	}
 
-body.admin-bar .wp-site-blocks > header.wp-block-template-part {
-	top: 32px;
-}
-
-@media (max-width: 782px) {
 	body.admin-bar .wp-site-blocks > header.wp-block-template-part {
-		top: 46px;
+		top: 32px;
+	}
+
+	@media (max-width: 782px) {
+		body.admin-bar .wp-site-blocks > header.wp-block-template-part {
+			top: 46px;
+		}
+	}
+}
+
+@media (min-width: 1100px) {
+	/* fixed header: reliable on home, legacy pages and any overflow in content */
+	.wp-site-blocks > header.wp-block-template-part {
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		width: 100%;
+		z-index: 200;
+	}
+
+	body.admin-bar .wp-site-blocks > header.wp-block-template-part {
+		top: 32px;
+	}
+
+	.wp-site-blocks > main {
+		margin-top: var(--drslon-header-height, 108px) !important;
 	}
 }
 

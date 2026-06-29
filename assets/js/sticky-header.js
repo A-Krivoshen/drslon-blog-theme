@@ -11,10 +11,13 @@
 	var ticking = false;
 
 	function updateHeaderHeight() {
+		var height = headerShell.offsetHeight;
+
 		document.documentElement.style.setProperty(
 			'--drslon-header-height',
-			headerShell.offsetHeight + 'px'
+			height + 'px'
 		);
+		document.documentElement.classList.add('drslon-sticky-header-ready');
 	}
 
 	function updateScrollState() {
