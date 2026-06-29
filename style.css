@@ -6016,9 +6016,19 @@ body:has(.drslon-main-navigation .wp-block-navigation__responsive-container.is-m
 /* === sticky header: desktop + compact on scroll === */
 
 @media (min-width: 1100px) {
-	.drslon-site-header {
+	/* theme.json overflow-x:clip on .wp-site-blocks breaks position:sticky */
+	.wp-site-blocks {
+		overflow: visible !important;
+	}
+
+	.wp-site-blocks > header.wp-block-template-part {
 		position: sticky;
 		top: 0;
+		z-index: 200;
+	}
+
+	.drslon-site-header {
+		position: relative;
 		z-index: 200;
 		transition:
 			padding 0.2s ease,
@@ -6027,7 +6037,7 @@ body:has(.drslon-main-navigation .wp-block-navigation__responsive-container.is-m
 			backdrop-filter 0.2s ease;
 	}
 
-	body.admin-bar .drslon-site-header {
+	body.admin-bar .wp-site-blocks > header.wp-block-template-part {
 		top: 32px;
 	}
 

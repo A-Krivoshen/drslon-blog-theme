@@ -1,8 +1,9 @@
 (function () {
 	'use strict';
 
+	var headerShell = document.querySelector('.wp-site-blocks > header.wp-block-template-part');
 	var header = document.querySelector('.drslon-site-header');
-	if (!header) {
+	if (!headerShell || !header) {
 		return;
 	}
 
@@ -23,7 +24,7 @@
 
 		document.documentElement.style.setProperty(
 			'--drslon-header-height',
-			header.offsetHeight + 'px'
+			headerShell.offsetHeight + 'px'
 		);
 	}
 
