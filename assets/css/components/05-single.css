@@ -4,26 +4,32 @@
 
 .drslon-single-hero .wp-block-post-featured-image {
         width: 100%;
-        max-height: 380px;
-        margin-top: 0.35rem;
-        margin-bottom: 0;
+        max-width: 680px;
+        margin: 0.35rem auto 0;
+        padding: 10px;
         overflow: hidden;
+        border: 1px solid var(--wp--preset--color--border);
         border-radius: 10px;
+        background: var(--wp--preset--color--surface-light);
+        aspect-ratio: auto !important;
+        height: auto !important;
 }
 
 .drslon-single-hero .wp-block-post-featured-image picture {
         display: block;
         width: 100%;
-        height: 380px;
-        max-height: 380px;
+        height: auto;
+        max-height: none;
+        object-fit: unset;
 }
 
 .drslon-single-hero .wp-block-post-featured-image img {
         display: block;
         width: 100%;
-        height: 380px;
-        max-height: 380px;
-        object-fit: cover;
+        height: auto;
+        max-height: 300px;
+        margin: 0 auto;
+        object-fit: contain;
         object-position: center;
 }
 
@@ -240,13 +246,12 @@
 
 @media (max-width: 781px) {
         .drslon-single-hero .wp-block-post-featured-image {
-                max-height: 240px;
+                max-width: 100%;
+                padding: 8px;
         }
 
-        .drslon-single-hero .wp-block-post-featured-image picture,
         .drslon-single-hero .wp-block-post-featured-image img {
-                height: 240px;
-                max-height: 240px;
+                max-height: 220px;
         }
 
         .drslon-post-nav-cards,
