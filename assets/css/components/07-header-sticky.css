@@ -364,7 +364,7 @@ body.drslon-plugin-page .is-legacy-front-page-content > [class^="krv-"] {
 		display: grid !important;
 		grid-template-columns: auto 1fr auto auto;
 		grid-template-areas:
-			"brand brand brand price"
+			"brand brand brand brand"
 			"menu spacer social max";
 		align-items: center;
 		column-gap: 10px;
@@ -421,26 +421,7 @@ body.drslon-plugin-page .is-legacy-front-page-content > [class^="krv-"] {
 	}
 
 	.drslon-header-cta {
-		grid-area: price;
-		justify-self: end;
-		margin: 0 !important;
-	}
-
-	.drslon-header-cta .wp-block-button__link {
-		min-height: 34px;
-		padding: 6px 13px !important;
-		font-size: 0.8rem !important;
-		font-weight: 700 !important;
-		background: #ffffff !important;
-		color: var(--wp--preset--color--accent) !important;
-		border: 1.5px solid var(--wp--preset--color--accent) !important;
-		box-shadow: none !important;
-	}
-
-	.drslon-header-cta .wp-block-button__link:hover {
-		background: #eef4ff !important;
-		color: var(--wp--preset--color--accent-hover) !important;
-		border-color: var(--wp--preset--color--accent-hover) !important;
+		display: none !important;
 	}
 
 	.drslon-header-social {
