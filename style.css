@@ -7,7 +7,7 @@ Description: Современная block theme для технического 
 Requires at least: 6.6
 Tested up to: 6.8
 Requires PHP: 8.1
-Version: 0.2.0
+Version: 0.2.1
 License: GPL-2.0-or-later
 Text Domain: drslon-blog
 Tags: blog, block-theme, full-site-editing, editor-style, technical
@@ -2997,7 +2997,7 @@ See detailed map: docs/style-css-map.md
 	margin: 0.08rem 0 0;
 	padding: 0.2rem 0.5rem;
 	border-radius: 999px;
-	background: #2d6cdf;
+	background: #5181fe;
 	color: #fff;
 	font-size: 0.76rem;
 	line-height: 1;
@@ -3104,7 +3104,7 @@ See detailed map: docs/style-css-map.md
 	margin: 0.1rem 0 0 !important;
 	padding: 0.2rem 0.5rem !important;
 	border-radius: 999px !important;
-	background: #2d6cdf !important;
+	background: #5181fe !important;
 	color: #fff !important;
 	font-size: 0.76rem !important;
 	line-height: 1 !important;
@@ -3208,7 +3208,7 @@ See detailed map: docs/style-css-map.md
 	margin: 0.1rem 0 0 !important;
 	padding: 0.2rem 0.5rem !important;
 	border-radius: 999px !important;
-	background: #2d6cdf !important;
+	background: #5181fe !important;
 	color: #fff !important;
 	font-size: 0.76rem !important;
 	line-height: 1 !important;
@@ -3454,7 +3454,7 @@ See detailed map: docs/style-css-map.md
 		padding: 6px 12px !important;
 		border-radius: 999px !important;
 		background: #edf3ff !important;
-		color: #2d6cdf !important;
+		color: #5181fe !important;
 		font-size: 0.86rem !important;
 		font-weight: 700 !important;
 		text-decoration: none !important;
@@ -3468,7 +3468,7 @@ See detailed map: docs/style-css-map.md
 	}
 
 	.drslon-featured-slider__title a {
-		color: #173b74 !important;
+		color: #315fe8 !important;
 		text-decoration: none !important;
 	}
 
@@ -3486,7 +3486,7 @@ See detailed map: docs/style-css-map.md
 		justify-content: center !important;
 		padding: 11px 18px !important;
 		border-radius: 12px !important;
-		background: #2d6cdf !important;
+		background: #5181fe !important;
 		color: #ffffff !important;
 		text-decoration: none !important;
 		font-weight: 700 !important;
@@ -3672,7 +3672,7 @@ See detailed map: docs/style-css-map.md
     padding: 6px 12px !important;
     border-radius: 999px !important;
     background: #eef5ff !important;
-    color: #2d6cdf !important;
+    color: #5181fe !important;
     font-weight: 700 !important;
     text-decoration: none !important;
 }
@@ -3686,7 +3686,7 @@ See detailed map: docs/style-css-map.md
 }
 
 .drslon-home-featured-wrap .drslon-featured-slider__title a {
-    color: #173b74 !important;
+    color: #315fe8 !important;
     text-decoration: none !important;
 }
 
@@ -3706,7 +3706,7 @@ See detailed map: docs/style-css-map.md
     align-self: flex-start !important;
     padding: 10px 16px !important;
     border-radius: 10px !important;
-    background: #2d6cdf !important;
+    background: #5181fe !important;
     color: #ffffff !important;
     font-size: 0.92rem !important;
     font-weight: 700 !important;
@@ -3739,7 +3739,7 @@ See detailed map: docs/style-css-map.md
     border: 1px solid rgba(34, 78, 136, 0.18) !important;
     border-radius: 999px !important;
     background: rgba(255, 255, 255, 0.94) !important;
-    color: #1f5fd6 !important;
+    color: #5181fe !important;
     box-shadow: 0 10px 24px rgba(18, 34, 54, 0.14) !important;
     backdrop-filter: blur(6px) !important;
     font-size: 0 !important;
@@ -3875,7 +3875,7 @@ See detailed map: docs/style-css-map.md
     margin: 0 !important;
     padding: 0.2rem 0.5rem !important;
     border-radius: 999px !important;
-    background: #2d6cdf !important;
+    background: #5181fe !important;
     color: #ffffff !important;
     font-size: 0.76rem !important;
     line-height: 1 !important;
@@ -4975,7 +4975,7 @@ See detailed map: docs/style-css-map.md
                 border-radius: 999px !important;
                 border: 1px solid rgba(34, 78, 136, 0.18) !important;
                 background: rgba(255, 255, 255, 0.92) !important;
-                color: #1f5fd6 !important;
+                color: #5181fe !important;
                 box-shadow: 0 8px 20px rgba(18, 34, 54, 0.14) !important;
                 font-size: 0 !important;
                 line-height: 1 !important;
@@ -6195,5 +6195,120 @@ body:has(.drslon-main-navigation .wp-block-navigation__responsive-container.is-m
 	.drslon-site-header.is-scrolled .drslon-main-navigation .wp-block-navigation__responsive-container-open {
 		width: 36px;
 		height: 36px;
+	}
+}
+
+/* === Sprint A: brand unification + header CTA + plugin pages === */
+.drslon-header-utility {
+	gap: 12px;
+}
+
+.drslon-header-cta {
+	margin: 0;
+	flex-shrink: 0;
+}
+
+.drslon-header-cta .wp-block-button__link {
+	min-height: 40px;
+	padding: 9px 16px !important;
+	border-radius: 999px !important;
+	background: var(--wp--preset--color--accent) !important;
+	color: #ffffff !important;
+	font-size: 0.92rem !important;
+	font-weight: 700 !important;
+	line-height: 1.2 !important;
+	box-shadow: 0 10px 22px rgba(81, 129, 254, 0.22);
+	white-space: nowrap;
+}
+
+.drslon-header-cta .wp-block-button__link:hover {
+	background: var(--wp--preset--color--accent-hover) !important;
+	color: #ffffff !important;
+}
+
+.drslon-header-max {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 40px;
+	min-height: 40px;
+	padding: 0 12px;
+	border-radius: 999px;
+	border: 1px solid var(--wp--preset--color--border);
+	background: #f8fafc;
+	color: var(--wp--preset--color--accent-hover);
+	font-size: 0.78rem;
+	font-weight: 800;
+	line-height: 1;
+	text-decoration: none;
+	letter-spacing: 0.02em;
+	flex-shrink: 0;
+}
+
+.drslon-header-max:hover {
+	border-color: #b9caff;
+	background: #eef4ff;
+	color: var(--wp--preset--color--accent-hover);
+}
+
+@media (max-width: 1099px) {
+	.drslon-header-cta,
+	.drslon-header-max,
+	.drslon-header-social {
+		order: 2;
+	}
+
+	.drslon-main-navigation {
+		order: 4;
+	}
+}
+
+@media (max-width: 781px) {
+	.drslon-header-cta .wp-block-button__link {
+		min-height: 36px;
+		padding: 8px 14px !important;
+		font-size: 0.86rem !important;
+	}
+
+	.drslon-header-max {
+		min-height: 36px;
+		min-width: 36px;
+		padding: 0 10px;
+	}
+}
+
+body.drslon-plugin-page .drslon-page-shell,
+body.drslon-plugin-page .drslon-front-page-shell {
+	background: var(--wp--preset--color--bg);
+}
+
+body.drslon-plugin-page .drslon-page-shell {
+	padding-top: 24px !important;
+	padding-bottom: 48px !important;
+}
+
+body.drslon-plugin-page .drslon-front-page-shell {
+	padding-top: 24px !important;
+	padding-bottom: 48px !important;
+}
+
+body.drslon-plugin-page .is-legacy-page-content,
+body.drslon-plugin-page .is-legacy-front-page-content {
+	width: 100%;
+	max-width: 1180px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+body.drslon-plugin-page .is-legacy-page-content > [class^="krv-"],
+body.drslon-plugin-page .is-legacy-front-page-content > [class^="krv-"] {
+	margin-left: auto;
+	margin-right: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.drslon-header-cta .wp-block-button__link,
+	.drslon-site-header {
+		transition-duration: 0.01ms !important;
 	}
 }

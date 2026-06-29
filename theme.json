@@ -53,12 +53,12 @@
         {
           "slug": "accent",
           "name": "Accent",
-          "color": "#1f5fd6"
+          "color": "#5181fe"
         },
         {
           "slug": "accent-hover",
           "name": "Accent Hover",
-          "color": "#184db0"
+          "color": "#315fe8"
         },
         {
           "slug": "border",
