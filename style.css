@@ -6013,40 +6013,49 @@ body:has(.drslon-main-navigation .wp-block-navigation__responsive-container.is-m
         }
 }
 
-/* === sticky header: desktop + compact on scroll === */
+/* === sticky header: all viewports + compact on scroll === */
+
+/* theme.json overflow-x:clip on .wp-site-blocks breaks position:sticky */
+.wp-site-blocks {
+	overflow: visible !important;
+}
+
+.wp-site-blocks > header.wp-block-template-part {
+	position: sticky;
+	top: 0;
+	z-index: 200;
+}
+
+body.admin-bar .wp-site-blocks > header.wp-block-template-part {
+	top: 32px;
+}
+
+@media (max-width: 782px) {
+	body.admin-bar .wp-site-blocks > header.wp-block-template-part {
+		top: 46px;
+	}
+}
+
+.drslon-site-header {
+	position: relative;
+	z-index: 200;
+	transition:
+		padding 0.2s ease,
+		box-shadow 0.2s ease,
+		background-color 0.2s ease,
+		backdrop-filter 0.2s ease;
+}
+
+.drslon-site-header.is-scrolled {
+	box-shadow: 0 10px 28px rgba(23, 33, 51, 0.1);
+	background-color: rgba(255, 255, 255, 0.94) !important;
+	backdrop-filter: blur(10px);
+}
 
 @media (min-width: 1100px) {
-	/* theme.json overflow-x:clip on .wp-site-blocks breaks position:sticky */
-	.wp-site-blocks {
-		overflow: visible !important;
-	}
-
-	.wp-site-blocks > header.wp-block-template-part {
-		position: sticky;
-		top: 0;
-		z-index: 200;
-	}
-
-	.drslon-site-header {
-		position: relative;
-		z-index: 200;
-		transition:
-			padding 0.2s ease,
-			box-shadow 0.2s ease,
-			background-color 0.2s ease,
-			backdrop-filter 0.2s ease;
-	}
-
-	body.admin-bar .wp-site-blocks > header.wp-block-template-part {
-		top: 32px;
-	}
-
 	.drslon-site-header.is-scrolled {
 		padding-top: 12px !important;
 		padding-bottom: 12px !important;
-		box-shadow: 0 10px 28px rgba(23, 33, 51, 0.1);
-		background-color: rgba(255, 255, 255, 0.94) !important;
-		backdrop-filter: blur(10px);
 	}
 
 	.drslon-site-header.is-scrolled .drslon-site-branding .custom-logo,
@@ -6074,5 +6083,55 @@ body:has(.drslon-main-navigation .wp-block-navigation__responsive-container.is-m
 	body.admin-bar .drslon-archive-layout > .wp-block-column:last-child,
 	body.admin-bar .drslon-single-layout > .wp-block-column:last-child {
 		top: calc(32px + var(--drslon-header-height, 108px) + 12px) !important;
+	}
+}
+
+@media (max-width: 1099px) {
+	.drslon-site-header.is-scrolled {
+		padding-top: 10px !important;
+		padding-bottom: 10px !important;
+	}
+
+	.drslon-site-header.is-scrolled .drslon-site-header__inner {
+		row-gap: 0.55rem;
+	}
+}
+
+@media (max-width: 781px) {
+	.drslon-site-header.is-scrolled {
+		padding-top: 8px !important;
+		padding-bottom: 8px !important;
+	}
+
+	.drslon-site-header.is-scrolled .drslon-site-header__inner {
+		gap: 8px 12px !important;
+	}
+
+	.drslon-site-header.is-scrolled .drslon-site-branding {
+		gap: 8px;
+	}
+
+	.drslon-site-header.is-scrolled .drslon-site-branding .custom-logo,
+	.drslon-site-header.is-scrolled .drslon-site-branding .custom-logo img {
+		width: 32px !important;
+		height: 32px !important;
+		max-width: 32px !important;
+		max-height: 32px !important;
+	}
+
+	.drslon-site-header.is-scrolled .drslon-site-branding .wp-block-site-title {
+		font-size: 0.9rem !important;
+		line-height: 1.1 !important;
+		max-width: 210px;
+	}
+
+	.drslon-site-header.is-scrolled .drslon-header-social .wp-social-link {
+		width: 30px;
+		height: 30px;
+	}
+
+	.drslon-site-header.is-scrolled .drslon-main-navigation .wp-block-navigation__responsive-container-open {
+		width: 36px;
+		height: 36px;
 	}
 }
