@@ -7,7 +7,7 @@ Description: Современная block theme для технического 
 Requires at least: 6.6
 Tested up to: 6.8
 Requires PHP: 8.1
-Version: 0.2.1
+Version: 0.2.2
 License: GPL-2.0-or-later
 Text Domain: drslon-blog
 Tags: blog, block-theme, full-site-editing, editor-style, technical
@@ -6261,6 +6261,11 @@ body:has(.drslon-main-navigation .wp-block-navigation__responsive-container.is-m
 	.drslon-main-navigation {
 		order: 4;
 	}
+
+	.drslon-header-social .wp-social-link.drslon-header-social-extra,
+	.drslon-header-social .wp-social-link:not(.wp-social-link-telegram) {
+		display: none !important;
+	}
 }
 
 @media (max-width: 781px) {
@@ -6306,9 +6311,49 @@ body.drslon-plugin-page .is-legacy-front-page-content > [class^="krv-"] {
 	margin-right: auto;
 }
 
+/* === Sprint B: mobile header trim + motion a11y === */
+@media (max-width: 781px) {
+	.drslon-header-utility {
+		flex-wrap: wrap !important;
+		justify-content: center !important;
+		row-gap: 8px;
+	}
+
+	.drslon-header-cta {
+		order: 1 !important;
+	}
+
+	.drslon-header-max {
+		order: 2 !important;
+	}
+
+	.drslon-header-social {
+		order: 3 !important;
+	}
+
+	.drslon-main-navigation {
+		order: 4 !important;
+	}
+}
+
+.drslon-site-footer .drslon-footer-contacts a {
+	font-weight: 600;
+}
+
 @media (prefers-reduced-motion: reduce) {
 	.drslon-header-cta .wp-block-button__link,
-	.drslon-site-header {
+	.drslon-site-header,
+	.drslon-archive-card,
+	.drslon-featured-slider__card,
+	.drslon-featured-slider__arrow,
+	.drslon-post-nav-card,
+	.drslon-home-sections-wrap .drslon-blog-section-card,
+	.drslon-home-tiles-wrap .drslon-category-tiles__item {
+		animation: none !important;
 		transition-duration: 0.01ms !important;
+	}
+
+	.drslon-featured-slider__viewport {
+		scroll-behavior: auto !important;
 	}
 }
