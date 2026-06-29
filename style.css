@@ -4372,10 +4372,10 @@ See detailed map: docs/style-css-map.md
 
 .drslon-site-header .drslon-site-branding .custom-logo,
 .drslon-site-header .drslon-site-branding .custom-logo img {
-        width: auto !important;
-        height: 58px !important;
-        max-width: 64px !important;
-        max-height: 58px !important;
+        width: 52px !important;
+        height: 52px !important;
+        max-width: 52px !important;
+        max-height: 52px !important;
         object-fit: contain;
 }
 
@@ -4392,10 +4392,10 @@ See detailed map: docs/style-css-map.md
 
         .drslon-site-header .drslon-site-branding .custom-logo,
         .drslon-site-header .drslon-site-branding .custom-logo img {
-                width: auto !important;
-                height: 48px !important;
-                max-width: 54px !important;
-                max-height: 48px !important;
+                width: 44px !important;
+                height: 44px !important;
+                max-width: 44px !important;
+                max-height: 44px !important;
         }
 
         .drslon-site-header .drslon-site-branding .wp-block-site-title {
@@ -4424,10 +4424,10 @@ See detailed map: docs/style-css-map.md
 @media (max-width: 781px) {
         .drslon-site-header .drslon-site-branding .custom-logo,
         .drslon-site-header .drslon-site-branding .custom-logo img {
-                width: auto !important;
-                height: 48px !important;
-                max-width: 54px !important;
-                max-height: 48px !important;
+                width: 44px !important;
+                height: 44px !important;
+                max-width: 44px !important;
+                max-height: 44px !important;
         }
 }
 /* === /blog mobile featured tighten pass === */
@@ -6108,9 +6108,10 @@ body:has(.drslon-main-navigation .wp-block-navigation__responsive-container.is-m
 
 .drslon-site-footer .wp-block-site-logo .custom-logo,
 .drslon-site-footer .wp-block-site-logo .custom-logo img {
-	height: 56px !important;
-	width: auto !important;
-	max-width: 64px !important;
+	width: 52px !important;
+	height: 52px !important;
+	max-width: 52px !important;
+	max-height: 52px !important;
 }
 
 @media (min-width: 1100px) {
@@ -6121,8 +6122,9 @@ body:has(.drslon-main-navigation .wp-block-navigation__responsive-container.is-m
 
 	.drslon-site-header.is-scrolled .drslon-site-branding .custom-logo,
 	.drslon-site-header.is-scrolled .drslon-site-branding .custom-logo img {
+		width: 44px !important;
 		height: 44px !important;
-		max-width: 50px !important;
+		max-width: 44px !important;
 		max-height: 44px !important;
 	}
 
@@ -6173,8 +6175,9 @@ body:has(.drslon-main-navigation .wp-block-navigation__responsive-container.is-m
 
 	.drslon-site-header.is-scrolled .drslon-site-branding .custom-logo,
 	.drslon-site-header.is-scrolled .drslon-site-branding .custom-logo img {
+		width: 36px !important;
 		height: 36px !important;
-		max-width: 40px !important;
+		max-width: 36px !important;
 		max-height: 36px !important;
 	}
 
