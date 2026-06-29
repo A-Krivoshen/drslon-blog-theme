@@ -416,7 +416,7 @@ body.drslon-plugin-page .is-legacy-front-page-content > [class^="krv-"] {
 
 	.drslon-main-navigation {
 		width: auto !important;
-		margin: 0 !important;
+		margin: 0 5px 0 0 !important;
 	}
 }
 
