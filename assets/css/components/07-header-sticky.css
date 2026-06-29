@@ -317,8 +317,14 @@ body.drslon-plugin-page .is-legacy-front-page-content > [class^="krv-"] {
 	}
 }
 
-.drslon-site-footer .drslon-footer-contacts a {
-	font-weight: 600;
+@media (prefers-reduced-motion: reduce) {
+	.drslon-footer-connect__btn {
+		transition-duration: 0.01ms !important;
+	}
+
+	.drslon-footer-connect__btn:hover {
+		transform: none;
+	}
 }
 
 @media (prefers-reduced-motion: reduce) {
