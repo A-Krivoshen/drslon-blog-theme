@@ -86,6 +86,13 @@
 	fill: currentColor;
 }
 
+.drslon-footer-connect__btn .drslon-max-icon {
+	display: block;
+	width: 22px;
+	height: 22px;
+	fill: currentColor;
+}
+
 .drslon-footer-connect__btn:hover {
 	transform: translateY(-1px);
 	text-decoration: none;
@@ -99,6 +106,13 @@
 }
 
 .drslon-footer-connect__btn--email:hover {
+	border-color: #b9caff;
+	background: #eef4ff;
+	color: var(--wp--preset--color--accent-hover);
+	box-shadow: 0 10px 22px rgba(81, 129, 254, 0.14);
+}
+
+.drslon-footer-connect__btn--max:hover {
 	border-color: #b9caff;
 	background: #eef4ff;
 	color: var(--wp--preset--color--accent-hover);
