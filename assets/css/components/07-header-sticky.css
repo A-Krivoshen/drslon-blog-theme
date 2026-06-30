@@ -537,6 +537,22 @@ body.drslon-plugin-page .is-legacy-front-page-content > [class^="krv-"] {
 	margin-right: auto;
 }
 
+/* === Hide mobile-only contacts in header nav (tablet + desktop) === */
+@media (min-width: 782px) {
+	.drslon-main-navigation .drslon-mobile-menu-contacts-wrap,
+	.drslon-main-navigation .drslon-mobile-menu-contacts,
+	.drslon-main-navigation .drslon-mobile-menu-contacts__label,
+	.drslon-main-navigation .drslon-mobile-menu-contacts__row {
+		display: none !important;
+		visibility: hidden !important;
+		height: 0 !important;
+		overflow: hidden !important;
+		margin: 0 !important;
+		padding: 0 !important;
+		pointer-events: none !important;
+	}
+}
+
 /* === Mobile header: brand left, burger right (thumb zone) === */
 @media (max-width: 781px) {
 	.drslon-site-header__inner {
