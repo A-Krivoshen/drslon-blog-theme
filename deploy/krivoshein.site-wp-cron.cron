@@ -1,0 +1,5 @@
+SHELL=/bin/sh
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
+# WP-Cron через системный cron (DISABLE_WP_CRON = true)
+*/5 * * * * www-data wget -q -O - "https://www.krivoshein.site/wp-cron.php?doing_wp_cron" >/dev/null 2>&1
