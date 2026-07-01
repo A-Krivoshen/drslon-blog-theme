@@ -127,3 +127,10 @@ function drslon_category_columns_body_class( $classes ) {
 	}
 	return $classes;
 }
+
+/* =============================================
+   Лимит ревизий постов
+   ============================================= */
+add_filter( 'wp_revisions_to_keep', function ( $num, $post ) {
+	return 5;
+}, 10, 2 );

@@ -1,0 +1,5 @@
+SHELL=/bin/sh
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
+# Воскресенье 04:00 (MSK)
+0 4 * * 0 www-data /var/www/krivoshein.site/htdocs/.grok/scripts/mysql-weekly-check.sh
