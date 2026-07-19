@@ -20,6 +20,7 @@ function drslon_theme_stylesheet_map(): array {
 		'drslon-css-shell'         => 'assets/css/components/06-shell.css',
 		'drslon-css-footer'        => 'assets/css/components/08-footer.css',
 		'drslon-css-header-sticky' => 'assets/css/components/07-header-sticky.css',
+		'drslon-css-blog-mobile'   => 'assets/css/components/09-blog-mobile.css',
 	);
 }
 
@@ -33,6 +34,9 @@ function drslon_should_enqueue_style( string $handle ): bool {
 
 		case 'drslon-css-archive':
 			return is_archive() || is_category() || is_tag() || is_author() || is_date() || is_search() || ( is_home() && ! is_front_page() );
+
+		case 'drslon-css-blog-mobile':
+			return is_home() && ! is_front_page();
 
 		case 'drslon-css-blog-home':
 			return is_home() && ! is_front_page();

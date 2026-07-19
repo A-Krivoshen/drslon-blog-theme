@@ -503,16 +503,6 @@
                 top: 84px !important;
         }
 }
-/* === mobile: hide featured slider arrows completely === */
-@media (max-width: 781px) {
-        .drslon-home-featured-wrap .drslon-featured-slider__controls {
-                display: none !important;
-        }
-
-        .drslon-home-featured-wrap .drslon-featured-slider__content {
-                margin-top: -22px !important;
-        }
-}
 /* === hotfix: featured slider arrows visible on mobile/tablet === */
 @media (max-width: 800px) {
         .drslon-home-featured-wrap .drslon-featured-slider,
@@ -570,56 +560,6 @@
 
         .drslon-home-featured-wrap .drslon-featured-slider__arrow--next::before {
                 content: "›" !important;
-        }
-}
-/* === fix: restore featured slider mechanics on mobile/tablet === */
-@media (max-width: 800px) {
-        .drslon-home-featured-wrap .drslon-featured-slider,
-        .drslon-home-featured-wrap .drslon-featured-slider__frame {
-                overflow: visible !important;
-        }
-
-        .drslon-home-featured-wrap .drslon-featured-slider__viewport {
-                display: flex !important;
-                gap: 16px !important;
-                overflow-x: auto !important;
-                overflow-y: hidden !important;
-                scroll-snap-type: x mandatory !important;
-                -webkit-overflow-scrolling: touch !important;
-                scrollbar-width: none !important;
-                padding: 0 0 18px 0 !important;
-        }
-
-        .drslon-home-featured-wrap .drslon-featured-slider__viewport::-webkit-scrollbar {
-                display: none !important;
-        }
-
-        .drslon-home-featured-wrap .drslon-featured-slider__card {
-                flex: 0 0 100% !important;
-                width: 100% !important;
-                scroll-snap-align: start !important;
-                overflow: visible !important;
-        }
-
-        .drslon-home-featured-wrap .drslon-featured-slider__controls {
-                position: absolute !important;
-                left: 0 !important;
-                right: 0 !important;
-                top: clamp(92px, 31vw, 138px) !important;
-                z-index: 30 !important;
-                display: flex !important;
-                justify-content: space-between !important;
-                align-items: center !important;
-                padding: 0 8px !important;
-                transform: none !important;
-                pointer-events: none !important;
-        }
-
-        .drslon-home-featured-wrap .drslon-featured-slider__arrow {
-                display: inline-flex !important;
-                visibility: visible !important;
-                opacity: 1 !important;
-                pointer-events: auto !important;
         }
 }
 /* === 404 page === */
@@ -1161,6 +1101,7 @@ body:has(.drslon-main-navigation .wp-block-navigation__responsive-container.is-m
                 overflow-x: hidden;
         }
 
+        body.blog main.wp-block-group.drslon-home-shell,
         body.single-post main.wp-block-group,
         body.single-project main.wp-block-group,
         body.search main.wp-block-group,
