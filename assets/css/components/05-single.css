@@ -280,3 +280,109 @@
                 font-size: 0.92rem;
         }
 }
+
+/* === project: related posts grid === */
+
+.krv-project-posts {
+        margin: 32px 0 24px;
+}
+
+.krv-project-posts__heading {
+        font-size: 1.15rem;
+        font-weight: 600;
+        color: var(--wp--preset--color--foreground);
+        margin: 0 0 16px;
+}
+
+.krv-project-posts__grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 18px;
+}
+
+.krv-project-posts__item {
+        background: var(--wp--preset--color--surface);
+        border: 1px solid var(--wp--preset--color--border);
+        border-radius: 10px;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.krv-project-posts__item:hover {
+        box-shadow: 0 4px 16px rgba(49, 95, 232, 0.10);
+        transform: translateY(-2px);
+}
+
+.krv-project-posts__media {
+        display: block;
+        overflow: hidden;
+        aspect-ratio: 16/9;
+}
+
+.krv-project-posts__image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+}
+
+.krv-project-posts__placeholder {
+        display: block;
+        width: 100%;
+        height: 100%;
+        background: var(--wp--preset--color--surface-light);
+}
+
+.krv-project-posts__content {
+        padding: 14px 16px 16px;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+}
+
+.krv-project-posts__meta {
+        font-size: 0.8rem;
+        color: var(--wp--preset--color--muted);
+        margin: 0 0 6px;
+}
+
+.krv-project-posts__dot {
+        margin: 0 6px;
+}
+
+.krv-project-posts__title {
+        font-size: 0.95rem;
+        font-weight: 600;
+        line-height: 1.35;
+        margin: 0 0 8px;
+}
+
+.krv-project-posts__title a {
+        color: var(--wp--preset--color--foreground);
+        text-decoration: none;
+}
+
+.krv-project-posts__title a:hover {
+        color: var(--wp--preset--color--accent);
+}
+
+.krv-project-posts__excerpt {
+        font-size: 0.85rem;
+        color: var(--wp--preset--color--muted);
+        line-height: 1.5;
+        margin: 0;
+        flex: 1;
+}
+
+@media (max-width: 1099px) {
+        .krv-project-posts__grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+}
+
+@media (max-width: 781px) {
+        .krv-project-posts__grid {
+                grid-template-columns: 1fr;
+        }
+}
