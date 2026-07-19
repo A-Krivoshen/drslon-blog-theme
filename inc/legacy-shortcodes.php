@@ -1,8 +1,8 @@
 <?php
 /**
- * Blog shortcodes bridge — implementation lives in drslon-site-core.
+ * Blog shortcode fallback when drslon-site-core is not active.
  *
- * @deprecated 0.3.0 Load from plugin includes/shortcodes/blog-shortcodes.php
+ * The active plugin loads before the theme and registers these functions first.
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -10,15 +10,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 if ( function_exists( 'drslon_featured_post_shortcode' ) ) {
-	return;
-}
-
-require_once get_template_directory() . '/inc/plugin-bridge.php';
-
-$plugin_file = drslon_locate_site_core_file( 'includes/shortcodes/blog-shortcodes.php' );
-
-if ( null !== $plugin_file ) {
-	require_once $plugin_file;
 	return;
 }
 

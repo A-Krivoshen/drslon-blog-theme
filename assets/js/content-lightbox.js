@@ -1,266 +1,347 @@
 (function () {
-        const desktopQuery = window.matchMedia('(min-width: 782px)');
+	'use strict';
 
-        if (!desktopQuery.matches) {
-                return;
-        }
+	var images = Array.prototype.slice.call(
+		document.querySelectorAll(
+			'.drslon-single-content .wp-block-image img, ' +
+			'.drslon-single-content .wp-block-gallery img, ' +
+			'.wp-block-post-content .wp-block-image img, ' +
+			'.wp-block-post-content .wp-block-gallery img'
+		)
+	).filter(function (image) {
+		return !image.closest('.drslon-content-lightbox')
+			&& !image.closest('.wp-lightbox-container, [data-wp-interactive="core/image"]')
+			&& !image.closest('.stk--has-lightbox, [data-lightbox], [data-fancybox], [role="button"]')
+			&& !image.classList.contains('avatar')
+			&& !image.classList.contains('emoji')
+			&& !image.classList.contains('wp-smiley');
+	});
 
-        if (!document.body.matches('.single-post, .single-project, .single-arkai-portfolio')) {
-                return;
-        }
+	if (!images.length) {
+		return;
+	}
 
-        const content = document.querySelector('.drslon-single-content, .wp-block-post-content');
+	var dialog = document.createElement('dialog');
+	var dialogId = 'drslon-content-lightbox';
+	dialog.id = dialogId;
+	dialog.className = 'drslon-content-lightbox';
+	dialog.setAttribute('aria-label', 'Просмотр изображения');
+	dialog.innerHTML =
+		'<button class="drslon-content-lightbox__zoom" type="button" aria-label="Увеличить изображение" aria-pressed="false">+</button>' +
+		'<button class="drslon-content-lightbox__close" type="button" aria-label="Закрыть просмотр">&times;</button>' +
+		'<div class="drslon-content-lightbox__inner">' +
+			'<img class="drslon-content-lightbox__image" alt="">' +
+			'<p class="drslon-content-lightbox__caption" hidden></p>' +
+		'</div>';
+	document.body.appendChild(dialog);
 
-        if (!content) {
-                return;
-        }
+	var dialogInner = dialog.querySelector('.drslon-content-lightbox__inner');
+	var dialogImage = dialog.querySelector('.drslon-content-lightbox__image');
+	var caption = dialog.querySelector('.drslon-content-lightbox__caption');
+	var closeButton = dialog.querySelector('.drslon-content-lightbox__close');
+	var zoomButton = dialog.querySelector('.drslon-content-lightbox__zoom');
+	var desktopQuery = window.matchMedia('(min-width: 782px)');
+	var supportsModal = typeof dialog.showModal === 'function';
+	var records = [];
+	var isEnabled = false;
+	var isOpen = false;
+	var activeTrigger = null;
 
-        let previousActiveElement = null;
+	function getCaption(image) {
+		var figure = image.closest('figure');
+		var figureCaption = figure ? figure.querySelector('figcaption') : null;
+		return figureCaption ? figureCaption.textContent.trim() : '';
+	}
 
-        function isImageUrl(url) {
-                return /\.(png|jpe?g|gif|webp|avif)(\?.*)?$/i.test(url || '');
-        }
+	function getLargestFromSrcset(srcset) {
+		var candidates;
 
-        function getLargestFromSrcset(srcset) {
-                if (!srcset) {
-                        return '';
-                }
+		if (!srcset) {
+			return '';
+		}
 
-                return srcset
-                        .split(',')
-                        .map(function (item) {
-                                const parts = item.trim().split(/\s+/);
-                                const url = parts[0] || '';
-                                const width = parts[1] && parts[1].endsWith('w') ? parseInt(parts[1], 10) : 0;
+		candidates = srcset.split(',').map(function (item) {
+			var parts = item.trim().split(/\s+/);
+			var width = parts[1] && /w$/.test(parts[1]) ? parseInt(parts[1], 10) : 0;
+			return { url: parts[0] || '', width: width };
+		}).filter(function (item) {
+			return item.url;
+		}).sort(function (a, b) {
+			return b.width - a.width;
+		});
 
-                                return { url: url, width: width };
-                        })
-                        .filter(function (item) {
-                                return item.url;
-                        })
-                        .sort(function (a, b) {
-                                return b.width - a.width;
-                        })[0]?.url || '';
-        }
+		return candidates.length ? candidates[0].url : '';
+	}
 
-        function getImageUrl(img) {
-                const link = img.closest('a[href]');
+	function isImageUrl(url) {
+		return /\.(?:avif|gif|jpe?g|png|svg|webp)(?:[?#].*)?$/i.test(url || '');
+	}
 
-                if (link && isImageUrl(link.href)) {
-                        return link.href;
-                }
+	function getImageSource(image) {
+		var anchor = image.closest('a[href]');
+		var linkedSource = anchor ? anchor.href : '';
 
-                return getLargestFromSrcset(img.getAttribute('srcset')) || img.currentSrc || img.src || '';
-        }
+		if (isImageUrl(linkedSource)) {
+			return linkedSource;
+		}
 
-        function getCaption(img) {
-                const figure = img.closest('figure');
-                const caption = figure ? figure.querySelector('figcaption') : null;
+		return getLargestFromSrcset(image.getAttribute('srcset')) || image.currentSrc || image.src;
+	}
 
-                if (caption && caption.textContent.trim()) {
-                        return caption.textContent.trim();
-                }
+	function getTriggerLabel(image) {
+		var description = getCaption(image) || image.alt.trim();
+		return description ? 'Открыть изображение: ' + description : 'Открыть изображение';
+	}
 
-                return img.getAttribute('alt') || '';
-        }
+	function setZoomed(zoomed) {
+		dialog.classList.toggle('is-zoomed', zoomed);
+		zoomButton.setAttribute('aria-pressed', zoomed ? 'true' : 'false');
+		zoomButton.setAttribute('aria-label', zoomed ? 'Уменьшить изображение' : 'Увеличить изображение');
+		zoomButton.textContent = zoomed ? '−' : '+';
+		dialogImage.style.removeProperty('width');
+		dialogImage.style.removeProperty('height');
 
-        const lightbox = document.createElement('div');
+		if (!zoomed) {
+			if (typeof dialog.scrollTo === 'function') {
+				dialog.scrollTo({ top: 0, left: 0 });
+			}
 
-        lightbox.className = 'drslon-content-lightbox';
-        lightbox.setAttribute('role', 'dialog');
-        lightbox.setAttribute('aria-modal', 'true');
-        lightbox.setAttribute('aria-hidden', 'true');
-        lightbox.innerHTML = ''
-                + '<button class="drslon-content-lightbox__zoom" type="button" aria-label="Увеличить изображение" aria-pressed="false">+</button>'
-                + '<button class="drslon-content-lightbox__close" type="button" aria-label="Закрыть">×</button>'
-                + '<div class="drslon-content-lightbox__inner">'
-                + '<img class="drslon-content-lightbox__image" alt="">'
-                + '<div class="drslon-content-lightbox__caption"></div>'
-                + '</div>';
+			return;
+		}
 
-        document.body.appendChild(lightbox);
+		var naturalWidth = dialogImage.naturalWidth || 0;
+		var currentWidth = dialogImage.getBoundingClientRect().width || naturalWidth || 0;
 
-        const zoomButton = lightbox.querySelector('.drslon-content-lightbox__zoom');
-        const closeButton = lightbox.querySelector('.drslon-content-lightbox__close');
-        const lightboxImage = lightbox.querySelector('.drslon-content-lightbox__image');
-        const lightboxCaption = lightbox.querySelector('.drslon-content-lightbox__caption');
+		if (!currentWidth) {
+			return;
+		}
 
-        function setZoomed(isZoomed) {
-                lightbox.classList.toggle('is-zoomed', isZoomed);
-                zoomButton.setAttribute('aria-pressed', isZoomed ? 'true' : 'false');
-                zoomButton.setAttribute('aria-label', isZoomed ? 'Уменьшить изображение' : 'Увеличить изображение');
-                zoomButton.textContent = isZoomed ? '−' : '+';
+		var viewportTarget = Math.round(window.innerWidth * 0.9);
+		var visualTarget = Math.round(currentWidth * 1.6);
+		var maxUpscaleWidth = naturalWidth ? Math.round(naturalWidth * 2) : Math.round(currentWidth * 2);
+		var targetWidth = Math.min(Math.max(visualTarget, viewportTarget), maxUpscaleWidth, 2200);
 
-                lightboxImage.style.removeProperty('width');
-                lightboxImage.style.removeProperty('height');
+		dialogImage.style.width = targetWidth + 'px';
+		dialogImage.style.height = 'auto';
 
-                if (!isZoomed) {
-                        if (typeof lightbox.scrollTo === 'function') {
-                                lightbox.scrollTo({ top: 0, left: 0 });
-                        }
+		if (typeof dialog.scrollTo === 'function') {
+			dialog.scrollTo({ top: 0, left: 0 });
+		}
+	}
 
-                        return;
-                }
+	function openLightbox(image, trigger) {
+		var imageCaption = getCaption(image);
 
-                const naturalWidth = lightboxImage.naturalWidth || 0;
-                const currentWidth = lightboxImage.getBoundingClientRect().width || naturalWidth || 0;
+		activeTrigger = trigger;
+		dialogImage.src = getImageSource(image);
+		dialogImage.alt = image.getAttribute('alt') || '';
+		caption.textContent = imageCaption;
+		caption.hidden = !imageCaption;
+		setZoomed(false);
+		isOpen = true;
+		document.documentElement.classList.add('drslon-lightbox-open');
 
-                if (!currentWidth) {
-                        return;
-                }
+		if (supportsModal) {
+			try {
+				dialog.showModal();
+			} catch (error) {
+				dialog.setAttribute('open', '');
+			}
+		} else {
+			dialog.setAttribute('role', 'dialog');
+			dialog.setAttribute('aria-modal', 'true');
+			dialog.setAttribute('open', '');
+		}
 
-                const viewportTarget = Math.round(window.innerWidth * 0.9);
-                const visualTarget = Math.round(currentWidth * 1.6);
-                const maxUpscaleWidth = naturalWidth ? Math.round(naturalWidth * 2) : Math.round(currentWidth * 2);
-                const targetWidth = Math.min(
-                        Math.max(visualTarget, viewportTarget),
-                        maxUpscaleWidth,
-                        2200
-                );
+		closeButton.focus();
+	}
 
-                lightboxImage.style.width = targetWidth + 'px';
-                lightboxImage.style.height = 'auto';
+	function closeLightbox(restoreFocus) {
+		var trigger = activeTrigger;
 
-                if (typeof lightbox.scrollTo === 'function') {
-                        lightbox.scrollTo({ top: 0, left: 0 });
-                }
-        }
+		if (!isOpen) {
+			return;
+		}
 
-        function closeLightbox() {
-                if (!lightbox.classList.contains('is-open')) {
-                        return;
-                }
+		isOpen = false;
+		activeTrigger = null;
+		if (supportsModal && dialog.open) {
+			dialog.close();
+		} else {
+			dialog.removeAttribute('open');
+		}
+		document.documentElement.classList.remove('drslon-lightbox-open');
+		setZoomed(false);
+		dialogImage.removeAttribute('src');
+		caption.textContent = '';
+		caption.hidden = true;
 
-                lightbox.classList.remove('is-open');
-                lightbox.setAttribute('aria-hidden', 'true');
-                setZoomed(false);
-                document.documentElement.classList.remove('drslon-lightbox-open');
+		if (restoreFocus && trigger && trigger.isConnected) {
+			trigger.focus();
+		}
+	}
 
-                lightboxImage.removeAttribute('src');
-                lightboxImage.alt = '';
-                lightboxCaption.textContent = '';
-                lightboxCaption.hidden = true;
+	function onTriggerClick(event) {
+		if (!isEnabled || event.button > 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) {
+			return;
+		}
 
-                if (previousActiveElement && typeof previousActiveElement.focus === 'function') {
-                        try {
-                                previousActiveElement.focus({ preventScroll: true });
-                        } catch (error) {
-                                previousActiveElement.focus();
-                        }
-                }
+		event.preventDefault();
+		openLightbox(event.currentTarget.querySelector('img'), event.currentTarget);
+	}
 
-                previousActiveElement = null;
-        }
+	function setupTriggers() {
+		if (isEnabled) {
+			return;
+		}
 
-        function openLightbox(img) {
-                const imageUrl = getImageUrl(img);
+		isEnabled = true;
+		images.forEach(function (image) {
+			var interactiveParent = image.closest('a[href], button');
+			if (interactiveParent && interactiveParent.tagName === 'A' && !isImageUrl(interactiveParent.href)) {
+				return;
+			}
 
-                if (!imageUrl) {
-                        return;
-                }
+			var media = image.parentElement && image.parentElement.tagName === 'PICTURE'
+				? image.parentElement
+				: image;
+			var trigger = interactiveParent;
+			var generated = false;
 
-                previousActiveElement = document.activeElement;
-                setZoomed(false);
+			if (!trigger) {
+				trigger = document.createElement('button');
+				trigger.type = 'button';
+				trigger.setAttribute('aria-label', getTriggerLabel(image));
+				media.parentNode.insertBefore(trigger, media);
+				trigger.appendChild(media);
+				generated = true;
+			}
 
-                const caption = getCaption(img);
+			if (records.some(function (record) { return record.trigger === trigger; })) {
+				return;
+			}
 
-                lightboxImage.src = imageUrl;
-                lightboxImage.alt = img.getAttribute('alt') || '';
+			var record = {
+				trigger: trigger,
+				media: media,
+				generated: generated,
+				hadClass: trigger.classList.contains('drslon-content-lightbox-trigger'),
+				ariaHaspopup: trigger.getAttribute('aria-haspopup'),
+				ariaControls: trigger.getAttribute('aria-controls'),
+				ariaLabel: trigger.getAttribute('aria-label')
+			};
 
-                lightboxCaption.textContent = caption;
-                lightboxCaption.hidden = !caption;
+			if (!trigger.getAttribute('aria-label') && !image.alt.trim()) {
+				trigger.setAttribute('aria-label', getTriggerLabel(image));
+			}
+			trigger.classList.add('drslon-content-lightbox-trigger');
+			trigger.setAttribute('aria-haspopup', 'dialog');
+			trigger.setAttribute('aria-controls', dialogId);
+			trigger.addEventListener('click', onTriggerClick);
+			records.push(record);
+		});
+	}
 
-                lightbox.classList.add('is-open');
-                lightbox.setAttribute('aria-hidden', 'false');
-                document.documentElement.classList.add('drslon-lightbox-open');
+	function restoreAttribute(element, name, value) {
+		if (value === null) {
+			element.removeAttribute(name);
+		} else {
+			element.setAttribute(name, value);
+		}
+	}
 
-                closeButton.focus();
-        }
+	function teardownTriggers() {
+		if (!isEnabled) {
+			return;
+		}
 
-        zoomButton.addEventListener('click', function () {
-                setZoomed(!lightbox.classList.contains('is-zoomed'));
-        });
+		isEnabled = false;
+		closeLightbox(false);
+		records.forEach(function (record) {
+			var trigger = record.trigger;
+			trigger.removeEventListener('click', onTriggerClick);
 
-        closeButton.addEventListener('click', closeLightbox);
+			if (record.generated) {
+				trigger.parentNode.insertBefore(record.media, trigger);
+				trigger.remove();
+				return;
+			}
 
-        lightboxImage.addEventListener('click', function () {
-                setZoomed(!lightbox.classList.contains('is-zoomed'));
-        });
+			if (!record.hadClass) {
+				trigger.classList.remove('drslon-content-lightbox-trigger');
+			}
+			restoreAttribute(trigger, 'aria-haspopup', record.ariaHaspopup);
+			restoreAttribute(trigger, 'aria-controls', record.ariaControls);
+			restoreAttribute(trigger, 'aria-label', record.ariaLabel);
+		});
+		records = [];
+	}
 
-        function handleDesktopChange(event) {
-                if (!event.matches) {
-                        closeLightbox();
-                }
-        }
+	function updateResponsiveState() {
+		if (desktopQuery.matches) {
+			setupTriggers();
+		} else {
+			teardownTriggers();
+		}
+	}
 
-        if (typeof desktopQuery.addEventListener === 'function') {
-                desktopQuery.addEventListener('change', handleDesktopChange);
-        } else if (typeof desktopQuery.addListener === 'function') {
-                desktopQuery.addListener(handleDesktopChange);
-        }
+	closeButton.addEventListener('click', function () {
+		closeLightbox(true);
+	});
 
-        lightbox.addEventListener('click', function (event) {
-                if (event.target === lightbox) {
-                        closeLightbox();
-                }
-        });
+	zoomButton.addEventListener('click', function () {
+		setZoomed(!dialog.classList.contains('is-zoomed'));
+	});
 
-        document.addEventListener('keydown', function (event) {
-                if (event.key === 'Escape' && lightbox.classList.contains('is-open')) {
-                        closeLightbox();
-                }
-        });
+	dialogImage.addEventListener('click', function () {
+		setZoomed(!dialog.classList.contains('is-zoomed'));
+	});
 
-        content.querySelectorAll('.wp-block-image img, .wp-block-gallery img').forEach(function (img) {
-                if (img.classList.contains('emoji') || img.classList.contains('wp-smiley')) {
-                        return;
-                }
+	dialog.addEventListener('click', function (event) {
+		if (event.target === dialog && !dialogInner.contains(event.target)) {
+			closeLightbox(true);
+		}
+	});
 
-                const link = img.closest('a[href]');
+	dialog.addEventListener('cancel', function (event) {
+		event.preventDefault();
+		closeLightbox(true);
+	});
 
-                if (link && !isImageUrl(link.href)) {
-                        return;
-                }
+	document.addEventListener('keydown', function (event) {
+		if (!isOpen) {
+			return;
+		}
 
-                img.classList.add('drslon-content-lightbox-target');
-                img.setAttribute('tabindex', '0');
-                img.setAttribute('role', 'button');
-                img.setAttribute('aria-label', 'Открыть изображение');
-        });
+		if (event.key === 'Escape') {
+			event.preventDefault();
+			closeLightbox(true);
+			return;
+		}
 
-        content.addEventListener('click', function (event) {
-                if (!desktopQuery.matches) {
-                        closeLightbox();
-                        return;
-                }
+		if (event.key === 'Tab') {
+			var focusable = [zoomButton, closeButton];
+			var currentIndex = focusable.indexOf(document.activeElement);
+			var nextIndex = event.shiftKey ? currentIndex - 1 : currentIndex + 1;
 
-                const img = event.target.closest('.drslon-content-lightbox-target');
+			if (currentIndex === -1 || nextIndex < 0 || nextIndex >= focusable.length) {
+				event.preventDefault();
+				focusable[event.shiftKey ? focusable.length - 1 : 0].focus();
+			}
+		}
+	});
 
-                if (!img) {
-                        return;
-                }
+	document.addEventListener('focusin', function (event) {
+		if (isOpen && !dialog.contains(event.target)) {
+			closeButton.focus();
+		}
+	});
 
-                event.preventDefault();
-                openLightbox(img);
-        });
+	if (typeof desktopQuery.addEventListener === 'function') {
+		desktopQuery.addEventListener('change', updateResponsiveState);
+	} else {
+		desktopQuery.addListener(updateResponsiveState);
+	}
 
-        content.addEventListener('keydown', function (event) {
-                if (event.key !== 'Enter' && event.key !== ' ') {
-                        return;
-                }
-
-                if (!desktopQuery.matches) {
-                        closeLightbox();
-                        return;
-                }
-
-                const img = event.target.closest('.drslon-content-lightbox-target');
-
-                if (!img) {
-                        return;
-                }
-
-                event.preventDefault();
-                openLightbox(img);
-        });
+	updateResponsiveState();
 })();

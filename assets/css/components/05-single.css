@@ -137,7 +137,7 @@
         font-size: 0.98rem;
         line-height: 1.35;
         font-weight: 700;
-        color: var(--wp--preset--color--foreground);
+        color: var(--wp--preset--color--text);
         overflow-wrap: anywhere;
 }
 

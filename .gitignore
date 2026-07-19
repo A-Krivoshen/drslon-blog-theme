@@ -4,6 +4,7 @@ Thumbs.db
 .vscode/
 *.swp
 *.swo
+*.bak
 *~
 node_modules/
 dist/

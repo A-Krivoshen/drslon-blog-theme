@@ -9,10 +9,16 @@
 
 	var scrollThreshold = 24;
 	var ticking = false;
+	var isScrolled = null;
+	var headerHeight = 0;
 
-	function updateHeaderHeight() {
-		var height = headerShell.offsetHeight;
+	function setHeaderHeight(height) {
+		height = Math.round(height);
+		if (height <= 0 || height === headerHeight) {
+			return;
+		}
 
+		headerHeight = height;
 		document.documentElement.style.setProperty(
 			'--drslon-header-height',
 			height + 'px'
@@ -21,8 +27,13 @@
 	}
 
 	function updateScrollState() {
-		header.classList.toggle('is-scrolled', window.scrollY > scrollThreshold);
-		updateHeaderHeight();
+		var nextState = window.scrollY > scrollThreshold;
+		if (nextState === isScrolled) {
+			return;
+		}
+
+		isScrolled = nextState;
+		header.classList.toggle('is-scrolled', nextState);
 	}
 
 	function onScroll() {
@@ -37,6 +48,7 @@
 
 	function onLayoutChange() {
 		updateScrollState();
+		setHeaderHeight(headerShell.offsetHeight);
 	}
 
 	window.addEventListener('scroll', onScroll, { passive: true });
@@ -45,6 +57,16 @@
 
 	if (document.fonts && typeof document.fonts.ready === 'object') {
 		document.fonts.ready.then(onLayoutChange).catch(function () {});
+	}
+
+	if ('ResizeObserver' in window) {
+		new ResizeObserver(function (entries) {
+			var entry = entries[0];
+			var size = entry.borderBoxSize;
+			var height = size && size.length ? size[0].blockSize : entry.target.offsetHeight;
+
+			setHeaderHeight(height);
+		}).observe(headerShell);
 	}
 
 	onLayoutChange();

@@ -43,6 +43,10 @@ function drslon_header_telegram_channel_a11y( $block_content, $block ) {
 /* =============================================
    Настройка количества постов на страницах рубрик
    ============================================= */
+function drslon_sanitize_posts_per_category( $value ): int {
+	return max( 1, min( 48, (int) $value ) );
+}
+
 add_action( 'customize_register', 'drslon_customize_category_posts' );
 function drslon_customize_category_posts( $wp_customize ) {
 
@@ -58,7 +62,7 @@ function drslon_customize_category_posts( $wp_customize ) {
 		'drslon_posts_per_category',
 		array(
 			'default'           => 12,
-			'sanitize_callback' => 'absint',
+			'sanitize_callback' => 'drslon_sanitize_posts_per_category',
 		)
 	);
 
@@ -82,8 +86,8 @@ function drslon_customize_category_posts( $wp_customize ) {
    ============================================= */
 add_action( 'pre_get_posts', 'drslon_set_posts_per_category' );
 function drslon_set_posts_per_category( $query ) {
-	if ( ! is_admin() && $query->is_main_query() && is_category() ) {
-		$posts_per_page = get_theme_mod( 'drslon_posts_per_category', 12 );
+	if ( ! is_admin() && $query->is_main_query() && $query->is_category() ) {
+		$posts_per_page = drslon_sanitize_posts_per_category( get_theme_mod( 'drslon_posts_per_category', 12 ) );
 		$query->set( 'posts_per_page', $posts_per_page );
 	}
 }
@@ -91,6 +95,12 @@ function drslon_set_posts_per_category( $query ) {
 /* =============================================
    Выбор количества колонок на страницах рубрик
    ============================================= */
+function drslon_sanitize_category_columns( $value ): string {
+	$value = (string) $value;
+
+	return in_array( $value, array( '1', '2' ), true ) ? $value : '2';
+}
+
 add_action( 'customize_register', 'drslon_customize_category_layout' );
 function drslon_customize_category_layout( $wp_customize ) {
 
@@ -98,7 +108,7 @@ function drslon_customize_category_layout( $wp_customize ) {
 		'drslon_category_columns',
 		array(
 			'default'           => '2',
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => 'drslon_sanitize_category_columns',
 		)
 	);
 
@@ -122,15 +132,8 @@ function drslon_customize_category_layout( $wp_customize ) {
 add_filter( 'body_class', 'drslon_category_columns_body_class' );
 function drslon_category_columns_body_class( $classes ) {
 	if ( is_category() ) {
-		$columns        = get_theme_mod( 'drslon_category_columns', '2' );
+		$columns   = drslon_sanitize_category_columns( get_theme_mod( 'drslon_category_columns', '2' ) );
 		$classes[] = 'category-columns-' . $columns;
 	}
 	return $classes;
 }
-
-/* =============================================
-   Лимит ревизий постов
-   ============================================= */
-add_filter( 'wp_revisions_to_keep', function ( $num, $post ) {
-	return 5;
-}, 10, 2 );

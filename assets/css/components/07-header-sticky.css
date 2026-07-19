@@ -7,6 +7,57 @@
 	overflow: visible !important;
 }
 
+/* Shared sidebar behavior for every template that renders the sidebar part. */
+@media (min-width: 1100px) {
+	.drslon-blog-layout > .wp-block-column:last-child,
+	.drslon-home-layout > .wp-block-column:last-child,
+	.drslon-archive-layout > .wp-block-column:last-child,
+	.drslon-single-layout > .wp-block-column:last-child {
+		position: sticky !important;
+		top: 12px !important;
+		align-self: flex-start !important;
+		height: fit-content !important;
+	}
+
+	body.admin-bar .drslon-blog-layout > .wp-block-column:last-child,
+	body.admin-bar .drslon-home-layout > .wp-block-column:last-child,
+	body.admin-bar .drslon-archive-layout > .wp-block-column:last-child,
+	body.admin-bar .drslon-single-layout > .wp-block-column:last-child {
+		top: 44px !important;
+	}
+
+	.drslon-sidebar,
+	.drslon-sidebar__sticky,
+	.drslon-sidebar__flow,
+	.drslon-sidebar__panel,
+	.drslon-sidebar .wp-block-search,
+	.drslon-sidebar .wp-block-latest-posts,
+	.drslon-sidebar .wp-block-latest-posts__list,
+	.drslon-sidebar .wp-block-categories,
+	.drslon-sidebar .wp-block-categories-list {
+		position: static !important;
+		max-height: none !important;
+		overflow: visible !important;
+	}
+}
+
+@media (max-width: 1099px) {
+	.drslon-blog-layout > .wp-block-column:last-child,
+	.drslon-home-layout > .wp-block-column:last-child,
+	.drslon-archive-layout > .wp-block-column:last-child,
+	.drslon-single-layout > .wp-block-column:last-child,
+	.drslon-sidebar,
+	.drslon-sidebar__sticky,
+	.drslon-sidebar__flow,
+	.drslon-sidebar__panel {
+		position: static !important;
+		top: auto !important;
+		max-height: none !important;
+		overflow: visible !important;
+		height: auto !important;
+	}
+}
+
 @media (max-width: 1099px) {
 	.wp-site-blocks > header.wp-block-template-part {
 		position: sticky;
@@ -430,7 +481,7 @@
 		padding: 0.55rem 0.85rem !important;
 		font-size: 0.84rem !important;
 		font-weight: 500 !important;
-		color: var(--wp--preset--color--foreground) !important;
+		color: var(--wp--preset--color--text) !important;
 	}
 
 	.drslon-header-search {

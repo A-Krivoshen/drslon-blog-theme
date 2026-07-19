@@ -32,7 +32,7 @@
                 border: 1px solid var(--wp--preset--color--border);
                 border-radius: 999px;
                 background: var(--wp--preset--color--surface-light);
-                color: var(--wp--preset--color--foreground);
+                color: var(--wp--preset--color--text);
         }
 }
 
@@ -541,7 +541,7 @@
                 border-radius: 999px !important;
                 border: 1px solid rgba(34, 78, 136, 0.18) !important;
                 background: rgba(255, 255, 255, 0.92) !important;
-                color: #5181fe !important;
+                color: var(--wp--preset--color--accent) !important;
                 box-shadow: 0 8px 20px rgba(18, 34, 54, 0.14) !important;
                 font-size: 0 !important;
                 line-height: 1 !important;
@@ -700,6 +700,10 @@
 .drslon-inline-meta--reading-time,
 .drslon-inline-meta--views {
         white-space: nowrap;
+}
+
+body:not(.single-post) .drslon-post-meta__post-only {
+        display: none;
 }
 
 /* === tablet fix: popular sections titles clipped on ~768px === */
@@ -963,7 +967,7 @@
                 font-weight: 600 !important;
                 line-height: 1.35 !important;
                 text-align: left !important;
-                color: var(--wp--preset--color--foreground) !important;
+                color: var(--wp--preset--color--text) !important;
                 border-bottom: 1px solid rgba(184, 197, 214, 0.38) !important;
         }
 
@@ -1304,118 +1308,149 @@ body:has(.drslon-main-navigation .wp-block-navigation__responsive-container.is-m
 
 /* === desktop lightbox for post/project content images === */
 @media (min-width: 782px) {
-        .drslon-single-content .drslon-content-lightbox-target,
-        .wp-block-post-content .drslon-content-lightbox-target {
-                cursor: zoom-in;
-        }
+	.drslon-content-lightbox-trigger {
+		cursor: zoom-in;
+	}
 
-        html.drslon-lightbox-open,
-        html.drslon-lightbox-open body {
-                overflow: hidden;
-        }
+	button.drslon-content-lightbox-trigger {
+		display: inline-block;
+		max-width: 100%;
+		padding: 0;
+		border: 0;
+		background: transparent;
+		color: inherit;
+		font: inherit;
+		line-height: 0;
+	}
 
-        .drslon-content-lightbox {
-                position: fixed;
-                inset: 0;
-                z-index: 999999;
-                display: none;
-                align-items: center;
-                justify-content: center;
-                padding: 32px;
-                overflow: auto;
-                background: rgba(10, 18, 32, 0.88);
-                backdrop-filter: blur(8px);
-        }
+	.drslon-content-lightbox-trigger:focus-visible {
+		outline: 3px solid var(--wp--preset--color--accent);
+		outline-offset: 4px;
+	}
 
-        .drslon-content-lightbox.is-open {
-                display: flex;
-        }
+	html.drslon-lightbox-open,
+	html.drslon-lightbox-open body {
+		overflow: hidden;
+	}
 
-        .drslon-content-lightbox__inner {
-                max-width: min(1180px, 94vw);
-                max-height: 90vh;
-                text-align: center;
-        }
+	dialog.drslon-content-lightbox {
+		position: fixed;
+		inset: 0;
+		z-index: 999999;
+		align-items: center;
+		justify-content: center;
+		box-sizing: border-box;
+		width: 100vw;
+		height: 100vh;
+		max-width: none;
+		max-height: none;
+		margin: 0;
+		padding: 32px;
+		border: 0;
+		overflow: auto;
+		background: rgba(10, 18, 32, 0.88);
+		backdrop-filter: blur(8px);
+		color: #ffffff;
+	}
 
-        .drslon-content-lightbox__image {
-                display: block;
-                max-width: 100%;
-                max-height: 82vh;
-                width: auto;
-                height: auto;
-                margin: 0 auto;
-                border-radius: 14px;
-                box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
-                object-fit: contain;
-        }
+	dialog.drslon-content-lightbox:not([open]) {
+		display: none;
+	}
 
-        .drslon-content-lightbox__caption {
-                max-width: 860px;
-                margin: 14px auto 0;
-                color: #f4f7fb;
-                font-size: 0.95rem;
-                line-height: 1.5;
-        }
+	dialog.drslon-content-lightbox[open] {
+		display: flex;
+	}
 
-        .drslon-content-lightbox__close,
-        .drslon-content-lightbox__zoom {
-                position: fixed;
-                top: 18px;
-                z-index: 1;
-                display: inline-flex;
-                align-items: center;
-                justify-content: center;
-                width: 44px;
-                height: 44px;
-                padding: 0;
-                border: 1px solid rgba(255, 255, 255, 0.28);
-                border-radius: 999px;
-                background: rgba(255, 255, 255, 0.12);
-                color: #ffffff;
-                line-height: 1;
-                cursor: pointer;
-        }
+	dialog.drslon-content-lightbox::backdrop {
+		background: transparent;
+	}
 
-        .drslon-content-lightbox__close {
-                right: 18px;
-                font-size: 30px;
-        }
+	.drslon-content-lightbox__inner {
+		max-width: min(1180px, 94vw);
+		max-height: 90vh;
+		text-align: center;
+	}
 
-        .drslon-content-lightbox__zoom {
-                left: 18px;
-                font-size: 24px;
-                font-weight: 700;
-        }
+	.drslon-content-lightbox__image {
+		display: block;
+		width: auto;
+		height: auto;
+		max-width: 100%;
+		max-height: 82vh;
+		margin: 0 auto;
+		border-radius: 14px;
+		box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+		object-fit: contain;
+		cursor: zoom-in;
+	}
 
-        .drslon-content-lightbox__image {
-                cursor: zoom-in;
-        }
+	.drslon-content-lightbox__caption {
+		max-width: 860px;
+		margin: 14px auto 0;
+		color: #f4f7fb;
+		font-size: 0.95rem;
+		line-height: 1.5;
+	}
 
-        .drslon-content-lightbox.is-zoomed {
-                align-items: flex-start;
-                justify-content: flex-start;
-        }
+	.drslon-content-lightbox__close,
+	.drslon-content-lightbox__zoom {
+		position: fixed;
+		top: 18px;
+		z-index: 1;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 44px;
+		height: 44px;
+		padding: 0;
+		border: 1px solid rgba(255, 255, 255, 0.4);
+		border-radius: 999px;
+		background: rgba(10, 18, 32, 0.72);
+		color: #ffffff;
+		line-height: 1;
+		cursor: pointer;
+	}
 
-        .drslon-content-lightbox.is-zoomed .drslon-content-lightbox__inner {
-                width: fit-content;
-                max-width: none;
-                max-height: none;
-                margin: 0 auto;
-                padding: 64px 24px 32px;
-        }
+	.drslon-content-lightbox__close {
+		right: 18px;
+		font-size: 30px;
+	}
 
-        .drslon-content-lightbox.is-zoomed .drslon-content-lightbox__image {
-                max-width: none;
-                max-height: none;
-                height: auto;
-                cursor: zoom-out;
-        }
+	.drslon-content-lightbox__zoom {
+		left: 18px;
+		font-size: 24px;
+		font-weight: 700;
+	}
 
-        .drslon-content-lightbox__close:hover,
-        .drslon-content-lightbox__close:focus,
-        .drslon-content-lightbox__zoom:hover,
-        .drslon-content-lightbox__zoom:focus {
-                background: rgba(255, 255, 255, 0.2);
-                outline: none;
-        }
+	.drslon-content-lightbox.is-zoomed {
+		align-items: flex-start;
+		justify-content: flex-start;
+	}
+
+	.drslon-content-lightbox.is-zoomed .drslon-content-lightbox__inner {
+		width: fit-content;
+		max-width: none;
+		max-height: none;
+		margin: 0 auto;
+		padding: 64px 24px 32px;
+	}
+
+	.drslon-content-lightbox.is-zoomed .drslon-content-lightbox__image {
+		max-width: none;
+		max-height: none;
+		height: auto;
+		cursor: zoom-out;
+	}
+
+	.drslon-content-lightbox__close:hover,
+	.drslon-content-lightbox__zoom:hover {
+		background: rgba(255, 255, 255, 0.2);
+	}
+
+	.drslon-content-lightbox__close:focus-visible,
+	.drslon-content-lightbox__zoom:focus-visible {
+		background: rgba(255, 255, 255, 0.2);
+		outline: 3px solid #ffffff;
+		outline-offset: 2px;
+	}
 }

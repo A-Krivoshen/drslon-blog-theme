@@ -116,6 +116,7 @@
 		max-width: 100% !important;
 		margin: 0 !important;
 		padding: 14px 14px 16px !important;
+		box-sizing: border-box !important;
 		border-radius: 12px !important;
 		background: #ffffff !important;
 		border: 1px solid rgba(216, 224, 238, 0.92) !important;
@@ -266,7 +267,7 @@
 		margin: 0 !important;
 		padding: 0.15rem 0.4rem !important;
 		font-size: 0.68rem !important;
-		background: #5181fe !important;
+		background: var(--wp--preset--color--accent) !important;
 		color: #ffffff !important;
 		border-radius: 999px !important;
 	}

@@ -53,6 +53,7 @@ function drslon_featured_post_shortcode(): string {
         $query->the_post();
 
         $post_id    = get_the_ID();
+        $post_title = get_the_title( $post_id );
         $categories = get_the_category( $post_id );
         $lead_cat   = ! empty( $categories ) ? $categories[0] : null;
         $excerpt    = wp_trim_words( get_the_excerpt( $post_id ), 32, '…' );
@@ -75,10 +76,10 @@ function drslon_featured_post_shortcode(): string {
         }
 
         $html .= '<article class="drslon-featured-slider__card">';
-        $html .= '<a class="drslon-featured-slider__media" href="' . esc_url( get_permalink( $post_id ) ) . '">' . $media . '</a>';
+        $html .= '<a class="drslon-featured-slider__media" href="' . esc_url( get_permalink( $post_id ) ) . '" aria-label="' . esc_attr( $post_title ) . '">' . $media . '</a>';
         $html .= '<div class="drslon-featured-slider__content">';
         $html .= '<div class="drslon-featured-slider__meta-line">' . $cat_html . '<span>' . esc_html( get_the_date( '', $post_id ) ) . '</span></div>';
-        $html .= '<h2 class="drslon-featured-slider__title"><a href="' . esc_url( get_permalink( $post_id ) ) . '">' . esc_html( get_the_title( $post_id ) ) . '</a></h2>';
+        $html .= '<h2 class="drslon-featured-slider__title"><a href="' . esc_url( get_permalink( $post_id ) ) . '">' . esc_html( $post_title ) . '</a></h2>';
         $html .= '<p class="drslon-featured-slider__excerpt">' . esc_html( $excerpt ) . '</p>';
         $html .= '<a class="drslon-featured-slider__button" href="' . esc_url( get_permalink( $post_id ) ) . '">' . esc_html__( 'Читать материал', 'drslon-blog' ) . '</a>';
         $html .= '</div>';
@@ -241,7 +242,7 @@ function drslon_blog_sections_shortcode(): string {
                     <?php while ( $query->have_posts() ) : ?>
                         <?php $query->the_post(); ?>
                         <article class="drslon-blog-section-card">
-                            <a class="drslon-blog-section-card__media" href="<?php the_permalink(); ?>">
+                            <a class="drslon-blog-section-card__media" href="<?php the_permalink(); ?>" aria-label="<?php the_title_attribute(); ?>">
                                 <?php if ( has_post_thumbnail() ) : ?>
                                     <?php the_post_thumbnail( 'medium_large' ); ?>
                                 <?php else : ?>
@@ -413,7 +414,7 @@ if ( ! function_exists( 'drslon_related_posts_shortcode' ) ) {
             }
 
             $html .= '<article class="drslon-related-post">';
-            $html .= '<a class="drslon-related-post__media" href="' . esc_url( $permalink ) . '">' . $media . '</a>';
+            $html .= '<a class="drslon-related-post__media" href="' . esc_url( $permalink ) . '" aria-label="' . esc_attr( $title ) . '">' . $media . '</a>';
             $html .= '<div class="drslon-related-post__content">';
             $html .= '<p class="drslon-related-post__meta">' . $meta . '</p>';
             $html .= '<h3 class="drslon-related-post__title"><a href="' . esc_url( $permalink ) . '">' . esc_html( $title ) . '</a></h3>';

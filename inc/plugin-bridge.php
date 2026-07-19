@@ -1,6 +1,6 @@
 <?php
 /**
- * Resolve paths inside the active drslon-site-core plugin directory.
+ * Resolve paths inside an active drslon-site-core plugin directory.
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -26,9 +26,6 @@ function drslon_site_core_dir_candidates(): array {
 			$candidates[] = WP_PLUGIN_DIR . '/' . dirname( $plugin_basename );
 		}
 	}
-
-	$candidates[] = WP_PLUGIN_DIR . '/drslon-site-core-main';
-	$candidates[] = WP_PLUGIN_DIR . '/drslon-site-core';
 
 	return array_values( array_unique( $candidates ) );
 }

@@ -17,7 +17,20 @@ if ( ! is_admin() ) {
 /**
  * Meta box on post edit screen.
  */
-add_action( 'add_meta_boxes_post', function (): void {
+function drslon_user_can_manage_sticky_post( WP_Post $post ): bool {
+	$post_type = get_post_type_object( $post->post_type );
+
+	return $post_type instanceof WP_Post_Type
+		&& current_user_can( 'edit_post', $post->ID )
+		&& current_user_can( $post_type->cap->edit_others_posts )
+		&& current_user_can( $post_type->cap->publish_posts );
+}
+
+add_action( 'add_meta_boxes_post', function ( WP_Post $post ): void {
+	if ( ! drslon_user_can_manage_sticky_post( $post ) ) {
+		return;
+	}
+
 	add_meta_box(
 		'drslon-sticky-post',
 		__( 'Закрепить запись', 'drslon-blog' ),
@@ -67,7 +80,7 @@ add_action( 'save_post_post', function ( int $post_id, WP_Post $post ): void {
 		return;
 	}
 
-	if ( ! current_user_can( 'edit_post', $post_id ) ) {
+	if ( ! drslon_user_can_manage_sticky_post( $post ) ) {
 		return;
 	}
 

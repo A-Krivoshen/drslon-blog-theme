@@ -34,9 +34,7 @@
 
 		if (nextLeft < 0) {
 			nextLeft = maxScroll;
-		}
-
-		if (nextLeft > maxScroll - 2) {
+		} else if (nextLeft > maxScroll) {
 			nextLeft = 0;
 		}
 
