@@ -117,23 +117,26 @@
     return btn;
   }
 
+  function removeDrawerToggles() {
+    var extras = document.querySelectorAll(
+      ".wp-block-navigation__responsive-container-content .krv-controls, " +
+        ".wp-block-navigation__responsive-container-content .krv-theme-btn, " +
+        ".krv-controls--drawer"
+    );
+    for (var i = 0; i < extras.length; i++) {
+      var el = extras[i];
+      var wrap =
+        el.classList && el.classList.contains("krv-controls")
+          ? el
+          : el.closest(".krv-controls") || el;
+      if (wrap && wrap.parentNode) wrap.parentNode.removeChild(wrap);
+    }
+  }
+
   function injectControls() {
     // Single toggle only: between search and «Прайс» in header utility.
-    // Do not inject into the mobile nav drawer (avoids a second switch).
-    if ($(".drslon-header-utility .krv-theme-btn, .krv-controls:not(.krv-controls--drawer) .krv-theme-btn")) {
-      // Remove accidental drawer / under-menu duplicates if any left from older JS
-      var extras = document.querySelectorAll(
-        ".wp-block-navigation__responsive-container-content .krv-theme-btn, .krv-controls--drawer"
-      );
-      for (var i = 0; i < extras.length; i++) {
-        var el = extras[i];
-        var wrap = el.classList && el.classList.contains("krv-controls--drawer")
-          ? el
-          : el.closest(".krv-controls--drawer") || el;
-        if (wrap && wrap.parentNode) wrap.parentNode.removeChild(wrap);
-      }
-      if ($(".drslon-header-utility .krv-theme-btn")) return;
-    }
+    removeDrawerToggles();
+    if ($(".drslon-header-utility .krv-theme-btn")) return;
 
     var host = $(".drslon-header-utility");
     if (!host) return;
