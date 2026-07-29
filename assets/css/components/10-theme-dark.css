@@ -333,11 +333,11 @@ html[data-theme="dark"] h6 {
   color: var(--wp--preset--color--text);
 }
 
-html[data-theme="dark"] a:not(.wp-element-button):not(.wp-block-button__link):not(.krv-source-cards__item) {
+html[data-theme="dark"] a:not(.wp-element-button):not(.wp-block-button__link):not(.krv-source-cards__item):not(.krv-service-page-card) {
   color: #8aacff;
 }
 
-html[data-theme="dark"] a:not(.wp-element-button):not(.wp-block-button__link):not(.krv-source-cards__item):hover {
+html[data-theme="dark"] a:not(.wp-element-button):not(.wp-block-button__link):not(.krv-source-cards__item):not(.krv-service-page-card):hover {
   color: #a8c4ff;
 }
 
@@ -1314,4 +1314,78 @@ html[data-theme="dark"] .krv-source-cards a:not(.wp-element-button):not(.wp-bloc
 html[data-theme="dark"] .krv-source-cards a:not(.wp-element-button):not(.wp-block-button__link):hover {
   color: #ffffff !important;
   -webkit-text-fill-color: #ffffff !important;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   /servisy/ showcase — titles MUST stay readable in dark
+   (plugin showcase defaults to #333; if only page is dark-tinted
+   without vars, names vanish. Force max contrast in THEME css
+   which always loads via bundle-shell.)
+   ═══════════════════════════════════════════════════════════ */
+html[data-theme="dark"] .krv-service-pages-wrap {
+  --krv-accent: #6b93ff !important;
+  --krv-accent-hover: #9bb6ff !important;
+  --krv-card-bg: #152238 !important;
+  --krv-card-bg-hover: #1a2d4d !important;
+  --krv-text-main: #ffffff !important;
+  --krv-text-soft: #e8eefc !important;
+  --krv-image-bg: #0b1220 !important;
+  --krv-no-image-bg: #1a2744 !important;
+  color: #ffffff !important;
+}
+
+html[data-theme="dark"] .krv-showcase-intro,
+html[data-theme="dark"] .krv-service-pages-group-title {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  opacity: 1 !important;
+  text-shadow: none !important;
+}
+
+html[data-theme="dark"] a.krv-service-page-card,
+html[data-theme="dark"] .krv-service-pages-wrap a.krv-service-page-card {
+  background: #152238 !important;
+  background-color: #152238 !important;
+  border: 1px solid #5b8cff !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.45) !important;
+  opacity: 1 !important;
+}
+
+html[data-theme="dark"] a.krv-service-page-card:hover,
+html[data-theme="dark"] .krv-service-pages-wrap a.krv-service-page-card:hover {
+  background: #1a2d4d !important;
+  border-color: #9bb6ff !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+html[data-theme="dark"] a.krv-service-page-card .krv-service-page-title,
+html[data-theme="dark"] .krv-service-pages-wrap h3.krv-service-page-title,
+html[data-theme="dark"] h3.krv-service-page-title {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  filter: none !important;
+  font-weight: 800 !important;
+  font-size: 1.02rem !important;
+  line-height: 1.35 !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.65) !important;
+  background: transparent !important;
+  /* keep clamp readable */
+  -webkit-line-clamp: 3 !important;
+  min-height: 2.6em !important;
+}
+
+html[data-theme="dark"] a.krv-service-page-card .krv-service-page-description,
+html[data-theme="dark"] .krv-service-pages-wrap .krv-service-page-description {
+  color: #e8eefc !important;
+  -webkit-text-fill-color: #e8eefc !important;
+  opacity: 1 !important;
+}
+
+html[data-theme="dark"] a.krv-service-page-card .krv-service-page-image-wrap {
+  background: #0b1220 !important;
 }
