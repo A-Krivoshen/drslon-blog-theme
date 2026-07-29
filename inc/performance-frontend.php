@@ -144,13 +144,19 @@ function drslon_perf_dequeue_assets(): void {
 		}
 	}
 
-	// --- jQuery UI pieces only required by translator: leave translator alone (functional). ---
-	// Optional: if translator is disabled on a URL later, can dequeue chain here.
+	// jQuery UI + translator stay registered (language switcher is functional).
+	// They are deferred below so they no longer block first paint.
 }
 add_action( 'wp_enqueue_scripts', 'drslon_perf_dequeue_assets', 100 );
 
 /**
- * Defer non-critical theme scripts (they self-init on DOM ready / load).
+ * Defer non-critical front scripts.
+ *
+ * Theme scripts already wait for DOMContentLoaded.
+ * Translator + jQuery UI power the language widget (needed, not critical path).
+ * GDPR banner may appear a tick later — acceptable; consent still works.
+ *
+ * Do NOT defer jquery-core / jquery-migrate: plugins inject inline jQuery.
  *
  * @param string $tag    Script HTML.
  * @param string $handle Script handle.
@@ -162,10 +168,18 @@ function drslon_perf_script_loader_tag( string $tag, string $handle, string $src
 	}
 
 	$defer_handles = array(
+		// Theme.
 		'drslon-sticky-header',
 		'drslon-krv-theme',
 		'drslon-featured-slider',
 		'drslon-content-lightbox',
+		// Translator Revolution chain (widget only).
+		'jquery-ui-core',
+		'jquery-ui-mouse',
+		'jquery-ui-draggable',
+		'surstudio-plugin-translator-revolution-lite',
+		// Cookie banner (non-LCP).
+		'moove_gdpr_frontend',
 	);
 
 	if ( ! in_array( $handle, $defer_handles, true ) ) {
