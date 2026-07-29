@@ -406,10 +406,9 @@
     margin-top: 1.3rem;
 }
 
-.drslon-home-layout > .wp-block-column:last-child {
-    position: static !important;
-    top: auto !important;
-}
+/* Sidebar sticky lives in 07-header-sticky.css (column:last-child).
+ * Do NOT force position:static here — it killed sticky on /blog/
+ * (body.blog uses drslon-home-layout + drslon-blog-layout). */
 
 .drslon-sidebar {
     box-shadow: 0 10px 22px rgba(23, 33, 51, 0.05);
