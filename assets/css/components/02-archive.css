@@ -289,7 +289,7 @@
     flex-direction: column;
     gap: 0.32rem;
     padding: 0.8rem 0.85rem;
-    background: #ffffff;
+    background: var(--wp--preset--color--surface, #ffffff);
     border: 1px solid var(--wp--preset--color--border);
     border-radius: 11px;
     text-decoration: none;
@@ -492,7 +492,7 @@
  /* === archive cards on separate surface === */
 
 .drslon-archive-card {
-    background: #ffffff;
+    background: var(--wp--preset--color--surface, #ffffff);
     border: 1px solid rgba(183, 198, 218, 0.55);
     border-radius: 16px;
     box-shadow: 0 8px 22px rgba(23, 33, 51, 0.06);

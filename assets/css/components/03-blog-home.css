@@ -64,7 +64,7 @@
     margin: 0 0 0.45rem;
     padding: 0.25rem 0.55rem;
     color: var(--wp--preset--color--accent);
-    background: #eef5ff;
+    background: var(--wp--preset--color--surface-light, #eef5ff);
     border-radius: 999px;
     font-size: 0.74rem;
     font-weight: 800;
@@ -536,7 +536,7 @@
     display: inline-flex;
     padding: 0.22rem 0.5rem;
     color: var(--wp--preset--color--accent);
-    background: #eef5ff;
+    background: var(--wp--preset--color--surface-light, #eef5ff);
     border-radius: 999px;
     font-weight: 800;
     text-decoration: none;
@@ -844,7 +844,7 @@
     display: flex !important;
     flex-direction: column !important;
     justify-content: center !important;
-    background: #fff;
+    background: var(--wp--preset--color--surface, #ffffff);
 }
 
 .drslon-featured-slider__excerpt {
@@ -1128,7 +1128,7 @@
     justify-content: center !important;
     padding: 1.4rem 1.5rem !important;
     min-height: 360px !important;
-    background: linear-gradient(180deg, #ffffff 0%, #f9fbff 100%) !important;
+    background: linear-gradient(180deg, var(--wp--preset--color--surface, #ffffff) 0%, var(--wp--preset--color--surface-light, #f9fbff) 100%) !important;
     border: 1px solid rgba(216, 224, 238, 0.75);
     border-radius: 16px !important;
 }
@@ -1138,7 +1138,7 @@
 }
 
 .drslon-featured-slider__category {
-    background: #eef5ff;
+    background: var(--wp--preset--color--surface-light, #eef5ff);
     color: var(--wp--preset--color--accent);
 }
 
