@@ -10,6 +10,7 @@ require_once get_template_directory() . '/inc/contact-blocks.php';
 require_once get_template_directory() . '/inc/admin-sticky.php';
 require_once get_template_directory() . '/inc/plugin-page-shell.php';
 require_once get_template_directory() . '/inc/enqueue-assets.php';
+require_once get_template_directory() . '/inc/performance-frontend.php';
 
 /**
  * Header Telegram social link: channel (subscribe), not personal DM.
