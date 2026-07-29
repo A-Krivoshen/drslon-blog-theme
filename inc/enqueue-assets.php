@@ -27,12 +27,13 @@ function drslon_theme_stylesheet_map(): array {
 
 function drslon_should_enqueue_style( string $handle ): bool {
 	switch ( $handle ) {
+		// Always-on shell styles are served via drslon_shell_bundle (one request).
 		case 'drslon-css-base':
 		case 'drslon-css-shell':
 		case 'drslon-css-footer':
 		case 'drslon-css-header-sticky':
 		case 'drslon-css-theme-dark':
-			return true;
+			return false;
 
 		case 'drslon-css-archive':
 			return is_archive() || is_category() || is_tag() || is_author() || is_date() || is_search() || ( is_home() && ! is_front_page() );
@@ -54,15 +55,114 @@ function drslon_should_enqueue_style( string $handle ): bool {
 	}
 }
 
+/**
+ * Always-on CSS sources (order = cascade order). Bundled into one file for fewer round-trips.
+ *
+ * @return list<string> Paths relative to theme root.
+ */
+function drslon_shell_bundle_sources(): array {
+	return array(
+		'style.css',
+		'assets/css/components/01-base.css',
+		'assets/css/components/06-shell.css',
+		'assets/css/components/08-footer.css',
+		'assets/css/components/07-header-sticky.css',
+		'assets/css/components/10-theme-dark.css',
+	);
+}
+
+/**
+ * Build or refresh assets/css/bundle-shell.css when any source is newer.
+ *
+ * @return array{path:string,uri:string,ver:string}|null
+ */
+function drslon_ensure_shell_bundle(): ?array {
+	$theme_dir = get_template_directory();
+	$theme_uri = get_template_directory_uri();
+	$bundle_rel = 'assets/css/bundle-shell.css';
+	$bundle_path = $theme_dir . '/' . $bundle_rel;
+
+	$sources = drslon_shell_bundle_sources();
+	$mtime_max = 0;
+	$parts     = array();
+
+	foreach ( $sources as $rel ) {
+		$path = $theme_dir . '/' . $rel;
+		if ( ! is_readable( $path ) ) {
+			return null;
+		}
+		$mtime_max = max( $mtime_max, (int) filemtime( $path ) );
+		$parts[]   = $path;
+	}
+
+	$needs_build = ! is_readable( $bundle_path ) || (int) filemtime( $bundle_path ) < $mtime_max;
+
+	if ( $needs_build ) {
+		$out = "/* drslon shell bundle — auto-built, do not edit */\n";
+		foreach ( $parts as $path ) {
+			$rel  = str_replace( $theme_dir . '/', '', $path );
+			$css  = (string) file_get_contents( $path );
+			$out .= "\n/* >>> {$rel} */\n" . $css . "\n";
+		}
+
+		$dir = dirname( $bundle_path );
+		if ( ! is_dir( $dir ) ) {
+			wp_mkdir_p( $dir );
+		}
+
+		// Atomic-ish write; fall back to per-file enqueue if unwritable.
+		$tmp = $bundle_path . '.tmp.' . getmypid();
+		if ( false === file_put_contents( $tmp, $out ) ) {
+			return null;
+		}
+		if ( ! @rename( $tmp, $bundle_path ) ) {
+			@unlink( $tmp );
+			if ( false === file_put_contents( $bundle_path, $out ) ) {
+				return null;
+			}
+		}
+	}
+
+	return array(
+		'path' => $bundle_path,
+		'uri'  => $theme_uri . '/' . $bundle_rel,
+		'ver'  => (string) filemtime( $bundle_path ),
+	);
+}
+
 function drslon_enqueue_theme_styles(): void {
-	$theme_dir  = get_template_directory();
-	$theme_uri  = get_template_directory_uri();
-	$style_path = $theme_dir . '/style.css';
-	$version    = file_exists( $style_path ) ? (string) filemtime( $style_path ) : wp_get_theme()->get( 'Version' );
+	$theme_dir = get_template_directory();
+	$theme_uri = get_template_directory_uri();
 
-	wp_enqueue_style( 'drslon-blog-theme-style', get_stylesheet_uri(), array(), $version );
+	$bundle = drslon_ensure_shell_bundle();
+	$prev   = null;
 
-	$prev = 'drslon-blog-theme-style';
+	if ( is_array( $bundle ) ) {
+		wp_enqueue_style(
+			'drslon-css-shell-bundle',
+			$bundle['uri'],
+			array(),
+			$bundle['ver']
+		);
+		$prev = 'drslon-css-shell-bundle';
+	} else {
+		// Fallback: original multi-file chain if bundle cannot be written.
+		$style_path = $theme_dir . '/style.css';
+		$version    = file_exists( $style_path ) ? (string) filemtime( $style_path ) : wp_get_theme()->get( 'Version' );
+		wp_enqueue_style( 'drslon-blog-theme-style', get_stylesheet_uri(), array(), $version );
+		$prev = 'drslon-blog-theme-style';
+
+		foreach ( array( 'drslon-css-base', 'drslon-css-shell', 'drslon-css-footer', 'drslon-css-header-sticky', 'drslon-css-theme-dark' ) as $handle ) {
+			$map  = drslon_theme_stylesheet_map();
+			$rel  = $map[ $handle ] ?? '';
+			$path = $rel ? $theme_dir . '/' . $rel : '';
+			if ( ! $rel || ! file_exists( $path ) ) {
+				continue;
+			}
+			wp_enqueue_style( $handle, $theme_uri . '/' . $rel, array( $prev ), (string) filemtime( $path ) );
+			$prev = $handle;
+		}
+	}
 
 	foreach ( drslon_theme_stylesheet_map() as $handle => $relative_path ) {
 		if ( ! drslon_should_enqueue_style( $handle ) ) {
@@ -78,7 +178,7 @@ function drslon_enqueue_theme_styles(): void {
 		wp_enqueue_style(
 			$handle,
 			$theme_uri . '/' . $relative_path,
-			array( $prev ),
+			$prev ? array( $prev ) : array(),
 			(string) filemtime( $path )
 		);
 

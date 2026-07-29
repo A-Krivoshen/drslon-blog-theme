@@ -146,8 +146,139 @@ function drslon_perf_dequeue_assets(): void {
 
 	// jQuery UI + translator stay registered (language switcher is functional).
 	// They are deferred below so they no longer block first paint.
+
+	// --- jQuery Migrate: not needed for modern guest front-end (saves ~14KB). ---
+	// Keep for logged-in users (admin bar / legacy editor paths more likely to need it).
+	if ( ! is_user_logged_in() ) {
+		wp_dequeue_script( 'jquery-migrate' );
+		$wp_scripts = wp_scripts();
+		if ( isset( $wp_scripts->registered['jquery'] ) ) {
+			$wp_scripts->registered['jquery']->deps = array_values(
+				array_diff( $wp_scripts->registered['jquery']->deps, array( 'jquery-migrate' ) )
+			);
+		}
+	}
 }
 add_action( 'wp_enqueue_scripts', 'drslon_perf_dequeue_assets', 100 );
+
+/**
+ * Prefer compact site-logo size (~156px) instead of full 1066px PNG in header/footer.
+ *
+ * @param array|false  $image         Image data.
+ * @param int          $attachment_id Attachment ID.
+ * @param string|int[] $size          Requested size.
+ * @return array|false
+ */
+function drslon_perf_logo_image_src( $image, int $attachment_id, $size ) {
+	$logo_id = (int) get_option( 'site_logo' );
+	if ( $logo_id <= 0 || $attachment_id !== $logo_id ) {
+		return $image;
+	}
+
+	// Block/custom-logo often request "full" even when displayed at 52px.
+	if ( $size !== 'full' && $size !== 'post-thumbnail' && ! ( is_array( $size ) && isset( $size[0] ) && (int) $size[0] > 200 ) ) {
+		return $image;
+	}
+
+	$meta = wp_get_attachment_metadata( $attachment_id );
+	if ( empty( $meta['sizes']['drslon-site-logo']['file'] ) ) {
+		return $image;
+	}
+
+	$base = trailingslashit( dirname( wp_get_attachment_url( $attachment_id ) ) );
+	$file = $meta['sizes']['drslon-site-logo']['file'];
+	$w    = (int) $meta['sizes']['drslon-site-logo']['width'];
+	$h    = (int) $meta['sizes']['drslon-site-logo']['height'];
+
+	return array( $base . $file, $w, $h, true );
+}
+add_filter( 'wp_get_attachment_image_src', 'drslon_perf_logo_image_src', 10, 3 );
+
+/**
+ * Eager LCP-friendly attributes for site logo; avoid lazy placeholder fight.
+ *
+ * @param array   $attr       Attributes.
+ * @param WP_Post $attachment Attachment.
+ * @param mixed   $size       Size.
+ * @return array
+ */
+function drslon_perf_logo_image_attr( array $attr, $attachment, $size ): array {
+	$logo_id = (int) get_option( 'site_logo' );
+	if ( $logo_id <= 0 || ! $attachment instanceof WP_Post || (int) $attachment->ID !== $logo_id ) {
+		return $attr;
+	}
+
+	$attr['loading']       = 'eager';
+	$attr['fetchpriority'] = 'high';
+	$attr['decoding']      = 'async';
+	// WPFC premium respects data-no-lazy / keywords on the tag.
+	$attr['data-no-lazy']  = '1';
+	// Class helps WPFC lazy-exclude keywords and theme CSS.
+	$class                 = isset( $attr['class'] ) ? (string) $attr['class'] : '';
+	if ( false === strpos( $class, 'custom-logo' ) ) {
+		$attr['class'] = trim( $class . ' custom-logo' );
+	}
+
+	return $attr;
+}
+add_filter( 'wp_get_attachment_image_attributes', 'drslon_perf_logo_image_attr', 10, 3 );
+
+/**
+ * Keep site-logo srcset on compact sizes only (avoid 86KB full PNG in candidates).
+ *
+ * @param array  $sources One or more arrays of source data.
+ * @param array  $size_array  Width/height.
+ * @param string $image_src Image URL.
+ * @param array  $image_meta Meta.
+ * @param int    $attachment_id ID.
+ * @return array
+ */
+function drslon_perf_logo_srcset( array $sources, array $size_array, string $image_src, array $image_meta, int $attachment_id ): array {
+	$logo_id = (int) get_option( 'site_logo' );
+	if ( $logo_id <= 0 || $attachment_id !== $logo_id || $sources === array() ) {
+		return $sources;
+	}
+
+	$allowed = array();
+	foreach ( $sources as $width => $source ) {
+		// Drop full-resolution candidate (> 200px wide for this mark).
+		if ( (int) $width > 200 ) {
+			continue;
+		}
+		$allowed[ $width ] = $source;
+	}
+
+	return $allowed !== array() ? $allowed : $sources;
+}
+add_filter( 'wp_calculate_image_srcset', 'drslon_perf_logo_srcset', 10, 5 );
+
+/**
+ * Preload compact site logo for LCP (header).
+ */
+function drslon_perf_preload_logo(): void {
+	if ( is_admin() ) {
+		return;
+	}
+
+	$logo_id = (int) get_option( 'site_logo' );
+	if ( $logo_id <= 0 ) {
+		return;
+	}
+
+	$url = wp_get_attachment_image_url( $logo_id, 'drslon-site-logo' );
+	if ( ! $url ) {
+		$url = wp_get_attachment_image_url( $logo_id, 'full' );
+	}
+	if ( ! $url ) {
+		return;
+	}
+
+	printf(
+		'<link rel="preload" as="image" href="%s" fetchpriority="high" />' . "\n",
+		esc_url( $url )
+	);
+}
+add_action( 'wp_head', 'drslon_perf_preload_logo', 2 );
 
 /**
  * Defer non-critical front scripts.
