@@ -19,6 +19,10 @@ function drslon_plugin_page_shortcodes(): array {
 		'krv_services_pages_showcase',
 		'krv_partners_grid',
 		'krv_service_page',
+		'krv_contact_block',
+		'krv_resume',
+		'krv_consult',
+		'krv_consultations',
 	);
 }
 

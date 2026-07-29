@@ -728,13 +728,10 @@ body.drslon-search-modal-open {
 		flex: 0 0 auto !important;
 	}
 
-	/* Visual order: burger → search → theme */
-	.drslon-header-utility .drslon-main-navigation {
+	/* Visual order: theme → search → burger */
+	.drslon-header-utility .krv-controls {
 		order: 1 !important;
-		flex: 0 0 auto !important;
-		width: auto !important;
-		min-width: 0 !important;
-		max-width: none !important;
+		display: inline-flex !important;
 	}
 
 	.drslon-header-utility .drslon-header-search,
@@ -743,9 +740,12 @@ body.drslon-search-modal-open {
 		display: block !important;
 	}
 
-	.drslon-header-utility .krv-controls {
+	.drslon-header-utility .drslon-main-navigation {
 		order: 3 !important;
-		display: inline-flex !important;
+		flex: 0 0 auto !important;
+		width: auto !important;
+		min-width: 0 !important;
+		max-width: none !important;
 	}
 
 	/* Hide everything that eats space */
