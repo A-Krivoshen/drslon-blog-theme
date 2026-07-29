@@ -2810,12 +2810,14 @@ body.drslon-search-modal-open {
 		pointer-events: none !important;
 	}
 
-	/* Search + theme size */
+	/* Search + theme size — same circle as burger */
 	.drslon-header-search,
 	form.drslon-header-search,
 	form.drslon-header-search.wp-block-search,
 	.drslon-header-search .wp-block-search__inside-wrapper,
 	.drslon-header-search .wp-block-search__button,
+	.drslon-header-search .drslon-header-search__loupe,
+	.krv-controls,
 	.krv-theme-btn,
 	.krv-controls .krv-theme-btn {
 		width: 40px !important;
@@ -2824,12 +2826,75 @@ body.drslon-search-modal-open {
 		min-height: 40px !important;
 		max-width: 40px !important;
 		flex: 0 0 40px !important;
+		box-sizing: border-box !important;
+	}
+
+	/* Loupe in a circle (match hamburger plate) */
+	.drslon-header-search .wp-block-search__inside-wrapper,
+	.drslon-header-search .wp-block-search__button,
+	.drslon-header-search .drslon-header-search__loupe {
+		border: 1px solid var(--wp--preset--color--border, #d8e0ee) !important;
+		border-radius: 999px !important;
+		background: var(--wp--preset--color--surface, #fff) !important;
+		box-shadow: none !important;
+		color: var(--wp--preset--color--text, #172133) !important;
+	}
+
+	.drslon-header-search .wp-block-search__button:hover,
+	.drslon-header-search .drslon-header-search__loupe:hover,
+	.drslon-header-search:hover .wp-block-search__inside-wrapper {
+		border-color: var(--wp--preset--color--accent, #315fe8) !important;
+		background: var(--wp--preset--color--surface-light, #eef3fb) !important;
+		color: var(--wp--preset--color--accent, #315fe8) !important;
+	}
+
+	/* Avoid double ring: wrapper + button both bordered */
+	.drslon-header-search .wp-block-search__inside-wrapper {
+		border: 0 !important;
+		background: transparent !important;
+		overflow: visible !important;
+	}
+	.drslon-header-search .wp-block-search__button,
+	.drslon-header-search .drslon-header-search__loupe {
+		border: 1px solid var(--wp--preset--color--border, #d8e0ee) !important;
+		background: var(--wp--preset--color--surface, #fff) !important;
 	}
 
 	.drslon-header-search .wp-block-search__button svg,
 	.drslon-header-search .wp-block-search__button .search-icon {
 		width: 18px !important;
 		height: 18px !important;
+	}
+}
+
+/* Desktop: keep theme slot reserved so late scripts never shove the menu */
+@media (min-width: 1100px) {
+	.drslon-header-utility .krv-controls {
+		flex: 0 0 40px !important;
+		width: 40px !important;
+		height: 40px !important;
+		min-width: 40px !important;
+	}
+
+	.drslon-header-utility .krv-theme-btn {
+		width: 40px !important;
+		height: 40px !important;
+		flex: 0 0 40px !important;
+	}
+
+	/* Search loupe also as soft circle so utility row metrics stay even */
+	.drslon-header-utility .drslon-header-search .wp-block-search__button,
+	.drslon-header-utility .drslon-header-search .drslon-header-search__loupe {
+		border: 1px solid var(--wp--preset--color--border, #d8e0ee) !important;
+		border-radius: 999px !important;
+		background: var(--wp--preset--color--surface, #fff) !important;
+	}
+
+	.drslon-header-utility .drslon-header-search .wp-block-search__button:hover,
+	.drslon-header-utility .drslon-header-search .drslon-header-search__loupe:hover {
+		border-color: var(--wp--preset--color--accent, #315fe8) !important;
+		background: var(--wp--preset--color--surface-light, #eef3fb) !important;
+		color: var(--wp--preset--color--accent, #315fe8) !important;
 	}
 }
 
@@ -2853,6 +2918,8 @@ html[data-theme="dark"] .drslon-main-navigation .wp-block-navigation__responsive
 	form.drslon-header-search.wp-block-search,
 	.drslon-header-search .wp-block-search__inside-wrapper,
 	.drslon-header-search .wp-block-search__button,
+	.drslon-header-search .drslon-header-search__loupe,
+	.krv-controls,
 	.krv-theme-btn,
 	.krv-controls .krv-theme-btn {
 		width: 36px !important;
@@ -2870,6 +2937,8 @@ html[data-theme="dark"] .drslon-main-navigation .wp-block-navigation__responsive
 	form.drslon-header-search,
 	.drslon-header-search .wp-block-search__inside-wrapper,
 	.drslon-header-search .wp-block-search__button,
+	.drslon-header-search .drslon-header-search__loupe,
+	.krv-controls,
 	.krv-theme-btn {
 		width: 34px !important;
 		height: 34px !important;
@@ -2887,17 +2956,27 @@ html[data-theme="dark"] .drslon-main-navigation .wp-block-navigation__responsive
  * Contract matches static landings: html[data-theme="light|dark"]
  */
 
-/* ── Toggle control ── */
+/* ── Toggle control (fixed 40×40 — same as search/burger, no layout nudge) ── */
 .krv-controls {
   display: inline-flex;
   align-items: center;
-  gap: 0.4rem;
-  flex-shrink: 0;
+  justify-content: center;
+  gap: 0;
+  flex: 0 0 40px;
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  min-height: 40px;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 .krv-theme-btn {
-  width: 2.25rem;
-  height: 2.25rem;
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  min-height: 40px;
   border-radius: 999px;
   border: 1px solid var(--wp--preset--color--border, #d8e0ee);
   background: var(--wp--preset--color--surface, #fff);
@@ -2906,10 +2985,24 @@ html[data-theme="dark"] .drslon-main-navigation .wp-block-navigation__responsive
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  font-size: 0.95rem;
+  font-size: 1rem;
   line-height: 1;
   padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  flex: 0 0 40px;
   transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.krv-theme-btn__icon {
+  display: block;
+  width: 1.15em;
+  height: 1.15em;
+  line-height: 1.15em;
+  text-align: center;
+  font-size: 1em;
+  /* prevent ☀/☾ advance-width differences from shifting siblings */
+  font-variant-numeric: tabular-nums;
 }
 
 .krv-theme-btn:hover {
@@ -2925,9 +3018,13 @@ html[data-theme="dark"] .drslon-main-navigation .wp-block-navigation__responsive
 
 /* Drawer duplicate toggle intentionally not used — only header between search and Прайс */
 
+/* Animate page surfaces only — no universal * (was menu jank on toggle) */
 html.theme-anim,
-html.theme-anim * {
-  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease !important;
+html.theme-anim body,
+html.theme-anim .wp-site-blocks,
+html.theme-anim .drslon-site-header,
+html.theme-anim main {
+  transition: background-color 0.18s ease, color 0.18s ease, border-color 0.18s ease !important;
 }
 
 html[data-theme="light"] {
@@ -3335,12 +3432,7 @@ html[data-theme="dark"] .drslon-mobile-menu-contacts__chip {
 
 @media (max-width: 781px) {
   .krv-controls {
-    margin-left: 0.15rem;
-  }
-
-  .krv-theme-btn {
-    width: 2.15rem;
-    height: 2.15rem;
+    margin-left: 0;
   }
 }
 
@@ -3810,17 +3902,18 @@ html[data-theme="dark"] .drslon-category-tiles__count {
   border-color: #3d5a9a !important;
 }
 
-/* Mobile header: keep utility controls readable */
-@media (max-width: 781px) {
+/* Mobile/tablet header: keep utility controls readable (circle plates) */
+@media (max-width: 1099px) {
   html[data-theme="dark"] .drslon-header-utility .krv-theme-btn {
     color: #e8eefc !important;
     border-color: #243049 !important;
     background: #121a2b !important;
   }
-  html[data-theme="dark"] .drslon-header-search .wp-block-search__button {
+  html[data-theme="dark"] .drslon-header-search .wp-block-search__button,
+  html[data-theme="dark"] .drslon-header-search .drslon-header-search__loupe {
     color: #e8eefc !important;
-    border: 0 !important;
-    background: transparent !important;
+    border: 1px solid #243049 !important;
+    background: #121a2b !important;
     box-shadow: none !important;
   }
   html[data-theme="dark"] .drslon-header-search .wp-block-search__inside-wrapper {
@@ -3832,6 +3925,21 @@ html[data-theme="dark"] .drslon-category-tiles__count {
   .drslon-header-utility .drslon-header-search {
     display: inline-flex !important;
     flex-shrink: 0;
+  }
+}
+
+/* Desktop dark: search loupe circle matches theme toggle */
+@media (min-width: 1100px) {
+  html[data-theme="dark"] .drslon-header-utility .drslon-header-search .wp-block-search__button,
+  html[data-theme="dark"] .drslon-header-utility .drslon-header-search .drslon-header-search__loupe {
+    color: #e8eefc !important;
+    border: 1px solid #243049 !important;
+    background: #121a2b !important;
+  }
+  html[data-theme="dark"] .drslon-header-utility .krv-theme-btn {
+    color: #e8eefc !important;
+    border-color: #243049 !important;
+    background: #121a2b !important;
   }
 }
 

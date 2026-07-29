@@ -792,12 +792,14 @@ body.drslon-search-modal-open {
 		pointer-events: none !important;
 	}
 
-	/* Search + theme size */
+	/* Search + theme size — same circle as burger */
 	.drslon-header-search,
 	form.drslon-header-search,
 	form.drslon-header-search.wp-block-search,
 	.drslon-header-search .wp-block-search__inside-wrapper,
 	.drslon-header-search .wp-block-search__button,
+	.drslon-header-search .drslon-header-search__loupe,
+	.krv-controls,
 	.krv-theme-btn,
 	.krv-controls .krv-theme-btn {
 		width: 40px !important;
@@ -806,12 +808,75 @@ body.drslon-search-modal-open {
 		min-height: 40px !important;
 		max-width: 40px !important;
 		flex: 0 0 40px !important;
+		box-sizing: border-box !important;
+	}
+
+	/* Loupe in a circle (match hamburger plate) */
+	.drslon-header-search .wp-block-search__inside-wrapper,
+	.drslon-header-search .wp-block-search__button,
+	.drslon-header-search .drslon-header-search__loupe {
+		border: 1px solid var(--wp--preset--color--border, #d8e0ee) !important;
+		border-radius: 999px !important;
+		background: var(--wp--preset--color--surface, #fff) !important;
+		box-shadow: none !important;
+		color: var(--wp--preset--color--text, #172133) !important;
+	}
+
+	.drslon-header-search .wp-block-search__button:hover,
+	.drslon-header-search .drslon-header-search__loupe:hover,
+	.drslon-header-search:hover .wp-block-search__inside-wrapper {
+		border-color: var(--wp--preset--color--accent, #315fe8) !important;
+		background: var(--wp--preset--color--surface-light, #eef3fb) !important;
+		color: var(--wp--preset--color--accent, #315fe8) !important;
+	}
+
+	/* Avoid double ring: wrapper + button both bordered */
+	.drslon-header-search .wp-block-search__inside-wrapper {
+		border: 0 !important;
+		background: transparent !important;
+		overflow: visible !important;
+	}
+	.drslon-header-search .wp-block-search__button,
+	.drslon-header-search .drslon-header-search__loupe {
+		border: 1px solid var(--wp--preset--color--border, #d8e0ee) !important;
+		background: var(--wp--preset--color--surface, #fff) !important;
 	}
 
 	.drslon-header-search .wp-block-search__button svg,
 	.drslon-header-search .wp-block-search__button .search-icon {
 		width: 18px !important;
 		height: 18px !important;
+	}
+}
+
+/* Desktop: keep theme slot reserved so late scripts never shove the menu */
+@media (min-width: 1100px) {
+	.drslon-header-utility .krv-controls {
+		flex: 0 0 40px !important;
+		width: 40px !important;
+		height: 40px !important;
+		min-width: 40px !important;
+	}
+
+	.drslon-header-utility .krv-theme-btn {
+		width: 40px !important;
+		height: 40px !important;
+		flex: 0 0 40px !important;
+	}
+
+	/* Search loupe also as soft circle so utility row metrics stay even */
+	.drslon-header-utility .drslon-header-search .wp-block-search__button,
+	.drslon-header-utility .drslon-header-search .drslon-header-search__loupe {
+		border: 1px solid var(--wp--preset--color--border, #d8e0ee) !important;
+		border-radius: 999px !important;
+		background: var(--wp--preset--color--surface, #fff) !important;
+	}
+
+	.drslon-header-utility .drslon-header-search .wp-block-search__button:hover,
+	.drslon-header-utility .drslon-header-search .drslon-header-search__loupe:hover {
+		border-color: var(--wp--preset--color--accent, #315fe8) !important;
+		background: var(--wp--preset--color--surface-light, #eef3fb) !important;
+		color: var(--wp--preset--color--accent, #315fe8) !important;
 	}
 }
 
@@ -835,6 +900,8 @@ html[data-theme="dark"] .drslon-main-navigation .wp-block-navigation__responsive
 	form.drslon-header-search.wp-block-search,
 	.drslon-header-search .wp-block-search__inside-wrapper,
 	.drslon-header-search .wp-block-search__button,
+	.drslon-header-search .drslon-header-search__loupe,
+	.krv-controls,
 	.krv-theme-btn,
 	.krv-controls .krv-theme-btn {
 		width: 36px !important;
@@ -852,6 +919,8 @@ html[data-theme="dark"] .drslon-main-navigation .wp-block-navigation__responsive
 	form.drslon-header-search,
 	.drslon-header-search .wp-block-search__inside-wrapper,
 	.drslon-header-search .wp-block-search__button,
+	.drslon-header-search .drslon-header-search__loupe,
+	.krv-controls,
 	.krv-theme-btn {
 		width: 34px !important;
 		height: 34px !important;

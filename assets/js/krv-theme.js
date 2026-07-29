@@ -70,6 +70,19 @@
     m.setAttribute("content", theme === "dark" ? "#0b1220" : "#315fe8");
   }
 
+  function setButtonGlyph(btn, theme) {
+    // Fixed-width glyph slot — ☀/☾ metrics differ and used to nudge the menu.
+    var icon = btn.querySelector(".krv-theme-btn__icon");
+    if (!icon) {
+      icon = document.createElement("span");
+      icon.className = "krv-theme-btn__icon";
+      icon.setAttribute("aria-hidden", "true");
+      btn.textContent = "";
+      btn.appendChild(icon);
+    }
+    icon.textContent = theme === "dark" ? "\u2600" : "\u263E";
+  }
+
   function applyTheme(theme, anim, persist) {
     var html = document.documentElement;
     var t = theme === "dark" ? "dark" : "light";
@@ -80,7 +93,7 @@
     var btns = document.querySelectorAll(".krv-theme-btn");
     for (var i = 0; i < btns.length; i++) {
       var btn = btns[i];
-      btn.textContent = t === "dark" ? "\u2600" : "\u263E";
+      setButtonGlyph(btn, t);
       btn.title = t === "dark" ? "Светлая тема / Light" : "Тёмная тема / Dark";
       btn.setAttribute("aria-label", btn.title);
       btn.setAttribute("aria-pressed", t === "dark" ? "true" : "false");
@@ -96,11 +109,15 @@
     if (anim) {
       setTimeout(function () {
         html.classList.remove("theme-anim");
-      }, 280);
+      }, 220);
     }
   }
 
-  function toggleTheme() {
+  function toggleTheme(e) {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
     var cur =
       document.documentElement.getAttribute("data-theme") === "dark"
         ? "dark"
@@ -113,6 +130,11 @@
     btn.type = "button";
     btn.className = "krv-theme-btn";
     btn.setAttribute("aria-label", "Theme");
+    var icon = document.createElement("span");
+    icon.className = "krv-theme-btn__icon";
+    icon.setAttribute("aria-hidden", "true");
+    icon.textContent = "\u263E";
+    btn.appendChild(icon);
     btn.addEventListener("click", toggleTheme);
     return btn;
   }
@@ -133,16 +155,42 @@
     }
   }
 
+  function bindHeaderButtons() {
+    var btns = document.querySelectorAll(
+      ".drslon-header-utility .krv-theme-btn"
+    );
+    for (var i = 0; i < btns.length; i++) {
+      var btn = btns[i];
+      if (btn.dataset.krvBound === "1") continue;
+      btn.dataset.krvBound = "1";
+      btn.type = "button";
+      btn.addEventListener("click", toggleTheme);
+    }
+  }
+
   function injectControls() {
-    // Single toggle only: between search and «Прайс» in header utility.
+    // Single toggle only: static slot in header (no late DOM insert → no menu jump).
     removeDrawerToggles();
+    bindHeaderButtons();
+
     if ($(".drslon-header-utility .krv-theme-btn")) return;
 
     var host = $(".drslon-header-utility");
     if (!host) return;
 
+    // Prefer pre-rendered empty slot (header.html).
+    var slot = host.querySelector(".krv-controls[data-krv-theme-slot], .krv-controls");
+    if (slot) {
+      if (!slot.querySelector(".krv-theme-btn")) {
+        slot.appendChild(makeButton());
+      }
+      bindHeaderButtons();
+      return;
+    }
+
     var box = document.createElement("div");
     box.className = "krv-controls";
+    box.setAttribute("data-krv-theme-slot", "1");
     box.appendChild(makeButton());
 
     // Prefer: after search, before «Прайс»
@@ -157,6 +205,7 @@
     } else {
       host.appendChild(box);
     }
+    bindHeaderButtons();
   }
 
   function ready(fn) {

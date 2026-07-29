@@ -3,17 +3,27 @@
  * Contract matches static landings: html[data-theme="light|dark"]
  */
 
-/* ── Toggle control ── */
+/* ── Toggle control (fixed 40×40 — same as search/burger, no layout nudge) ── */
 .krv-controls {
   display: inline-flex;
   align-items: center;
-  gap: 0.4rem;
-  flex-shrink: 0;
+  justify-content: center;
+  gap: 0;
+  flex: 0 0 40px;
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  min-height: 40px;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 .krv-theme-btn {
-  width: 2.25rem;
-  height: 2.25rem;
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  min-height: 40px;
   border-radius: 999px;
   border: 1px solid var(--wp--preset--color--border, #d8e0ee);
   background: var(--wp--preset--color--surface, #fff);
@@ -22,10 +32,24 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  font-size: 0.95rem;
+  font-size: 1rem;
   line-height: 1;
   padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  flex: 0 0 40px;
   transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.krv-theme-btn__icon {
+  display: block;
+  width: 1.15em;
+  height: 1.15em;
+  line-height: 1.15em;
+  text-align: center;
+  font-size: 1em;
+  /* prevent ☀/☾ advance-width differences from shifting siblings */
+  font-variant-numeric: tabular-nums;
 }
 
 .krv-theme-btn:hover {
@@ -41,9 +65,13 @@
 
 /* Drawer duplicate toggle intentionally not used — only header between search and Прайс */
 
+/* Animate page surfaces only — no universal * (was menu jank on toggle) */
 html.theme-anim,
-html.theme-anim * {
-  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease !important;
+html.theme-anim body,
+html.theme-anim .wp-site-blocks,
+html.theme-anim .drslon-site-header,
+html.theme-anim main {
+  transition: background-color 0.18s ease, color 0.18s ease, border-color 0.18s ease !important;
 }
 
 html[data-theme="light"] {
@@ -451,12 +479,7 @@ html[data-theme="dark"] .drslon-mobile-menu-contacts__chip {
 
 @media (max-width: 781px) {
   .krv-controls {
-    margin-left: 0.15rem;
-  }
-
-  .krv-theme-btn {
-    width: 2.15rem;
-    height: 2.15rem;
+    margin-left: 0;
   }
 }
 
@@ -926,17 +949,18 @@ html[data-theme="dark"] .drslon-category-tiles__count {
   border-color: #3d5a9a !important;
 }
 
-/* Mobile header: keep utility controls readable */
-@media (max-width: 781px) {
+/* Mobile/tablet header: keep utility controls readable (circle plates) */
+@media (max-width: 1099px) {
   html[data-theme="dark"] .drslon-header-utility .krv-theme-btn {
     color: #e8eefc !important;
     border-color: #243049 !important;
     background: #121a2b !important;
   }
-  html[data-theme="dark"] .drslon-header-search .wp-block-search__button {
+  html[data-theme="dark"] .drslon-header-search .wp-block-search__button,
+  html[data-theme="dark"] .drslon-header-search .drslon-header-search__loupe {
     color: #e8eefc !important;
-    border: 0 !important;
-    background: transparent !important;
+    border: 1px solid #243049 !important;
+    background: #121a2b !important;
     box-shadow: none !important;
   }
   html[data-theme="dark"] .drslon-header-search .wp-block-search__inside-wrapper {
@@ -948,6 +972,21 @@ html[data-theme="dark"] .drslon-category-tiles__count {
   .drslon-header-utility .drslon-header-search {
     display: inline-flex !important;
     flex-shrink: 0;
+  }
+}
+
+/* Desktop dark: search loupe circle matches theme toggle */
+@media (min-width: 1100px) {
+  html[data-theme="dark"] .drslon-header-utility .drslon-header-search .wp-block-search__button,
+  html[data-theme="dark"] .drslon-header-utility .drslon-header-search .drslon-header-search__loupe {
+    color: #e8eefc !important;
+    border: 1px solid #243049 !important;
+    background: #121a2b !important;
+  }
+  html[data-theme="dark"] .drslon-header-utility .krv-theme-btn {
+    color: #e8eefc !important;
+    border-color: #243049 !important;
+    background: #121a2b !important;
   }
 }
 
