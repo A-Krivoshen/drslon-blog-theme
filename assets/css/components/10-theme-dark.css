@@ -1,0 +1,392 @@
+/**
+ * Theme toggle UI + dark mode for DrSlon Blog shell.
+ * Contract matches static landings: html[data-theme="light|dark"]
+ */
+
+/* ── Toggle control ── */
+.krv-controls {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-shrink: 0;
+}
+
+.krv-theme-btn {
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 999px;
+  border: 1px solid var(--wp--preset--color--border, #d8e0ee);
+  background: var(--wp--preset--color--surface, #fff);
+  color: var(--wp--preset--color--text, #172133);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 0.95rem;
+  line-height: 1;
+  padding: 0;
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.krv-theme-btn:hover {
+  border-color: var(--wp--preset--color--accent, #315fe8);
+  background: var(--wp--preset--color--surface-light, #eef3fb);
+  color: var(--wp--preset--color--accent-hover, #244ac2);
+}
+
+.krv-theme-btn:focus-visible {
+  outline: 2px solid rgba(49, 95, 232, 0.45);
+  outline-offset: 2px;
+}
+
+.krv-controls--drawer {
+  margin-top: 1rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--wp--preset--color--border, #d8e0ee);
+}
+
+html.theme-anim,
+html.theme-anim * {
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease !important;
+}
+
+html[data-theme="light"] {
+  color-scheme: light;
+}
+
+/* ═══════════ DARK: WP preset tokens ═══════════ */
+html[data-theme="dark"] {
+  color-scheme: dark;
+
+  --wp--preset--color--bg: #0b1220;
+  --wp--preset--color--surface: #121a2b;
+  --wp--preset--color--surface-light: #1a2744;
+  --wp--preset--color--text: #e8eefc;
+  --wp--preset--color--muted: #a8b6d4;
+  --wp--preset--color--accent: #315fe8;
+  --wp--preset--color--accent-hover: #244ac2;
+  --wp--preset--color--border: #243049;
+  --wp--preset--color--code-bg: #0f172a;
+
+  /* Gutenberg aliases sometimes used */
+  --wp--preset--color--base: #0b1220;
+  --wp--preset--color--contrast: #e8eefc;
+  --wp--preset--color--primary: #315fe8;
+  --wp--preset--color--secondary: #1a2744;
+  --wp--preset--color--foreground: #e8eefc;
+  --wp--preset--color--background: #0b1220;
+}
+
+/* Page canvas */
+html[data-theme="dark"] body {
+  background-color: var(--wp--preset--color--bg) !important;
+  color: var(--wp--preset--color--text) !important;
+}
+
+html[data-theme="dark"] .wp-site-blocks {
+  background-color: var(--wp--preset--color--bg);
+  color: var(--wp--preset--color--text);
+}
+
+/* Header */
+html[data-theme="dark"] .drslon-site-header,
+html[data-theme="dark"] .drslon-site-header.has-background,
+html[data-theme="dark"] .wp-site-blocks > header.wp-block-template-part {
+  background-color: rgba(11, 18, 32, 0.94) !important;
+  border-bottom-color: var(--wp--preset--color--border) !important;
+  color: var(--wp--preset--color--text);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+html[data-theme="dark"] .drslon-site-header.is-scrolled {
+  background-color: rgba(11, 18, 32, 0.98) !important;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
+}
+
+html[data-theme="dark"] .drslon-site-branding .wp-block-site-title a,
+html[data-theme="dark"] .drslon-site-branding .wp-block-site-title {
+  color: var(--wp--preset--color--text) !important;
+}
+
+html[data-theme="dark"] .drslon-site-branding .wp-block-site-tagline {
+  color: var(--wp--preset--color--muted) !important;
+}
+
+html[data-theme="dark"] .drslon-main-navigation .wp-block-navigation-item__content {
+  color: var(--wp--preset--color--text) !important;
+}
+
+html[data-theme="dark"] .drslon-main-navigation .wp-block-navigation-item__content:hover {
+  color: #8aacff !important;
+}
+
+html[data-theme="dark"] .wp-block-navigation__responsive-container-open {
+  background: var(--wp--preset--color--surface-light) !important;
+  border-color: var(--wp--preset--color--border) !important;
+  color: var(--wp--preset--color--text) !important;
+}
+
+html[data-theme="dark"] .wp-block-navigation__responsive-container.is-menu-open,
+html[data-theme="dark"] .wp-block-navigation__responsive-dialog {
+  background-color: #0b1220 !important;
+  color: var(--wp--preset--color--text) !important;
+}
+
+html[data-theme="dark"] .drslon-header-search .wp-block-search__input {
+  background: var(--wp--preset--color--surface) !important;
+  border-color: var(--wp--preset--color--border) !important;
+  color: var(--wp--preset--color--text) !important;
+}
+
+html[data-theme="dark"] .drslon-header-search .wp-block-search__button {
+  background: var(--wp--preset--color--accent) !important;
+  color: #fff !important;
+}
+
+html[data-theme="dark"] .drslon-header-cta-btn .wp-block-button__link {
+  background: var(--wp--preset--color--accent) !important;
+  color: #fff !important;
+  border-color: transparent !important;
+}
+
+html[data-theme="dark"] .drslon-header-cta-btn .wp-block-button__link:hover {
+  background: var(--wp--preset--color--accent-hover) !important;
+}
+
+html[data-theme="dark"] .krv-theme-btn {
+  background: var(--wp--preset--color--surface);
+  border-color: var(--wp--preset--color--border);
+  color: var(--wp--preset--color--text);
+}
+
+html[data-theme="dark"] .krv-theme-btn:hover {
+  background: #1a2744;
+  border-color: #3d5a9a;
+  color: #8aacff;
+}
+
+/* Cards / surfaces used across blog */
+html[data-theme="dark"] .drslon-featured-post,
+html[data-theme="dark"] .drslon-blog-section-card,
+html[data-theme="dark"] .drslon-archive-card,
+html[data-theme="dark"] .drslon-sidebar__panel,
+html[data-theme="dark"] .drslon-category-tiles__item,
+html[data-theme="dark"] .wp-block-group.has-surface-background-color,
+html[data-theme="dark"] .has-surface-background-color {
+  background-color: var(--wp--preset--color--surface) !important;
+  border-color: var(--wp--preset--color--border) !important;
+  color: var(--wp--preset--color--text);
+}
+
+html[data-theme="dark"] .has-bg-background-color {
+  background-color: var(--wp--preset--color--bg) !important;
+}
+
+html[data-theme="dark"] .has-surface-light-background-color {
+  background-color: var(--wp--preset--color--surface-light) !important;
+}
+
+html[data-theme="dark"] .has-text-color,
+html[data-theme="dark"] .has-text-color a:not(.wp-element-button) {
+  color: var(--wp--preset--color--text);
+}
+
+html[data-theme="dark"] .has-muted-color {
+  color: var(--wp--preset--color--muted) !important;
+}
+
+html[data-theme="dark"] h1,
+html[data-theme="dark"] h2,
+html[data-theme="dark"] h3,
+html[data-theme="dark"] h4,
+html[data-theme="dark"] h5,
+html[data-theme="dark"] h6 {
+  color: var(--wp--preset--color--text);
+}
+
+html[data-theme="dark"] a:not(.wp-element-button):not(.wp-block-button__link) {
+  color: #8aacff;
+}
+
+html[data-theme="dark"] a:not(.wp-element-button):not(.wp-block-button__link):hover {
+  color: #a8c4ff;
+}
+
+html[data-theme="dark"] .wp-element-button,
+html[data-theme="dark"] .wp-block-button__link {
+  background-color: var(--wp--preset--color--accent);
+  color: #fff !important;
+}
+
+html[data-theme="dark"] .wp-element-button:hover,
+html[data-theme="dark"] .wp-block-button__link:hover {
+  background-color: var(--wp--preset--color--accent-hover);
+  color: #fff !important;
+}
+
+/* Single content */
+html[data-theme="dark"] .drslon-single-content,
+html[data-theme="dark"] .entry-content {
+  color: var(--wp--preset--color--text);
+}
+
+html[data-theme="dark"] .drslon-single-content pre,
+html[data-theme="dark"] .entry-content pre,
+html[data-theme="dark"] .wp-block-code,
+html[data-theme="dark"] code {
+  background: var(--wp--preset--color--code-bg) !important;
+  color: #e8eefc;
+  border-color: var(--wp--preset--color--border);
+}
+
+html[data-theme="dark"] .wp-block-quote,
+html[data-theme="dark"] blockquote {
+  border-left-color: var(--wp--preset--color--accent);
+  color: var(--wp--preset--color--muted);
+}
+
+html[data-theme="dark"] .wp-block-table td,
+html[data-theme="dark"] .wp-block-table th {
+  border-color: var(--wp--preset--color--border);
+}
+
+html[data-theme="dark"] .wp-block-separator {
+  border-color: var(--wp--preset--color--border) !important;
+  color: var(--wp--preset--color--border);
+}
+
+/* Sidebar widgets */
+html[data-theme="dark"] .drslon-sidebar,
+html[data-theme="dark"] .drslon-sidebar a {
+  color: var(--wp--preset--color--text);
+}
+
+html[data-theme="dark"] .drslon-sidebar .wp-block-search__input,
+html[data-theme="dark"] .wp-block-categories,
+html[data-theme="dark"] .wp-block-latest-posts {
+  background: transparent;
+  color: var(--wp--preset--color--text);
+}
+
+/* Footer */
+html[data-theme="dark"] .drslon-site-footer,
+html[data-theme="dark"] .drslon-site-footer.has-background,
+html[data-theme="dark"] footer.wp-block-template-part {
+  background-color: var(--wp--preset--color--surface) !important;
+  border-top-color: var(--wp--preset--color--border) !important;
+  color: var(--wp--preset--color--muted) !important;
+}
+
+html[data-theme="dark"] .drslon-site-footer a {
+  color: #8aacff;
+}
+
+html[data-theme="dark"] .drslon-site-footer a:hover {
+  color: #a8c4ff;
+}
+
+html[data-theme="dark"] .drslon-site-footer .wp-block-heading,
+html[data-theme="dark"] .drslon-site-footer h2,
+html[data-theme="dark"] .drslon-site-footer h3 {
+  color: var(--wp--preset--color--text) !important;
+}
+
+html[data-theme="dark"] .drslon-footer-connect__btn {
+  background: var(--wp--preset--color--surface-light);
+  border-color: var(--wp--preset--color--border);
+  color: var(--wp--preset--color--text);
+}
+
+html[data-theme="dark"] .drslon-footer-connect__btn:hover {
+  border-color: #3d5a9a;
+  color: #8aacff;
+}
+
+/* Pagination */
+html[data-theme="dark"] .wp-block-query-pagination a,
+html[data-theme="dark"] .nav-links a {
+  color: #8aacff;
+}
+
+html[data-theme="dark"] .page-numbers.current {
+  background: var(--wp--preset--color--accent);
+  color: #fff;
+  border-color: var(--wp--preset--color--accent);
+}
+
+/* Forms */
+html[data-theme="dark"] input[type="text"],
+html[data-theme="dark"] input[type="email"],
+html[data-theme="dark"] input[type="search"],
+html[data-theme="dark"] input[type="url"],
+html[data-theme="dark"] textarea,
+html[data-theme="dark"] select {
+  background: var(--wp--preset--color--surface) !important;
+  border-color: var(--wp--preset--color--border) !important;
+  color: var(--wp--preset--color--text) !important;
+}
+
+/* Comments (generic) */
+html[data-theme="dark"] .comment-body,
+html[data-theme="dark"] .wpdiscuz-comment,
+html[data-theme="dark"] #comments {
+  color: var(--wp--preset--color--text);
+}
+
+/* Don't invert media */
+html[data-theme="dark"] img,
+html[data-theme="dark"] video,
+html[data-theme="dark"] iframe,
+html[data-theme="dark"] .custom-logo {
+  filter: none !important;
+}
+
+/* Mobile menu contacts chips */
+html[data-theme="dark"] .drslon-mobile-menu-contacts__chip {
+  background: var(--wp--preset--color--surface-light);
+  border-color: var(--wp--preset--color--border);
+  color: var(--wp--preset--color--text);
+}
+
+@media (max-width: 781px) {
+  .krv-controls {
+    margin-left: 0.15rem;
+  }
+
+  .krv-theme-btn {
+    width: 2.15rem;
+    height: 2.15rem;
+  }
+}
+
+/* Home / archive cards with possible hardcoded light fills */
+html[data-theme="dark"] .drslon-home-post,
+html[data-theme="dark"] .drslon-home-feed-list > *,
+html[data-theme="dark"] .drslon-featured-slider__media,
+html[data-theme="dark"] .drslon-blog-section-card__body {
+  background-color: var(--wp--preset--color--surface);
+  color: var(--wp--preset--color--text);
+}
+
+html[data-theme="dark"] .drslon-home-post .wp-block-post-title a,
+html[data-theme="dark"] .drslon-blog-section-card__title a,
+html[data-theme="dark"] .drslon-category-tiles__name {
+  color: var(--wp--preset--color--text) !important;
+}
+
+html[data-theme="dark"] .drslon-home-post .wp-block-post-excerpt,
+html[data-theme="dark"] .drslon-category-tiles__description,
+html[data-theme="dark"] .drslon-blog-section-card__meta {
+  color: var(--wp--preset--color--muted) !important;
+}
+
+html[data-theme="dark"] .drslon-category-tiles__item {
+  background: var(--wp--preset--color--surface) !important;
+  border-color: var(--wp--preset--color--border) !important;
+}
+
+html[data-theme="dark"] .drslon-category-tiles__item:hover {
+  border-color: #3d5a9a !important;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
+}

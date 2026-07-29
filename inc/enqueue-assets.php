@@ -21,6 +21,7 @@ function drslon_theme_stylesheet_map(): array {
 		'drslon-css-footer'        => 'assets/css/components/08-footer.css',
 		'drslon-css-header-sticky' => 'assets/css/components/07-header-sticky.css',
 		'drslon-css-blog-mobile'   => 'assets/css/components/09-blog-mobile.css',
+		'drslon-css-theme-dark'    => 'assets/css/components/10-theme-dark.css',
 	);
 }
 
@@ -30,6 +31,7 @@ function drslon_should_enqueue_style( string $handle ): bool {
 		case 'drslon-css-shell':
 		case 'drslon-css-footer':
 		case 'drslon-css-header-sticky':
+		case 'drslon-css-theme-dark':
 			return true;
 
 		case 'drslon-css-archive':
@@ -85,9 +87,49 @@ function drslon_enqueue_theme_styles(): void {
 }
 add_action( 'wp_enqueue_scripts', 'drslon_enqueue_theme_styles', 20 );
 
+/**
+ * Early FOUC-safe theme bootstrap (same contract as static landings).
+ */
+function drslon_theme_fouc_script(): void {
+	if ( is_admin() ) {
+		return;
+	}
+	?>
+<script>
+(function(){try{
+  var t=null;
+  try{
+    var m=document.cookie.match(/(?:^|;\s*)krv_theme=(light|dark)/);
+    if(m) t=m[1];
+  }catch(e){}
+  if(t!=='light'&&t!=='dark'){
+    try{t=localStorage.getItem('krv_theme');}catch(e){}
+  }
+  if(t!=='light'&&t!=='dark'){
+    var h=new Date().getHours();
+    t=(h>=7&&h<20)?'light':'dark';
+  }
+  document.documentElement.setAttribute('data-theme',t==='dark'?'dark':'light');
+}catch(e){}})();
+</script>
+	<?php
+}
+add_action( 'wp_head', 'drslon_theme_fouc_script', 0 );
+
 function drslon_enqueue_theme_scripts(): void {
 	$theme_dir = get_template_directory();
 	$theme_uri = get_template_directory_uri();
+
+	$theme_js = $theme_dir . '/assets/js/krv-theme.js';
+	if ( file_exists( $theme_js ) ) {
+		wp_enqueue_script(
+			'drslon-krv-theme',
+			$theme_uri . '/assets/js/krv-theme.js',
+			array(),
+			(string) filemtime( $theme_js ),
+			true
+		);
+	}
 
 	$sticky_path = $theme_dir . '/assets/js/sticky-header.js';
 
