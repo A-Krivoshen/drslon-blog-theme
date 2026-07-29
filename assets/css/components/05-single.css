@@ -399,3 +399,42 @@
                 grid-template-columns: 1fr;
         }
 }
+
+/* Source cards («Источники и ссылки») — grid + readable cards */
+.krv-source-cards {
+	display: grid;
+	gap: 14px;
+	margin: 18px 0;
+}
+
+.krv-source-cards > a {
+	display: block;
+	padding: 16px;
+	border: 1px solid var(--wp--preset--color--border, #d8e0ee);
+	border-radius: 14px;
+	text-decoration: none;
+	color: var(--wp--preset--color--text, #172133);
+	background: var(--wp--preset--color--surface, #fff);
+	box-shadow: 0 4px 14px rgba(15, 23, 42, 0.05);
+	transition: border-color 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
+}
+
+.krv-source-cards > a:hover,
+.krv-source-cards > a:focus {
+	border-color: var(--wp--preset--color--accent, #315fe8);
+	box-shadow: 0 10px 22px rgba(81, 129, 254, 0.12);
+	color: var(--wp--preset--color--text, #172133);
+}
+
+.krv-source-cards > a > span:first-child {
+	display: block;
+	font-weight: 700;
+	margin-bottom: 6px;
+	color: var(--wp--preset--color--text, #172133);
+}
+
+.krv-source-cards > a > span:not(:first-child) {
+	display: block;
+	color: var(--wp--preset--color--muted, #5b6b86);
+	line-height: 1.45;
+}

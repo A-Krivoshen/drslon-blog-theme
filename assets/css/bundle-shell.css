@@ -4192,3 +4192,42 @@ html[data-theme="dark"] .krv-resume-item {
   border-bottom-color: #243049 !important;
 }
 
+/* ═══════════════════════════════════════════════════════════
+   Source cards in posts («Источники и ссылки»)
+   Inline styles use background:#fff + color:inherit → in dark
+   theme light text on white is nearly unreadable.
+   ═══════════════════════════════════════════════════════════ */
+html[data-theme="dark"] .krv-source-cards > a,
+html[data-theme="dark"] .krv-source-cards a {
+  background: #121a2b !important;
+  background-color: #121a2b !important;
+  border: 1px solid #243049 !important;
+  color: #e8eefc !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.28) !important;
+}
+
+html[data-theme="dark"] .krv-source-cards > a:hover,
+html[data-theme="dark"] .krv-source-cards > a:focus,
+html[data-theme="dark"] .krv-source-cards a:hover,
+html[data-theme="dark"] .krv-source-cards a:focus {
+  background: #1a2744 !important;
+  background-color: #1a2744 !important;
+  border-color: #3d5a9a !important;
+  color: #f4f7ff !important;
+}
+
+html[data-theme="dark"] .krv-source-cards a span,
+html[data-theme="dark"] .krv-source-cards a strong,
+html[data-theme="dark"] .krv-source-cards a b {
+  color: inherit !important;
+}
+
+/* Title line a bit brighter; description softer */
+html[data-theme="dark"] .krv-source-cards a > span:first-child {
+  color: #f4f7ff !important;
+}
+
+html[data-theme="dark"] .krv-source-cards a > span:not(:first-child) {
+  color: #a8b6d4 !important;
+}
+
