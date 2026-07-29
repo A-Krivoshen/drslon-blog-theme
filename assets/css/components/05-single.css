@@ -317,17 +317,30 @@
 
 .krv-project-posts__media {
         display: block;
+        position: relative;
         overflow: hidden;
-        aspect-ratio: 16/9;
+        aspect-ratio: 16 / 9;
+        background: var(--wp--preset--color--surface-light);
+        line-height: 0;
 }
 
+/* Absolute fill + cover center — same idea as archive/home cards.
+   height:100% alone on img fails when WP sets width/height attrs. */
+.krv-project-posts__media img,
 .krv-project-posts__image {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
+        position: absolute;
+        inset: 0;
+        display: block;
+        width: 100% !important;
+        height: 100% !important;
+        max-width: none !important;
+        object-fit: cover !important;
+        object-position: center center;
 }
 
 .krv-project-posts__placeholder {
+        position: absolute;
+        inset: 0;
         display: block;
         width: 100%;
         height: 100%;
