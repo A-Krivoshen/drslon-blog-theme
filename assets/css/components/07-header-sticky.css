@@ -129,7 +129,7 @@
 
 .drslon-site-header.is-scrolled {
 	box-shadow: 0 4px 18px rgba(23, 33, 51, 0.08);
-	background-color: #ffffff !important;
+	background-color: var(--wp--preset--color--surface, #ffffff) !important;
 	border-bottom-color: var(--wp--preset--color--border) !important;
 }
 
@@ -283,7 +283,7 @@
 	height: 40px;
 	border-radius: 999px;
 	border: 1px solid var(--wp--preset--color--border);
-	background: #ffffff;
+	background: var(--wp--preset--color--surface, #ffffff);
 	color: var(--wp--preset--color--accent-hover);
 	text-decoration: none;
 	flex-shrink: 0;
@@ -474,7 +474,7 @@
 		border: 1px solid var(--wp--preset--color--border) !important;
 		border-radius: 12px !important;
 		box-shadow: 0 12px 28px rgba(18, 34, 54, 0.12) !important;
-		background: #ffffff !important;
+		background: var(--wp--preset--color--surface, #ffffff) !important;
 	}
 
 	.drslon-main-navigation .wp-block-navigation__submenu-container .wp-block-navigation-item__content {
