@@ -117,6 +117,51 @@ html[data-theme="dark"] .drslon-main-navigation .wp-block-navigation-item__conte
   color: #8aacff !important;
 }
 
+/* Desktop dropdown «Услуги» — core/light CSS often forces white panel */
+html[data-theme="dark"] .drslon-main-navigation .wp-block-navigation__submenu-container,
+html[data-theme="dark"] .drslon-main-navigation .wp-block-navigation-submenu > .wp-block-navigation__submenu-container,
+html[data-theme="dark"] .wp-block-navigation .wp-block-navigation__submenu-container,
+html[data-theme="dark"] .wp-block-navigation:not(.has-background) .wp-block-navigation__submenu-container,
+html[data-theme="dark"] .wp-block-navigation__container .wp-block-navigation__submenu-container {
+  background: #121a2b !important;
+  background-color: #121a2b !important;
+  border: 1px solid #243049 !important;
+  border-color: #243049 !important;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45) !important;
+  color: #e8eefc !important;
+}
+
+html[data-theme="dark"] .drslon-main-navigation .wp-block-navigation__submenu-container .wp-block-navigation-item,
+html[data-theme="dark"] .drslon-main-navigation .wp-block-navigation__submenu-container .wp-block-navigation-item__content,
+html[data-theme="dark"] .wp-block-navigation__submenu-container .wp-block-navigation-item__content,
+html[data-theme="dark"] .wp-block-navigation__submenu-container .wp-block-navigation-item__label {
+  color: #e8eefc !important;
+  background: transparent !important;
+}
+
+html[data-theme="dark"] .drslon-main-navigation .wp-block-navigation__submenu-container .wp-block-navigation-item__content:hover,
+html[data-theme="dark"] .drslon-main-navigation .wp-block-navigation__submenu-container .wp-block-navigation-item__content:focus,
+html[data-theme="dark"] .wp-block-navigation__submenu-container .wp-block-navigation-item__content:hover,
+html[data-theme="dark"] .wp-block-navigation__submenu-container .wp-block-navigation-item__content:focus {
+  color: #ffffff !important;
+  background: #1a2744 !important;
+}
+
+html[data-theme="dark"] .drslon-main-navigation .wp-block-navigation-submenu__toggle,
+html[data-theme="dark"] .drslon-main-navigation .wp-block-navigation__submenu-icon {
+  color: #e8eefc !important;
+  fill: currentColor !important;
+}
+
+html[data-theme="dark"] .drslon-main-navigation .wp-block-navigation-submenu__toggle svg,
+html[data-theme="dark"] .drslon-main-navigation .wp-block-navigation__submenu-icon svg,
+html[data-theme="dark"] .drslon-main-navigation .wp-block-navigation-submenu__toggle path {
+  color: #e8eefc !important;
+  stroke: #e8eefc !important;
+  fill: none !important;
+}
+
+/* Mobile overlay menu + nested «Услуги» list */
 html[data-theme="dark"] .wp-block-navigation__responsive-container-open {
   background: var(--wp--preset--color--surface-light) !important;
   border-color: var(--wp--preset--color--border) !important;
@@ -124,9 +169,48 @@ html[data-theme="dark"] .wp-block-navigation__responsive-container-open {
 }
 
 html[data-theme="dark"] .wp-block-navigation__responsive-container.is-menu-open,
-html[data-theme="dark"] .wp-block-navigation__responsive-dialog {
+html[data-theme="dark"] .wp-block-navigation__responsive-dialog,
+html[data-theme="dark"] .wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation__responsive-container-content {
   background-color: #0b1220 !important;
-  color: var(--wp--preset--color--text) !important;
+  background: #0b1220 !important;
+  color: #e8eefc !important;
+}
+
+html[data-theme="dark"] .wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation-item__content,
+html[data-theme="dark"] .wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation-item__label {
+  color: #e8eefc !important;
+}
+
+html[data-theme="dark"] .wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation__submenu-container {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+html[data-theme="dark"] .wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation__submenu-container .wp-block-navigation-item__content {
+  color: #a8b6d4 !important;
+}
+
+html[data-theme="dark"] .wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation__submenu-container .wp-block-navigation-item__content:hover {
+  color: #8aacff !important;
+  background: transparent !important;
+}
+
+html[data-theme="dark"] .wp-block-navigation__responsive-container-close {
+  background: #121a2b !important;
+  border-color: #243049 !important;
+  color: #e8eefc !important;
+}
+
+/* Mobile menu contact chips inside drawer */
+html[data-theme="dark"] .drslon-mobile-menu-contacts__label {
+  color: #a8b6d4 !important;
+}
+
+html[data-theme="dark"] .drslon-mobile-menu-contacts__chip {
+  background: #1a2744 !important;
+  border-color: #3d5a9a !important;
+  color: #e8eefc !important;
 }
 
 html[data-theme="dark"] .drslon-header-search .wp-block-search__inside-wrapper {
