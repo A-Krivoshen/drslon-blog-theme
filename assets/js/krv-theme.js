@@ -118,36 +118,41 @@
   }
 
   function injectControls() {
-    if ($(".krv-theme-btn")) return;
+    // Single toggle only: between search and «Прайс» in header utility.
+    // Do not inject into the mobile nav drawer (avoids a second switch).
+    if ($(".drslon-header-utility .krv-theme-btn, .krv-controls:not(.krv-controls--drawer) .krv-theme-btn")) {
+      // Remove accidental drawer / under-menu duplicates if any left from older JS
+      var extras = document.querySelectorAll(
+        ".wp-block-navigation__responsive-container-content .krv-theme-btn, .krv-controls--drawer"
+      );
+      for (var i = 0; i < extras.length; i++) {
+        var el = extras[i];
+        var wrap = el.classList && el.classList.contains("krv-controls--drawer")
+          ? el
+          : el.closest(".krv-controls--drawer") || el;
+        if (wrap && wrap.parentNode) wrap.parentNode.removeChild(wrap);
+      }
+      if ($(".drslon-header-utility .krv-theme-btn")) return;
+    }
 
-    var host =
-      $(".drslon-header-utility") ||
-      $(".drslon-site-header__inner") ||
-      $("header .wp-block-group");
-
+    var host = $(".drslon-header-utility");
     if (!host) return;
 
     var box = document.createElement("div");
     box.className = "krv-controls";
     box.appendChild(makeButton());
 
+    // Prefer: after search, before «Прайс»
     var cta = host.querySelector(".drslon-header-cta, .wp-block-buttons");
+    var search = host.querySelector(".drslon-header-search, .wp-block-search");
     if (cta && cta.parentElement === host) {
       host.insertBefore(box, cta);
-    } else if (cta && cta.parentElement) {
-      cta.parentElement.insertBefore(box, cta);
+    } else if (search && search.parentElement === host && search.nextSibling) {
+      host.insertBefore(box, search.nextSibling);
+    } else if (search && search.parentElement === host) {
+      search.parentElement.appendChild(box);
     } else {
       host.appendChild(box);
-    }
-
-    var drawer = document.querySelector(
-      ".wp-block-navigation__responsive-container-content"
-    );
-    if (drawer && !drawer.querySelector(".krv-theme-btn")) {
-      var row = document.createElement("div");
-      row.className = "krv-controls krv-controls--drawer";
-      row.appendChild(makeButton());
-      drawer.appendChild(row);
     }
   }
 

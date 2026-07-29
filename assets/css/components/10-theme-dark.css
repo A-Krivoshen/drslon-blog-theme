@@ -39,11 +39,7 @@
   outline-offset: 2px;
 }
 
-.krv-controls--drawer {
-  margin-top: 1rem;
-  padding-top: 0.75rem;
-  border-top: 1px solid var(--wp--preset--color--border, #d8e0ee);
-}
+/* Drawer duplicate toggle intentionally not used — only header between search and Прайс */
 
 html.theme-anim,
 html.theme-anim * {
