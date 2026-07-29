@@ -214,8 +214,9 @@ html[data-theme="dark"] .drslon-mobile-menu-contacts__chip {
 }
 
 html[data-theme="dark"] .drslon-header-search .wp-block-search__inside-wrapper {
-  background: var(--wp--preset--color--surface) !important;
-  border-color: var(--wp--preset--color--border) !important;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
 }
 
 html[data-theme="dark"] .drslon-header-search .wp-block-search__input {
@@ -226,12 +227,21 @@ html[data-theme="dark"] .drslon-header-search .wp-block-search__input {
 
 html[data-theme="dark"] .drslon-header-search .wp-block-search__button {
   background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
   color: var(--wp--preset--color--text) !important;
 }
 
 html[data-theme="dark"] .drslon-header-search:hover .wp-block-search__inside-wrapper,
 html[data-theme="dark"] .drslon-header-search:focus-within .wp-block-search__inside-wrapper {
-  border-color: #3d5a9a !important;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+html[data-theme="dark"] .drslon-header-search .wp-block-search__button:hover {
+  background: rgba(138, 172, 255, 0.12) !important;
+  color: #8aacff !important;
 }
 
 html[data-theme="dark"] .drslon-header-cta-btn .wp-block-button__link {
@@ -754,4 +764,438 @@ html[data-theme="dark"] .home .drslon-category-tiles__body {
   background-color: #121a2b !important;
   color: #e8eefc !important;
   border-color: #243049 !important;
+}
+
+/* Search modal dark */
+html[data-theme="dark"] .drslon-search-modal {
+  background: rgba(0, 0, 0, 0.62);
+}
+html[data-theme="dark"] .drslon-search-modal__panel {
+  background: #121a2b !important;
+  border-color: #243049 !important;
+  color: #e8eefc !important;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55) !important;
+}
+html[data-theme="dark"] .drslon-search-modal__title {
+  color: #e8eefc !important;
+}
+html[data-theme="dark"] .drslon-search-modal__close {
+  background: #1a2744 !important;
+  border-color: #3d5a9a !important;
+  color: #e8eefc !important;
+}
+html[data-theme="dark"] .drslon-search-modal__input {
+  background: #0b1220 !important;
+  border-color: #243049 !important;
+  color: #e8eefc !important;
+}
+html[data-theme="dark"] .drslon-search-modal__hint {
+  color: #a8b6d4 !important;
+}
+html[data-theme="dark"] .drslon-header-search .wp-block-search__inside-wrapper {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+html[data-theme="dark"] .drslon-header-search .wp-block-search__button {
+  color: #e8eefc !important;
+  background: transparent !important;
+  border: 0 !important;
+}
+
+/* Contacts page block (inline <style> hardcodes light vars) */
+html[data-theme="dark"] .krv-contact-block {
+  --accent: #8aacff !important;
+  --accent-hover: #a8c0ff !important;
+  --accent-bg: #1a2744 !important;
+  --border-soft: #243049 !important;
+  --text-main: #f4f7ff !important;
+  --text-soft: #c2cde6 !important;
+  --card-bg: #121a2b !important;
+  --card-shadow: 0 8px 28px rgba(0, 0, 0, 0.35) !important;
+  --card-shadow-hover: 0 12px 36px rgba(0, 0, 0, 0.45) !important;
+  color: #f4f7ff !important;
+}
+html[data-theme="dark"] .krv-contact-block .krv-contact-title,
+html[data-theme="dark"] h2.krv-contact-title,
+html[data-theme="dark"] .krv-contact-title {
+  color: #ffffff !important;
+  font-weight: 800 !important;
+  opacity: 1 !important;
+  -webkit-text-fill-color: #ffffff !important;
+  text-shadow: none !important;
+  filter: none !important;
+}
+html[data-theme="dark"] .krv-contact-block .krv-contact-lead,
+html[data-theme="dark"] .krv-contact-lead {
+  color: #c2cde6 !important;
+  opacity: 1 !important;
+}
+html[data-theme="dark"] .krv-contact-card,
+html[data-theme="dark"] .krv-contact-image-card {
+  background: #121a2b !important;
+  border: 1px solid #243049;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35) !important;
+}
+html[data-theme="dark"] .krv-contact-item {
+  background: #0f172a !important;
+  border-color: #243049 !important;
+}
+html[data-theme="dark"] .krv-contact-item:hover {
+  background: #1a2744 !important;
+  border-color: #3d5a9a !important;
+}
+html[data-theme="dark"] .krv-contact-item a {
+  color: #f4f7ff !important;
+}
+html[data-theme="dark"] .krv-contact-item a:hover {
+  color: #8aacff !important;
+}
+html[data-theme="dark"] .krv-contact-icon {
+  color: #8aacff !important;
+}
+html[data-theme="dark"] .krv-contact-image-wrap {
+  background: #0f172a !important;
+}
+html[data-theme="dark"] .krv-contact-caption {
+  background: rgba(18, 26, 43, 0.94) !important;
+  color: #f4f7ff !important;
+}
+html[data-theme="dark"] .krv-contact-topic-banner,
+html[data-theme="dark"] .krv-contacts-topic-banner {
+  background: #1a2744 !important;
+  border-color: #3d5a9a !important;
+  color: #f4f7ff !important;
+}
+html[data-theme="dark"] .krv-contact-topic-banner-title {
+  color: #8aacff !important;
+}
+html[data-theme="dark"] .krv-contact-topic-banner-text {
+  color: #c2cde6 !important;
+}
+
+/* Popular sections / category tiles — full coverage (beats #fff !important) */
+html[data-theme="dark"] .drslon-category-tiles,
+html[data-theme="dark"] .drslon-category-tiles__heading {
+  color: #e8eefc !important;
+}
+html[data-theme="dark"] .drslon-category-tiles__title,
+html[data-theme="dark"] body.blog .drslon-category-tiles__title,
+html[data-theme="dark"] body.home .drslon-category-tiles__title,
+html[data-theme="dark"] h2.drslon-category-tiles__title {
+  color: #f4f7ff !important;
+  opacity: 1 !important;
+}
+html[data-theme="dark"] .drslon-category-tiles__lead {
+  color: #a8b6d4 !important;
+}
+html[data-theme="dark"] body.blog .drslon-category-tiles__item,
+html[data-theme="dark"] body.blog .drslon-category-tiles__body,
+html[data-theme="dark"] body.home .drslon-category-tiles__item,
+html[data-theme="dark"] body.home .drslon-category-tiles__body,
+html[data-theme="dark"] .drslon-category-tiles a.drslon-category-tiles__item,
+html[data-theme="dark"] .drslon-category-tiles__item,
+html[data-theme="dark"] .drslon-category-tiles__body,
+html[data-theme="dark"] .drslon-category-tiles__item > * {
+  background: #121a2b !important;
+  background-color: #121a2b !important;
+  border-color: #243049 !important;
+  color: #e8eefc !important;
+}
+html[data-theme="dark"] .drslon-category-tiles__item {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.28) !important;
+}
+html[data-theme="dark"] .drslon-category-tiles__item:hover {
+  border-color: #3d5a9a !important;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4) !important;
+}
+html[data-theme="dark"] .drslon-category-tiles__name,
+html[data-theme="dark"] body.blog .drslon-category-tiles__name,
+html[data-theme="dark"] body.home .drslon-category-tiles__name {
+  color: #f4f7ff !important;
+  text-shadow: none !important;
+  opacity: 1 !important;
+}
+html[data-theme="dark"] .drslon-category-tiles__description,
+html[data-theme="dark"] .drslon-category-tiles__cta {
+  color: #a8b6d4 !important;
+}
+html[data-theme="dark"] .drslon-category-tiles__count {
+  background: #1a2744 !important;
+  color: #8aacff !important;
+  border-color: #3d5a9a !important;
+}
+
+/* Mobile header: keep utility controls readable */
+@media (max-width: 781px) {
+  html[data-theme="dark"] .drslon-header-utility .krv-theme-btn {
+    color: #e8eefc !important;
+    border-color: #243049 !important;
+    background: #121a2b !important;
+  }
+  html[data-theme="dark"] .drslon-header-search .wp-block-search__button {
+    color: #e8eefc !important;
+    border: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+  html[data-theme="dark"] .drslon-header-search .wp-block-search__inside-wrapper {
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+  }
+  .drslon-header-utility .krv-controls,
+  .drslon-header-utility .drslon-header-search {
+    display: inline-flex !important;
+    flex-shrink: 0;
+  }
+}
+
+/* Contacts title always strong (beats page inline style without !important) */
+.krv-contact-block .krv-contact-title,
+h2.krv-contact-title,
+.krv-contact-title {
+  color: #0f172a !important;
+  font-weight: 800 !important;
+  opacity: 1 !important;
+  -webkit-text-fill-color: #0f172a !important;
+  letter-spacing: -0.01em;
+}
+html[data-theme="light"] .krv-contact-block .krv-contact-title,
+html[data-theme="light"] .krv-contact-title {
+  color: #0f172a !important;
+  -webkit-text-fill-color: #0f172a !important;
+}
+html[data-theme="dark"] .krv-contact-block .krv-contact-title,
+html[data-theme="dark"] h2.krv-contact-title,
+html[data-theme="dark"] .krv-contact-title {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   Consultations page widget (inline styles in post HTML)
+   /konsultatsii/ — must beat body <style> without !important
+   ═══════════════════════════════════════════════════════════ */
+html[data-theme="dark"] .consult-widget {
+  color: #e8eefc !important;
+}
+
+html[data-theme="dark"] .consult-widget a:not(.consult-widget__button) {
+  color: #8aacff !important;
+}
+
+html[data-theme="dark"] .consult-widget__intro {
+  background:
+    radial-gradient(circle at top left, rgba(49, 95, 232, 0.22), transparent 40%),
+    linear-gradient(135deg, #121a2b 0%, #0f172a 100%) !important;
+  border-color: #243049 !important;
+  box-shadow: 0 16px 42px rgba(0, 0, 0, 0.35) !important;
+}
+
+html[data-theme="dark"] .consult-widget__badge {
+  background: #1a2744 !important;
+  color: #8aacff !important;
+}
+
+html[data-theme="dark"] .consult-widget__intro h2,
+html[data-theme="dark"] .consult-widget__main h2,
+html[data-theme="dark"] .consult-widget__faq h3 {
+  color: #f4f7ff !important;
+}
+
+html[data-theme="dark"] .consult-widget__intro p {
+  color: #a8b6d4 !important;
+}
+
+html[data-theme="dark"] .consult-widget__price-line {
+  color: #8aacff !important;
+}
+
+html[data-theme="dark"] .consult-widget__card {
+  background: #121a2b !important;
+  border-color: #243049 !important;
+  box-shadow: 0 18px 46px rgba(0, 0, 0, 0.4) !important;
+}
+
+html[data-theme="dark"] .consult-widget__eyebrow {
+  background: #1a2744 !important;
+  color: #8aacff !important;
+}
+
+html[data-theme="dark"] .consult-widget__price span {
+  color: #f4f7ff !important;
+}
+
+html[data-theme="dark"] .consult-widget__price small,
+html[data-theme="dark"] .consult-widget__note {
+  color: #a8b6d4 !important;
+}
+
+html[data-theme="dark"] .consult-widget__features li {
+  background: #0f172a !important;
+  border-color: #243049 !important;
+}
+
+html[data-theme="dark"] .consult-widget__features i {
+  background: #1a2744 !important;
+  color: #8aacff !important;
+}
+
+html[data-theme="dark"] .consult-widget__features span {
+  color: #e8eefc !important;
+}
+
+html[data-theme="dark"] .consult-widget__features em {
+  color: #a8b6d4 !important;
+}
+
+html[data-theme="dark"] .consult-widget__button {
+  background: #315fe8 !important;
+  color: #ffffff !important;
+  box-shadow: 0 10px 22px rgba(49, 95, 232, 0.35) !important;
+}
+
+html[data-theme="dark"] .consult-widget__button:hover {
+  background: #244ac2 !important;
+}
+
+html[data-theme="dark"] .consult-widget__visual {
+  background: linear-gradient(180deg, #1a2744 0%, #0f172a 100%) !important;
+}
+
+html[data-theme="dark"] .consult-widget__caption {
+  background: #121a2b !important;
+  color: #c2cde6 !important;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.3) !important;
+}
+
+html[data-theme="dark"] .consult-widget__faq {
+  background: #121a2b !important;
+  border-color: #243049 !important;
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.3) !important;
+}
+
+html[data-theme="dark"] .consult-widget__faq details {
+  border-bottom-color: #243049 !important;
+}
+
+html[data-theme="dark"] .consult-widget__faq summary {
+  color: #8aacff !important;
+}
+
+html[data-theme="dark"] .consult-widget__faq summary::marker {
+  color: #8aacff !important;
+}
+
+html[data-theme="dark"] .consult-widget__faq details p {
+  color: #a8b6d4 !important;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   Resume page widget (/resume/) — inline CSS vars + hardcodes
+   ═══════════════════════════════════════════════════════════ */
+html[data-theme="dark"] .krv-resume-widget {
+  --bg: #0b1220 !important;
+  --card: #121a2b !important;
+  --line: #243049 !important;
+  --text: #e8eefc !important;
+  --muted: #a8b6d4 !important;
+  --accent: #315fe8 !important;
+  --accent-dark: #8aacff !important;
+  --tag-bg: #1a2744 !important;
+  --soft: #1a2744 !important;
+  --shadow: 0 12px 34px rgba(0, 0, 0, 0.4) !important;
+  background: #0b1220 !important;
+  color: #e8eefc !important;
+}
+
+html[data-theme="dark"] .krv-resume-hero,
+html[data-theme="dark"] .krv-resume-card {
+  background: #121a2b !important;
+  border-color: #243049 !important;
+  box-shadow: 0 12px 34px rgba(0, 0, 0, 0.35) !important;
+}
+
+html[data-theme="dark"] .krv-resume-name,
+html[data-theme="dark"] .krv-resume-card h2,
+html[data-theme="dark"] .krv-resume-card h3,
+html[data-theme="dark"] .krv-resume-link-title,
+html[data-theme="dark"] .krv-resume-mini-title {
+  color: #f4f7ff !important;
+}
+
+html[data-theme="dark"] .krv-resume-role,
+html[data-theme="dark"] .krv-resume-badge,
+html[data-theme="dark"] .krv-resume-period,
+html[data-theme="dark"] .krv-resume-mini-year,
+html[data-theme="dark"] .krv-resume-mini a {
+  color: #8aacff !important;
+}
+
+html[data-theme="dark"] .krv-resume-badge,
+html[data-theme="dark"] .krv-resume-period {
+  background: #1a2744 !important;
+}
+
+html[data-theme="dark"] .krv-resume-summary,
+html[data-theme="dark"] .krv-resume-card p,
+html[data-theme="dark"] .krv-resume-ul,
+html[data-theme="dark"] .krv-resume-company,
+html[data-theme="dark"] .krv-resume-link-meta,
+html[data-theme="dark"] .krv-resume-mini-text {
+  color: #a8b6d4 !important;
+}
+
+html[data-theme="dark"] .krv-resume-contacts a,
+html[data-theme="dark"] .krv-resume-contacts span {
+  background: #1a2744 !important;
+  border-color: #243049 !important;
+  color: #e8eefc !important;
+}
+
+html[data-theme="dark"] .krv-resume-contacts a:hover {
+  background: #243049 !important;
+  border-color: #3d5a9a !important;
+  color: #8aacff !important;
+}
+
+html[data-theme="dark"] .krv-resume-tags span,
+html[data-theme="dark"] .krv-resume-stack span {
+  background: #1a2744 !important;
+  border-color: #243049 !important;
+  color: #e8eefc !important;
+}
+
+html[data-theme="dark"] .krv-resume-note {
+  background: #1a2744 !important;
+  border-color: #243049 !important;
+  color: #c2cde6 !important;
+}
+
+html[data-theme="dark"] .krv-resume-link,
+html[data-theme="dark"] .krv-resume-mini {
+  background: #0f172a !important;
+  border-color: #243049 !important;
+}
+
+html[data-theme="dark"] .krv-resume-link:hover {
+  background: #1a2744 !important;
+  border-color: #3d5a9a !important;
+}
+
+html[data-theme="dark"] .krv-resume-lang-top {
+  color: #e8eefc !important;
+}
+
+html[data-theme="dark"] .krv-resume-lang-bar {
+  background: #243049 !important;
+}
+
+html[data-theme="dark"] .krv-resume-lang-bar span {
+  background: linear-gradient(90deg, #315fe8 0%, #5b8cff 100%) !important;
+}
+
+html[data-theme="dark"] .krv-resume-item {
+  border-bottom-color: #243049 !important;
 }

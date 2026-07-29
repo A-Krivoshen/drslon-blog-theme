@@ -73,34 +73,139 @@
 })();
 
 
-/* Header loupe: first click expands/focuses field instead of empty submit */
+/* Header search popup modal (desktop + mobile) — never expand inline */
 (function () {
-  function bindHeaderSearch() {
-    var form = document.querySelector("form.drslon-header-search");
-    if (!form || form.dataset.loupeBound === "1") return;
-    form.dataset.loupeBound = "1";
-    var input = form.querySelector(".wp-block-search__input");
-    var btn = form.querySelector(".wp-block-search__button");
-    if (!input || !btn) return;
-    input.removeAttribute("required");
-    btn.addEventListener("click", function (e) {
-      var expanded = form.matches(":focus-within") && input.offsetWidth > 8;
-      if (!expanded || !String(input.value || "").trim()) {
-        e.preventDefault();
-        form.classList.add("is-expanded");
+  var modal = null;
+  var input = null;
+  var lastFocus = null;
+
+  function homeAction() {
+    try {
+      return (document.querySelector('link[rel="home"]') || {}).href || "/";
+    } catch (e) {
+      return "/";
+    }
+  }
+
+  function ensureModal() {
+    if (modal) return modal;
+    modal = document.createElement("div");
+    modal.className = "drslon-search-modal";
+    modal.setAttribute("role", "dialog");
+    modal.setAttribute("aria-modal", "true");
+    modal.setAttribute("aria-label", "Поиск по сайту");
+    modal.innerHTML =
+      '<div class="drslon-search-modal__panel">' +
+      '<div class="drslon-search-modal__head">' +
+      '<h2 class="drslon-search-modal__title" id="drslon-search-modal-title">Поиск по сайту</h2>' +
+      '<button type="button" class="drslon-search-modal__close" aria-label="Закрыть">×</button>' +
+      "</div>" +
+      '<form class="drslon-search-modal__form" role="search" method="get" action="' +
+      homeAction() +
+      '">' +
+      '<input class="drslon-search-modal__input" type="search" name="s" placeholder="Введите запрос…" autocomplete="off" enterkeyhint="search" />' +
+      '<button class="drslon-search-modal__submit" type="submit">Найти</button>' +
+      "</form>" +
+      '<p class="drslon-search-modal__hint">Поиск по блогу и страницам. На внутренних страницах форма также в сайдбаре.</p>' +
+      "</div>";
+    modal.setAttribute("aria-labelledby", "drslon-search-modal-title");
+    document.body.appendChild(modal);
+    input = modal.querySelector(".drslon-search-modal__input");
+    modal.querySelector(".drslon-search-modal__close").addEventListener("click", closeModal);
+    modal.addEventListener("click", function (e) {
+      if (e.target === modal) closeModal();
+    });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && modal && modal.classList.contains("is-open")) {
+        closeModal();
+      }
+    });
+    return modal;
+  }
+
+  function openModal() {
+    ensureModal();
+    lastFocus = document.activeElement;
+    modal.classList.add("is-open");
+    document.body.classList.add("drslon-search-modal-open");
+    setTimeout(function () {
+      if (input) {
+        input.value = "";
         input.focus();
       }
-    });
-    input.addEventListener("keydown", function (e) {
-      if (e.key === "Escape") {
-        input.blur();
-        form.classList.remove("is-expanded");
-      }
-    });
+    }, 40);
   }
+
+  function closeModal() {
+    if (!modal) return;
+    modal.classList.remove("is-open");
+    document.body.classList.remove("drslon-search-modal-open");
+    if (lastFocus && typeof lastFocus.focus === "function") {
+      try {
+        lastFocus.focus();
+      } catch (e) {}
+    }
+  }
+
+  function bindOne(form) {
+    if (!form || form.dataset.modalBound === "1") return;
+    form.dataset.modalBound = "1";
+    var btn = form.querySelector(".wp-block-search__button, .drslon-header-search__loupe");
+    var field = form.querySelector(".wp-block-search__input");
+    if (field) {
+      field.removeAttribute("required");
+      field.setAttribute("tabindex", "-1");
+      field.setAttribute("aria-hidden", "true");
+    }
+    if (btn) {
+      btn.setAttribute("type", "button");
+      btn.setAttribute("aria-haspopup", "dialog");
+      btn.setAttribute("aria-label", "Открыть поиск");
+      btn.addEventListener(
+        "click",
+        function (e) {
+          e.preventDefault();
+          e.stopPropagation();
+          openModal();
+        },
+        true
+      );
+    }
+    form.addEventListener(
+      "submit",
+      function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        openModal();
+      },
+      true
+    );
+    /* block focus on hidden field so header never expands */
+    form.addEventListener(
+      "focusin",
+      function (e) {
+        if (e.target && e.target.classList && e.target.classList.contains("wp-block-search__input")) {
+          e.preventDefault();
+          e.target.blur();
+          openModal();
+        }
+      },
+      true
+    );
+  }
+
+  function bindHeaderSearch() {
+    var forms = document.querySelectorAll(
+      "form.drslon-header-search, .drslon-header-utility form.wp-block-search"
+    );
+    for (var i = 0; i < forms.length; i++) bindOne(forms[i]);
+  }
+
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", bindHeaderSearch);
   } else {
     bindHeaderSearch();
   }
+  /* late widgets / cached fragments */
+  window.addEventListener("load", bindHeaderSearch);
 })();

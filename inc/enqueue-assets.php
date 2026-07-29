@@ -175,8 +175,7 @@ function drslon_enqueue_theme_scripts(): void {
 }
 add_action( 'wp_enqueue_scripts', 'drslon_enqueue_theme_scripts', 25 );
 /**
- * Header search: icon-only control — drop HTML required so empty submit is not blocked
- * before the field expands; strip wide placeholder from layout math.
+ * Header search: icon-only loupe that opens a modal (never expands inline).
  */
 function drslon_header_search_render_block( string $content, array $block ): string {
 	if ( ( $block['blockName'] ?? '' ) !== 'core/search' ) {
@@ -187,12 +186,18 @@ function drslon_header_search_render_block( string $content, array $block ): str
 		return $content;
 	}
 	$content = preg_replace( '/\srequired(=("|\')required("|\')|=("|\')true("|\'))?/i', '', $content ) ?? $content;
-	// Make loupe click focus the field (button stays type=submit for Enter).
 	$content = str_replace(
 		'class="wp-block-search__button',
 		'class="wp-block-search__button drslon-header-search__loupe',
 		$content
 	);
+	// Prefer type=button so native submit cannot expand core button-only mode.
+	$content = preg_replace(
+		'/(class="wp-block-search__button drslon-header-search__loupe[^"]*")(\s+type="submit")?/i',
+		'$1 type="button" aria-haspopup="dialog" aria-label="Открыть поиск"',
+		$content,
+		1
+	) ?? $content;
 	return $content;
 }
 add_filter( 'render_block', 'drslon_header_search_render_block', 20, 2 );
