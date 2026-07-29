@@ -488,3 +488,72 @@ function drslon_perf_script_loader_tag( string $tag, string $handle, string $src
 	return str_replace( ' src=', ' defer src=', $tag );
 }
 add_filter( 'script_loader_tag', 'drslon_perf_script_loader_tag', 10, 3 );
+
+/**
+ * Sanitize «Источники и ссылки» cards: drop hard-coded white bg / inherit color
+ * so dark-mode CSS can paint high-contrast titles (not foggy link-blue on white).
+ *
+ * @param string $content Post content HTML.
+ */
+function drslon_sanitize_source_cards( string $content ): string {
+	if ( $content === '' || false === strpos( $content, 'krv-source-cards' ) ) {
+		return $content;
+	}
+
+	return (string) preg_replace_callback(
+		'/<div([^>]*class="[^"]*krv-source-cards[^"]*"[^>]*)>([\s\S]*?)<\/div>/i',
+		static function ( array $m ): string {
+			$open = $m[1];
+			$inner = $m[2];
+
+			// Keep layout on wrapper; remove only color-hostile bits if present.
+			$open = preg_replace( '/\sstyle="[^"]*"/i', '', $open ) ?? $open;
+
+			// Each card is typically <a style="...background:#fff;color:inherit...">
+			$inner = preg_replace_callback(
+				'/<a\b([^>]*)>/i',
+				static function ( array $am ): string {
+					$attrs = $am[1];
+					// Strip entire style= — theme CSS owns card chrome.
+					$attrs = preg_replace( '/\sstyle="[^"]*"/i', '', $attrs ) ?? $attrs;
+					// Mark for CSS hooks.
+					if ( false === strpos( $attrs, 'krv-source-cards__item' ) ) {
+						if ( preg_match( '/\bclass="/', $attrs ) ) {
+							$attrs = preg_replace( '/\bclass="/', 'class="krv-source-cards__item ', $attrs, 1 ) ?? $attrs;
+						} else {
+							$attrs .= ' class="krv-source-cards__item"';
+						}
+					}
+					return '<a' . $attrs . '>';
+				},
+				$inner
+			) ?? $inner;
+
+			// Spans sometimes get leftover inline color.
+			$inner = preg_replace( '/(<span\b[^>]*)\sstyle="[^"]*"/i', '$1', $inner ) ?? $inner;
+
+			return '<div' . $open . '>' . $inner . '</div>';
+		},
+		$content
+	) ?? $content;
+}
+add_filter( 'the_content', 'drslon_sanitize_source_cards', 12 );
+
+/**
+ * Same sanitize for classic HTML blocks that render via render_block (not only the_content).
+ *
+ * @param string $block_content Block HTML.
+ * @param array  $block         Parsed block.
+ */
+function drslon_sanitize_source_cards_block( string $block_content, array $block ): string {
+	if ( $block_content === '' || false === strpos( $block_content, 'krv-source-cards' ) ) {
+		return $block_content;
+	}
+	// Only touch freeform / html / core blocks that embed the cards.
+	$name = (string) ( $block['blockName'] ?? '' );
+	if ( $name !== '' && ! in_array( $name, array( 'core/html', 'core/freeform', 'core/group', 'core/post-content' ), true ) ) {
+		// Still sanitize if markup is present (covers nested / classic mixed content).
+	}
+	return drslon_sanitize_source_cards( $block_content );
+}
+add_filter( 'render_block', 'drslon_sanitize_source_cards_block', 20, 2 );
