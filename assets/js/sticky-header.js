@@ -71,3 +71,36 @@
 
 	onLayoutChange();
 })();
+
+
+/* Header loupe: first click expands/focuses field instead of empty submit */
+(function () {
+  function bindHeaderSearch() {
+    var form = document.querySelector("form.drslon-header-search");
+    if (!form || form.dataset.loupeBound === "1") return;
+    form.dataset.loupeBound = "1";
+    var input = form.querySelector(".wp-block-search__input");
+    var btn = form.querySelector(".wp-block-search__button");
+    if (!input || !btn) return;
+    input.removeAttribute("required");
+    btn.addEventListener("click", function (e) {
+      var expanded = form.matches(":focus-within") && input.offsetWidth > 8;
+      if (!expanded || !String(input.value || "").trim()) {
+        e.preventDefault();
+        form.classList.add("is-expanded");
+        input.focus();
+      }
+    });
+    input.addEventListener("keydown", function (e) {
+      if (e.key === "Escape") {
+        input.blur();
+        form.classList.remove("is-expanded");
+      }
+    });
+  }
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", bindHeaderSearch);
+  } else {
+    bindHeaderSearch();
+  }
+})();

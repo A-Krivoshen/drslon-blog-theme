@@ -174,3 +174,25 @@ function drslon_enqueue_theme_scripts(): void {
 	}
 }
 add_action( 'wp_enqueue_scripts', 'drslon_enqueue_theme_scripts', 25 );
+/**
+ * Header search: icon-only control — drop HTML required so empty submit is not blocked
+ * before the field expands; strip wide placeholder from layout math.
+ */
+function drslon_header_search_render_block( string $content, array $block ): string {
+	if ( ( $block['blockName'] ?? '' ) !== 'core/search' ) {
+		return $content;
+	}
+	$class = (string) ( $block['attrs']['className'] ?? '' );
+	if ( strpos( $class, 'drslon-header-search' ) === false ) {
+		return $content;
+	}
+	$content = preg_replace( '/\srequired(=("|\')required("|\')|=("|\')true("|\'))?/i', '', $content ) ?? $content;
+	// Make loupe click focus the field (button stays type=submit for Enter).
+	$content = str_replace(
+		'class="wp-block-search__button',
+		'class="wp-block-search__button drslon-header-search__loupe',
+		$content
+	);
+	return $content;
+}
+add_filter( 'render_block', 'drslon_header_search_render_block', 20, 2 );
