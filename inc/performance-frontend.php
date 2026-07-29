@@ -144,8 +144,14 @@ function drslon_perf_dequeue_assets(): void {
 		}
 	}
 
-	// jQuery UI + translator stay registered (language switcher is functional).
-	// They are deferred below so they no longer block first paint.
+	// Translator + jQuery UI: lazy-loaded (see drslon_perf_lazy_translator_loader).
+	// Capture public URLs first, then dequeue so they leave the critical path.
+	drslon_perf_prepare_lazy_translator();
+
+	// --- Domain Checker Titan CSS (wdc): only on pages that embed the shortcode ---
+	if ( ! drslon_perf_needs_wdc( $content ) ) {
+		wp_dequeue_style( 'tf-compiled-options-wdc-options' );
+	}
 
 	// --- jQuery Migrate: not needed for modern guest front-end (saves ~14KB). ---
 	// Keep for logged-in users (admin bar / legacy editor paths more likely to need it).
@@ -160,6 +166,169 @@ function drslon_perf_dequeue_assets(): void {
 	}
 }
 add_action( 'wp_enqueue_scripts', 'drslon_perf_dequeue_assets', 100 );
+
+/**
+ * True if Domain Checker / whois shortcodes are on the page.
+ */
+function drslon_perf_needs_wdc( string $content ): bool {
+	if ( $content === '' ) {
+		return false;
+	}
+
+	if ( has_shortcode( $content, 'wpdomainchecker' ) || has_shortcode( $content, 'wpdomainwhois' ) ) {
+		return true;
+	}
+
+	return (bool) preg_match( '/\[wpdomain(checker|whois)\b/i', $content );
+}
+
+/**
+ * Snapshot translator asset URLs, then dequeue them for lazy load.
+ */
+function drslon_perf_prepare_lazy_translator(): void {
+	if ( is_admin() ) {
+		return;
+	}
+
+	// Only when translator actually enqueued itself.
+	if ( ! wp_script_is( 'surstudio-plugin-translator-revolution-lite', 'enqueued' ) ) {
+		return;
+	}
+
+	$scripts = wp_scripts();
+	$styles  = wp_styles();
+
+	$script_handles = array(
+		'jquery-ui-core',
+		'jquery-ui-widget',
+		'jquery-ui-mouse',
+		'jquery-ui-draggable',
+		'surstudio-plugin-translator-revolution-lite',
+	);
+
+	$ui_map = array(
+		'jquery-ui-core'      => 'core.min.js',
+		'jquery-ui-widget'    => 'widget.min.js',
+		'jquery-ui-mouse'     => 'mouse.min.js',
+		'jquery-ui-draggable' => 'draggable.min.js',
+	);
+
+	$urls = array(
+		'css'     => '',
+		'scripts' => array(),
+	);
+
+	if ( isset( $styles->registered['surstudio-plugin-translator-revolution-lite'] ) ) {
+		$src = $styles->registered['surstudio-plugin-translator-revolution-lite']->src;
+		if ( is_string( $src ) && $src !== '' ) {
+			$urls['css'] = ( 0 === strpos( $src, 'http' ) || 0 === strpos( $src, '//' ) )
+				? $src
+				: site_url( $src );
+			$ver = $styles->registered['surstudio-plugin-translator-revolution-lite']->ver;
+			if ( $ver ) {
+				$urls['css'] = add_query_arg( 'ver', $ver, $urls['css'] );
+			}
+		}
+	}
+
+	foreach ( $script_handles as $handle ) {
+		$resolved = '';
+		if ( isset( $scripts->registered[ $handle ] ) ) {
+			$src = $scripts->registered[ $handle ]->src;
+			if ( is_string( $src ) && $src !== '' ) {
+				$resolved = $src;
+			}
+		}
+		if ( $resolved === '' && isset( $ui_map[ $handle ] ) ) {
+			$resolved = includes_url( 'js/jquery/ui/' . $ui_map[ $handle ] );
+		}
+		if ( $resolved === '' ) {
+			continue;
+		}
+		if ( 0 !== strpos( $resolved, 'http' ) && 0 !== strpos( $resolved, '//' ) ) {
+			$resolved = site_url( $resolved );
+		}
+		if ( isset( $scripts->registered[ $handle ] ) && $scripts->registered[ $handle ]->ver ) {
+			$resolved = add_query_arg( 'ver', $scripts->registered[ $handle ]->ver, $resolved );
+		}
+		$urls['scripts'][] = $resolved;
+	}
+
+	if ( $urls['scripts'] === array() ) {
+		return;
+	}
+
+	$GLOBALS['drslon_perf_lazy_translator'] = $urls;
+	drslon_perf_strip_translator_assets();
+}
+
+/**
+ * Translator plugin re-enqueues on wp_head — strip again right before print.
+ */
+function drslon_perf_strip_translator_assets(): void {
+	if ( empty( $GLOBALS['drslon_perf_lazy_translator'] ) ) {
+		return;
+	}
+
+	$script_handles = array(
+		'jquery-ui-core',
+		'jquery-ui-widget',
+		'jquery-ui-mouse',
+		'jquery-ui-draggable',
+		'surstudio-plugin-translator-revolution-lite',
+	);
+	foreach ( $script_handles as $handle ) {
+		wp_dequeue_script( $handle );
+	}
+	wp_dequeue_style( 'surstudio-plugin-translator-revolution-lite' );
+}
+add_action( 'wp_head', 'drslon_perf_strip_translator_assets', 999 );
+add_action( 'wp_print_scripts', 'drslon_perf_strip_translator_assets', 1 );
+add_action( 'wp_print_footer_scripts', 'drslon_perf_strip_translator_assets', 1 );
+add_action( 'wp_print_styles', 'drslon_perf_strip_translator_assets', 1 );
+
+/**
+ * Footer loader: translator + jQuery UI after interaction or short idle (keeps language switcher working).
+ */
+function drslon_perf_lazy_translator_loader(): void {
+	if ( empty( $GLOBALS['drslon_perf_lazy_translator'] ) || ! is_array( $GLOBALS['drslon_perf_lazy_translator'] ) ) {
+		return;
+	}
+
+	$payload = $GLOBALS['drslon_perf_lazy_translator'];
+	$json    = wp_json_encode( $payload );
+	if ( ! is_string( $json ) ) {
+		return;
+	}
+
+	// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- JSON payload for inline loader.
+	echo "<script id=\"drslon-lazy-translator\">(function(){\n";
+	echo 'var C=' . $json . ";\n";
+	echo <<<'JS'
+if(!C||!C.scripts||!C.scripts.length)return;
+var done=false;
+function loadCss(h){if(!h)return;var l=document.createElement('link');l.rel='stylesheet';l.href=h;l.media='all';document.head.appendChild(l);}
+function loadScript(src){return new Promise(function(res,rej){var s=document.createElement('script');s.src=src;s.async=false;s.onload=function(){res();};s.onerror=function(){rej();};document.body.appendChild(s);});}
+function boot(){
+  if(done)return;done=true;
+  try{loadCss(C.css);}catch(e){}
+  var i=0;
+  function next(){
+    if(i>=C.scripts.length)return;
+    var src=C.scripts[i++];
+    loadScript(src).then(next).catch(next);
+  }
+  next();
+}
+var evs=['pointerdown','keydown','touchstart','scroll'];
+function onIx(){evs.forEach(function(e){window.removeEventListener(e,onIx,{passive:true});});boot();}
+evs.forEach(function(e){window.addEventListener(e,onIx,{once:true,passive:true});});
+if('requestIdleCallback' in window){requestIdleCallback(function(){boot();},{timeout:3000});}
+else{setTimeout(boot,2500);}
+JS;
+	echo "\n})();</script>\n";
+}
+add_action( 'wp_footer', 'drslon_perf_lazy_translator_loader', 5 );
 
 /**
  * Prefer compact site-logo size (~156px) instead of full 1066px PNG in header/footer.
@@ -304,12 +473,7 @@ function drslon_perf_script_loader_tag( string $tag, string $handle, string $src
 		'drslon-krv-theme',
 		'drslon-featured-slider',
 		'drslon-content-lightbox',
-		// Translator Revolution chain (widget only).
-		'jquery-ui-core',
-		'jquery-ui-mouse',
-		'jquery-ui-draggable',
-		'surstudio-plugin-translator-revolution-lite',
-		// Cookie banner (non-LCP).
+		// Cookie banner (non-LCP). Translator chain is lazy-loaded separately.
 		'moove_gdpr_frontend',
 	);
 
