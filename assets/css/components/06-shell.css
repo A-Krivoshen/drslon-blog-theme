@@ -86,26 +86,28 @@
 
 @media (min-width: 1100px) {
         .drslon-site-header .drslon-site-branding {
-                flex: 0 1 auto;
+                flex: 0 0 auto; /* full name — do not shrink/clip «Сергеевич» */
                 min-width: 0;
-                max-width: min(42vw, 420px);
+                max-width: none;
                 gap: 12px;
         }
 
         .drslon-site-header .drslon-site-branding .wp-block-site-title {
-                max-width: 100% !important;
+                max-width: none !important;
                 min-width: 0;
                 white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                font-size: clamp(0.95rem, 0.86rem + 0.28vw, 1.12rem) !important;
-                line-height: 1.12 !important;
+                overflow: visible;
+                text-overflow: clip;
+                /* slightly tighter so full FIO fits beside nav at 1280 */
+                font-size: clamp(0.9rem, 0.82rem + 0.22vw, 1.05rem) !important;
+                line-height: 1.15 !important;
+                letter-spacing: -0.015em;
         }
 
         .drslon-site-header .drslon-site-branding .wp-block-site-title a {
-                display: block;
-                overflow: hidden;
-                text-overflow: ellipsis;
+                display: inline;
+                overflow: visible;
+                text-overflow: clip;
                 white-space: nowrap;
         }
 
@@ -113,6 +115,22 @@
                 flex: 1 1 auto;
                 min-width: 0;
                 justify-content: flex-end;
+        }
+}
+
+/* Mid desktop: full FIO without clip; slightly smaller type + tighter utility */
+@media (min-width: 1100px) and (max-width: 1360px) {
+        .drslon-site-header .drslon-site-branding .wp-block-site-title {
+                font-size: 0.84rem !important;
+                letter-spacing: -0.02em !important;
+        }
+
+        .drslon-site-header .drslon-header-utility {
+                gap: 0.45rem !important;
+        }
+
+        .drslon-main-navigation .wp-block-navigation__container {
+                gap: 0.7rem !important;
         }
 }
 
@@ -1073,14 +1091,16 @@ body:has(.drslon-main-navigation .wp-block-navigation__responsive-container.is-m
                 gap: 18px !important;
         }
 
+        /* Branding keeps full site title (incl. «Сергеевич») — utility flexes instead */
         .drslon-site-branding {
-                flex: 1 1 auto !important;
-                min-width: 0 !important;
+                flex: 0 0 auto !important;
+                min-width: auto !important;
+                max-width: none !important;
         }
 
         .drslon-header-utility {
                 display: flex !important;
-                flex: 0 1 auto !important;
+                flex: 1 1 auto !important;
                 min-width: 0 !important;
                 align-items: center !important;
                 justify-content: flex-end !important;
