@@ -333,11 +333,11 @@ html[data-theme="dark"] h6 {
   color: var(--wp--preset--color--text);
 }
 
-html[data-theme="dark"] a:not(.wp-element-button):not(.wp-block-button__link) {
+html[data-theme="dark"] a:not(.wp-element-button):not(.wp-block-button__link):not(.krv-source-cards__item) {
   color: #8aacff;
 }
 
-html[data-theme="dark"] a:not(.wp-element-button):not(.wp-block-button__link):hover {
+html[data-theme="dark"] a:not(.wp-element-button):not(.wp-block-button__link):not(.krv-source-cards__item):hover {
   color: #a8c4ff;
 }
 
