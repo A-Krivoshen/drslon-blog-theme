@@ -141,21 +141,39 @@ function drslon_toc_render_nav( array $items ): string {
 		return '';
 	}
 
-	// Always expanded by default (desktop + mobile). User can still collapse.
+	/*
+	 * Default open state (best balance for this blog):
+	 * - Short/medium outline (≤12): open everywhere — structure is useful and short.
+	 * - Long outline (>12): closed on mobile so the article isn't buried; desktop
+	 *   is opened by assets/js/auto-toc.js (more horizontal space).
+	 * User can always toggle via <summary>.
+	 */
+	$count = count( $items );
+	$long  = $count > drslon_toc_open_threshold();
+	$open  = $long ? '' : ' open';
 	$label = __( 'Оглавление', 'drslon-blog-theme' );
 
 	return sprintf(
 		'<nav class="drslon-toc" aria-label="%1$s">' .
-		'<details class="drslon-toc__details" open>' .
-		'<summary class="drslon-toc__summary"><span class="drslon-toc__title">%2$s</span><span class="drslon-toc__count">%3$d</span></summary>' .
-		'%4$s' .
+		'<details class="drslon-toc__details"%2$s data-toc-count="%3$d"%4$s>' .
+		'<summary class="drslon-toc__summary"><span class="drslon-toc__title">%5$s</span><span class="drslon-toc__count">%3$d</span></summary>' .
+		'%6$s' .
 		'</details>' .
 		'</nav>',
 		esc_attr( $label ),
+		$open,
+		$count,
+		$long ? ' data-toc-long="1"' : '',
 		esc_html( $label ),
-		count( $items ),
 		$list
 	);
+}
+
+/**
+ * Max TOC items still expanded by default on all viewports.
+ */
+function drslon_toc_open_threshold(): int {
+	return 12;
 }
 
 /**

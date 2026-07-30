@@ -272,6 +272,20 @@ function drslon_enqueue_theme_scripts(): void {
 			true
 		);
 	}
+
+	// Long TOC: expand on desktop only (see auto-toc.php threshold).
+	if ( is_singular( array( 'post', 'project' ) ) ) {
+		$toc_js = $theme_dir . '/assets/js/auto-toc.js';
+		if ( file_exists( $toc_js ) ) {
+			wp_enqueue_script(
+				'drslon-auto-toc',
+				$theme_uri . '/assets/js/auto-toc.js',
+				array(),
+				(string) filemtime( $toc_js ),
+				true
+			);
+		}
+	}
 }
 add_action( 'wp_enqueue_scripts', 'drslon_enqueue_theme_scripts', 25 );
 /**
