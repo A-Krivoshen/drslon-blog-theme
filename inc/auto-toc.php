@@ -141,19 +141,17 @@ function drslon_toc_render_nav( array $items ): string {
 		return '';
 	}
 
-	// Open by default when the outline is short.
-	$open  = count( $items ) <= 12 ? ' open' : '';
+	// Always expanded by default (desktop + mobile). User can still collapse.
 	$label = __( 'Оглавление', 'drslon-blog-theme' );
 
 	return sprintf(
 		'<nav class="drslon-toc" aria-label="%1$s">' .
-		'<details class="drslon-toc__details"%2$s>' .
-		'<summary class="drslon-toc__summary"><span class="drslon-toc__title">%3$s</span><span class="drslon-toc__count">%4$d</span></summary>' .
-		'%5$s' .
+		'<details class="drslon-toc__details" open>' .
+		'<summary class="drslon-toc__summary"><span class="drslon-toc__title">%2$s</span><span class="drslon-toc__count">%3$d</span></summary>' .
+		'%4$s' .
 		'</details>' .
 		'</nav>',
 		esc_attr( $label ),
-		$open,
 		esc_html( $label ),
 		count( $items ),
 		$list
