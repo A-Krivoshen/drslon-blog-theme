@@ -24,7 +24,7 @@ function drslon_krv_assistant_footer(): void {
 		return;
 	}
 
-	$src = 'https://support.krivoshein.site/widget/krv-assistant.js?v=20260730f';
+	$src = 'https://support.krivoshein.site/widget/krv-assistant.js?v=20260730h';
 	$api = 'https://support.krivoshein.site/api/v1';
 
 	printf(
