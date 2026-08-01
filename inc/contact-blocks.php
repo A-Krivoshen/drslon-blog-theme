@@ -25,7 +25,7 @@ function drslon_header_max_shortcode(): string {
 	return sprintf(
 		'<a class="drslon-header-max" href="%s" aria-label="%s" title="MAX">%s</a>',
 		esc_url( home_url( '/max' ) ),
-		esc_attr__( 'MAX — написать в мессенджере', 'drslon-blog' ),
+		esc_attr__( 'MAX: написать в мессенджере', 'drslon-blog' ),
 		drslon_max_icon_markup()
 	);
 }
@@ -50,7 +50,7 @@ function drslon_mobile_menu_contacts_markup(): string {
 		esc_attr( $email ),
 		$email_icon,
 		esc_url( home_url( '/max' ) ),
-		esc_attr__( 'MAX — написать в мессенджере', 'drslon-blog' ),
+		esc_attr__( 'MAX: написать в мессенджере', 'drslon-blog' ),
 		drslon_max_icon_markup()
 	);
 
@@ -120,7 +120,7 @@ function drslon_footer_connect_shortcode(): string {
 		esc_attr( 'aleksey@krivoshein.site' ),
 		$email_icon,
 		esc_url( home_url( '/max' ) ),
-		esc_attr__( 'MAX — написать в мессенджере', 'drslon-blog' ),
+		esc_attr__( 'MAX: написать в мессенджере', 'drslon-blog' ),
 		drslon_max_icon_markup()
 	);
 }
