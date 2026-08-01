@@ -473,8 +473,6 @@ function drslon_perf_script_loader_tag( string $tag, string $handle, string $src
 		'drslon-krv-theme',
 		'drslon-featured-slider',
 		'drslon-content-lightbox',
-		// Cookie banner (non-LCP). Translator chain is lazy-loaded separately.
-		'moove_gdpr_frontend',
 	);
 
 	if ( ! in_array( $handle, $defer_handles, true ) ) {
