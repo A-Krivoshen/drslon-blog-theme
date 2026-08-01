@@ -200,15 +200,15 @@ function drslon_perf_prepare_lazy_translator(): void {
 
 	$script_handles = array(
 		'jquery-ui-core',
-		'jquery-ui-widget',
+		// jquery-ui-widget has no own file since WP 5.6+ (bundled into core) — do not invent a URL.
 		'jquery-ui-mouse',
 		'jquery-ui-draggable',
 		'surstudio-plugin-translator-revolution-lite',
 	);
 
+	// Fallback filenames only when a real file still exists under wp-includes.
 	$ui_map = array(
 		'jquery-ui-core'      => 'core.min.js',
-		'jquery-ui-widget'    => 'widget.min.js',
 		'jquery-ui-mouse'     => 'mouse.min.js',
 		'jquery-ui-draggable' => 'draggable.min.js',
 	);
@@ -235,12 +235,17 @@ function drslon_perf_prepare_lazy_translator(): void {
 		$resolved = '';
 		if ( isset( $scripts->registered[ $handle ] ) ) {
 			$src = $scripts->registered[ $handle ]->src;
+			// WP alias handles use false/empty src (e.g. jquery-ui-widget → core).
 			if ( is_string( $src ) && $src !== '' ) {
 				$resolved = $src;
 			}
 		}
 		if ( $resolved === '' && isset( $ui_map[ $handle ] ) ) {
-			$resolved = includes_url( 'js/jquery/ui/' . $ui_map[ $handle ] );
+			$rel  = 'js/jquery/ui/' . $ui_map[ $handle ];
+			$file = ABSPATH . WPINC . '/' . $rel;
+			if ( is_readable( $file ) ) {
+				$resolved = includes_url( $rel );
+			}
 		}
 		if ( $resolved === '' ) {
 			continue;
@@ -272,7 +277,7 @@ function drslon_perf_strip_translator_assets(): void {
 
 	$script_handles = array(
 		'jquery-ui-core',
-		'jquery-ui-widget',
+		'jquery-ui-widget', // alias; still dequeue if something re-enqueues it
 		'jquery-ui-mouse',
 		'jquery-ui-draggable',
 		'surstudio-plugin-translator-revolution-lite',
