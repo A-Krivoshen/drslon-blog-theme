@@ -546,50 +546,74 @@ body.single-project .drslon-single-content :where(h2, h3, h4)[id] {
         }
 }
 
-/* Source cards («Источники и ссылки») — grid + readable cards */
-.krv-source-cards {
-	display: grid;
-	gap: 14px;
-	margin: 18px 0;
+/* Source cards («Источники и ссылки») — always solid white cards in light.
+   Dark theme overrides live in 10-theme-dark.css (elevated navy surface).
+   Also style legacy unclassed grids so old rewrites do not look “empty”. */
+.krv-source-cards,
+.entry-content .krv-source-cards,
+.drslon-single-content .krv-source-cards,
+.wp-block-post-content .krv-source-cards {
+	display: grid !important;
+	gap: 14px !important;
+	margin: 18px 0 !important;
+	background: transparent !important;
 }
 
 .krv-source-cards > a,
 .krv-source-cards > a.krv-source-cards__item,
-a.krv-source-cards__item {
-	display: block;
-	padding: 16px;
-	border: 1px solid var(--wp--preset--color--border, #d8e0ee);
-	border-radius: 14px;
-	text-decoration: none;
-	color: var(--wp--preset--color--text, #172133);
-	background: var(--wp--preset--color--surface, #fff);
-	box-shadow: 0 4px 14px rgba(15, 23, 42, 0.05);
+a.krv-source-cards__item,
+/* legacy: bare grid of link-cards without class */
+.entry-content .wp-block-html > div[style*="display:grid"] > a[style*="border"],
+.drslon-single-content .wp-block-html > div[style*="display:grid"] > a[style*="border"],
+.wp-block-post-content .wp-block-html > div[style*="display:grid"] > a[style*="border"],
+.entry-content div[style*="display:grid"] > a[style*="border-radius"],
+.drslon-single-content div[style*="display:grid"] > a[style*="border-radius"] {
+	display: block !important;
+	padding: 16px !important;
+	border: 1px solid #e2e8f0 !important;
+	border-radius: 14px !important;
+	text-decoration: none !important;
+	color: #172133 !important;
+	-webkit-text-fill-color: #172133 !important;
+	background: #ffffff !important;
+	background-color: #ffffff !important;
+	background-image: none !important;
+	box-shadow: 0 4px 14px rgba(15, 23, 42, 0.06) !important;
 	transition: border-color 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
-	opacity: 1;
+	opacity: 1 !important;
+	filter: none !important;
 }
 
 .krv-source-cards > a:hover,
 .krv-source-cards > a:focus,
 a.krv-source-cards__item:hover,
-a.krv-source-cards__item:focus {
-	border-color: var(--wp--preset--color--accent, #315fe8);
-	box-shadow: 0 10px 22px rgba(81, 129, 254, 0.12);
-	color: var(--wp--preset--color--text, #172133);
+a.krv-source-cards__item:focus,
+.entry-content div[style*="display:grid"] > a[style*="border-radius"]:hover,
+.drslon-single-content div[style*="display:grid"] > a[style*="border-radius"]:hover {
+	border-color: var(--wp--preset--color--accent, #315fe8) !important;
+	box-shadow: 0 10px 22px rgba(81, 129, 254, 0.12) !important;
+	color: #172133 !important;
+	-webkit-text-fill-color: #172133 !important;
+	background: #ffffff !important;
 }
 
 .krv-source-cards > a > span:first-child,
-a.krv-source-cards__item > span:first-child {
-	display: block;
-	font-weight: 700;
-	margin-bottom: 6px;
-	color: var(--wp--preset--color--text, #172133);
-	opacity: 1;
+a.krv-source-cards__item > span:first-child,
+.krv-source-cards > a > strong:first-child,
+a.krv-source-cards__item > strong:first-child {
+	display: block !important;
+	font-weight: 700 !important;
+	margin-bottom: 6px !important;
+	color: #172133 !important;
+	-webkit-text-fill-color: #172133 !important;
+	opacity: 1 !important;
 }
 
 .krv-source-cards > a > span:not(:first-child),
 a.krv-source-cards__item > span:not(:first-child) {
-	display: block;
-	color: var(--wp--preset--color--muted, #5b6b86);
-	line-height: 1.45;
-	opacity: 1;
+	display: block !important;
+	color: #5b6b86 !important;
+	-webkit-text-fill-color: #5b6b86 !important;
+	line-height: 1.45 !important;
+	opacity: 1 !important;
 }

@@ -496,46 +496,88 @@ add_filter( 'script_loader_tag', 'drslon_perf_script_loader_tag', 10, 3 );
  * @param string $content Post content HTML.
  */
 function drslon_sanitize_source_cards( string $content ): string {
-	if ( $content === '' || false === strpos( $content, 'krv-source-cards' ) ) {
+	if ( $content === '' ) {
 		return $content;
 	}
 
-	return (string) preg_replace_callback(
-		'/<div([^>]*class="[^"]*krv-source-cards[^"]*"[^>]*)>([\s\S]*?)<\/div>/i',
+	// 1) Canonical classed wrappers.
+	if ( false !== strpos( $content, 'krv-source-cards' ) ) {
+		$content = (string) preg_replace_callback(
+			'/<div([^>]*class="[^"]*krv-source-cards[^"]*"[^>]*)>([\s\S]*?)<\/div>/i',
+			static function ( array $m ): string {
+				return drslon_normalize_source_cards_wrapper( $m[1], $m[2] );
+			},
+			$content
+		) ?? $content;
+	}
+
+	// 2) Legacy unclassed grids of link-cards (border-radius + padding, often #ddd / no bg).
+	//    Promote to .krv-source-cards so light/dark CSS applies uniformly.
+	$content = (string) preg_replace_callback(
+		'/<div(\s[^>]*style="[^"]*display\s*:\s*grid[^"]*"[^>]*)>([\s\S]*?)<\/div>/i',
 		static function ( array $m ): string {
-			$open = $m[1];
+			$open  = $m[1];
 			$inner = $m[2];
-
-			// Keep layout on wrapper; remove only color-hostile bits if present.
-			$open = preg_replace( '/\sstyle="[^"]*"/i', '', $open ) ?? $open;
-
-			// Each card is typically <a style="...background:#fff;color:inherit...">
-			$inner = preg_replace_callback(
-				'/<a\b([^>]*)>/i',
-				static function ( array $am ): string {
-					$attrs = $am[1];
-					// Strip entire style= — theme CSS owns card chrome.
-					$attrs = preg_replace( '/\sstyle="[^"]*"/i', '', $attrs ) ?? $attrs;
-					// Mark for CSS hooks.
-					if ( false === strpos( $attrs, 'krv-source-cards__item' ) ) {
-						if ( preg_match( '/\bclass="/', $attrs ) ) {
-							$attrs = preg_replace( '/\bclass="/', 'class="krv-source-cards__item ', $attrs, 1 ) ?? $attrs;
-						} else {
-							$attrs .= ' class="krv-source-cards__item"';
-						}
-					}
-					return '<a' . $attrs . '>';
-				},
-				$inner
-			) ?? $inner;
-
-			// Spans sometimes get leftover inline color.
-			$inner = preg_replace( '/(<span\b[^>]*)\sstyle="[^"]*"/i', '$1', $inner ) ?? $inner;
-
-			return '<div' . $open . '>' . $inner . '</div>';
+			// Already classed — skip (handled above).
+			if ( false !== strpos( $open, 'krv-source-cards' ) ) {
+				return '<div' . $open . '>' . $inner . '</div>';
+			}
+			// Must look like a stack of card-links, not a random grid.
+			if ( ! preg_match( '/<a\b[^>]*(?:border-radius|padding\s*:\s*1[234]|border\s*:\s*1px)[^>]*>/i', $inner )
+				&& ! preg_match( '/<a\b[^>]*style="[^"]*border[^"]*"[^>]*>/i', $inner ) ) {
+				return '<div' . $open . '>' . $inner . '</div>';
+			}
+			// Require at least one external-looking link (http) to avoid layout grids.
+			if ( ! preg_match( '/<a\b[^>]*href=["\']https?:\/\//i', $inner ) ) {
+				return '<div' . $open . '>' . $inner . '</div>';
+			}
+			return drslon_normalize_source_cards_wrapper( ' class="krv-source-cards"', $inner );
 		},
 		$content
 	) ?? $content;
+
+	return $content;
+}
+
+/**
+ * Normalize a source-cards wrapper open attrs + inner HTML.
+ *
+ * @param string $open  Attributes string after <div (may include leading space).
+ * @param string $inner Inner HTML.
+ */
+function drslon_normalize_source_cards_wrapper( string $open, string $inner ): string {
+	// Ensure class contains krv-source-cards.
+	if ( false === strpos( $open, 'krv-source-cards' ) ) {
+		if ( preg_match( '/\bclass="/', $open ) ) {
+			$open = preg_replace( '/\bclass="/', 'class="krv-source-cards ', $open, 1 ) ?? $open;
+		} else {
+			$open .= ' class="krv-source-cards"';
+		}
+	}
+	// Theme CSS owns chrome — drop wrapper inline styles.
+	$open = preg_replace( '/\sstyle="[^"]*"/i', '', $open ) ?? $open;
+
+	$inner = preg_replace_callback(
+		'/<a\b([^>]*)>/i',
+		static function ( array $am ): string {
+			$attrs = $am[1];
+			$attrs = preg_replace( '/\sstyle="[^"]*"/i', '', $attrs ) ?? $attrs;
+			if ( false === strpos( $attrs, 'krv-source-cards__item' ) ) {
+				if ( preg_match( '/\bclass="/', $attrs ) ) {
+					$attrs = preg_replace( '/\bclass="/', 'class="krv-source-cards__item ', $attrs, 1 ) ?? $attrs;
+				} else {
+					$attrs .= ' class="krv-source-cards__item"';
+				}
+			}
+			return '<a' . $attrs . '>';
+		},
+		$inner
+	) ?? $inner;
+
+	$inner = preg_replace( '/(<span\b[^>]*)\sstyle="[^"]*"/i', '$1', $inner ) ?? $inner;
+	$inner = preg_replace( '/(<strong\b[^>]*)\sstyle="[^"]*"/i', '$1', $inner ) ?? $inner;
+
+	return '<div' . $open . '>' . $inner . '</div>';
 }
 add_filter( 'the_content', 'drslon_sanitize_source_cards', 12 );
 
@@ -546,13 +588,14 @@ add_filter( 'the_content', 'drslon_sanitize_source_cards', 12 );
  * @param array  $block         Parsed block.
  */
 function drslon_sanitize_source_cards_block( string $block_content, array $block ): string {
-	if ( $block_content === '' || false === strpos( $block_content, 'krv-source-cards' ) ) {
+	if ( $block_content === '' ) {
 		return $block_content;
 	}
-	// Only touch freeform / html / core blocks that embed the cards.
-	$name = (string) ( $block['blockName'] ?? '' );
-	if ( $name !== '' && ! in_array( $name, array( 'core/html', 'core/freeform', 'core/group', 'core/post-content' ), true ) ) {
-		// Still sanitize if markup is present (covers nested / classic mixed content).
+	// Classed cards or legacy grid cards with borders.
+	if ( false === strpos( $block_content, 'krv-source-cards' )
+		&& false === strpos( $block_content, 'display:grid' )
+		&& false === strpos( $block_content, 'display: grid' ) ) {
+		return $block_content;
 	}
 	return drslon_sanitize_source_cards( $block_content );
 }

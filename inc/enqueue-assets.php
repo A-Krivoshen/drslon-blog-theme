@@ -48,7 +48,8 @@ function drslon_should_enqueue_style( string $handle ): bool {
 			return ( is_home() && ! is_front_page() ) || is_singular( 'post' );
 
 		case 'drslon-css-single':
-			return is_singular( array( 'post', 'project', 'arkai-portfolio' ) );
+			// portfolio = CPT «Портфолио»; arkai-portfolio legacy alias if ever registered
+			return is_singular( array( 'post', 'project', 'portfolio', 'arkai-portfolio' ) );
 
 		default:
 			return true;
