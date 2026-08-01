@@ -416,7 +416,8 @@ html[data-theme="dark"] .drslon-site-footer a:hover {
 
 html[data-theme="dark"] .drslon-site-footer .wp-block-heading,
 html[data-theme="dark"] .drslon-site-footer h2,
-html[data-theme="dark"] .drslon-site-footer h3 {
+html[data-theme="dark"] .drslon-site-footer h3,
+html[data-theme="dark"] .drslon-footer-nav__title {
   color: var(--wp--preset--color--text) !important;
 }
 

@@ -134,16 +134,17 @@
 }
 
 .drslon-site-footer .wp-block-site-logo {
-	margin-top: 0.35rem;
-	margin-bottom: 0.75rem;
+	margin-top: 0;
+	margin-bottom: 0.55rem;
 }
 
+/* Keep natural aspect (asset is taller than wide); size locked in 08-footer.css */
 .drslon-site-footer .wp-block-site-logo .custom-logo,
 .drslon-site-footer .wp-block-site-logo .custom-logo img {
 	width: 52px !important;
-	height: 52px !important;
 	max-width: 52px !important;
-	max-height: 52px !important;
+	height: auto !important;
+	max-height: 64px !important;
 }
 
 @media (min-width: 1100px) {

@@ -364,7 +364,8 @@ function drslon_perf_logo_image_src( $image, int $attachment_id, $size ) {
 add_filter( 'wp_get_attachment_image_src', 'drslon_perf_logo_image_src', 10, 3 );
 
 /**
- * Eager LCP-friendly attributes for site logo; avoid lazy placeholder fight.
+ * Eager LCP-friendly attributes for the first (header) site logo only.
+ * Later logos (footer) stay lazy/low so they do not compete with LCP.
  *
  * @param array   $attr       Attributes.
  * @param WP_Post $attachment Attachment.
@@ -377,20 +378,51 @@ function drslon_perf_logo_image_attr( array $attr, $attachment, $size ): array {
 		return $attr;
 	}
 
-	$attr['loading']       = 'eager';
-	$attr['fetchpriority'] = 'high';
-	$attr['decoding']      = 'async';
-	// WPFC premium respects data-no-lazy / keywords on the tag.
-	$attr['data-no-lazy']  = '1';
-	// Class helps WPFC lazy-exclude keywords and theme CSS.
-	$class                 = isset( $attr['class'] ) ? (string) $attr['class'] : '';
+	static $logo_render_count = 0;
+	$logo_render_count++;
+
+	$attr['decoding'] = 'async';
+	$class            = isset( $attr['class'] ) ? (string) $attr['class'] : '';
 	if ( false === strpos( $class, 'custom-logo' ) ) {
 		$attr['class'] = trim( $class . ' custom-logo' );
+	}
+
+	// First logo on the page is almost always the header brand mark.
+	if ( 1 === $logo_render_count ) {
+		$attr['loading']       = 'eager';
+		$attr['fetchpriority'] = 'high';
+		// WPFC premium respects data-no-lazy / keywords on the tag.
+		$attr['data-no-lazy']  = '1';
+	} else {
+		$attr['loading']       = 'lazy';
+		$attr['fetchpriority'] = 'low';
+		unset( $attr['data-no-lazy'] );
 	}
 
 	return $attr;
 }
 add_filter( 'wp_get_attachment_image_attributes', 'drslon_perf_logo_image_attr', 10, 3 );
+
+/**
+ * Footer template-part: force logo attrs lazy/low (belt-and-suspenders vs order edge cases).
+ *
+ * @param string $block_content Rendered HTML.
+ * @param array  $block         Parsed block.
+ * @return string
+ */
+function drslon_perf_footer_logo_lazy( string $block_content, array $block ): string {
+	$slug = isset( $block['attrs']['slug'] ) ? (string) $block['attrs']['slug'] : '';
+	if ( 'footer' !== $slug || '' === $block_content ) {
+		return $block_content;
+	}
+
+	$block_content = preg_replace( '/\sloading="eager"/i', ' loading="lazy"', $block_content ) ?? $block_content;
+	$block_content = preg_replace( '/\sfetchpriority="high"/i', ' fetchpriority="low"', $block_content ) ?? $block_content;
+	$block_content = preg_replace( '/\sdata-no-lazy="1"/i', '', $block_content ) ?? $block_content;
+
+	return $block_content;
+}
+add_filter( 'render_block_core/template-part', 'drslon_perf_footer_logo_lazy', 20, 2 );
 
 /**
  * Keep site-logo srcset on compact sizes only (avoid 86KB full PNG in candidates).

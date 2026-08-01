@@ -8,24 +8,53 @@
 	align-items: start;
 }
 
-.drslon-site-footer .wp-block-heading {
+/* Titles: WP headings + nav titles share look */
+.drslon-site-footer .wp-block-heading,
+.drslon-footer-nav__title {
 	margin-top: 0;
 	margin-bottom: 0.75rem;
 	line-height: 1.25;
+	font-size: var(--wp--preset--font-size--sm, 0.95rem);
+	font-weight: 700;
+	color: var(--wp--preset--color--text, #111827);
 }
 
-.drslon-site-footer .wp-block-list {
+.drslon-footer-brand-title {
+	margin-top: 0.15rem !important;
+	margin-bottom: 0.55rem !important;
+}
+
+.drslon-footer-nav {
+	display: block;
+}
+
+.drslon-footer-nav__title {
+	margin: 0 0 0.75rem;
+}
+
+/* Clean link lists (no bullets) */
+.drslon-site-footer .wp-block-list,
+.drslon-footer-nav__list {
 	margin: 0;
-	padding-left: 1.05rem;
+	padding: 0;
+	list-style: none;
 }
 
-.drslon-site-footer .wp-block-list li {
-	margin-bottom: 0.42rem;
+.drslon-site-footer .wp-block-list li,
+.drslon-footer-nav__list li {
+	margin: 0 0 0.5rem;
 	line-height: 1.45;
+	padding: 0;
+}
+
+.drslon-site-footer .wp-block-list li:last-child,
+.drslon-footer-nav__list li:last-child {
+	margin-bottom: 0;
 }
 
 .drslon-site-footer a {
 	text-decoration: none;
+	text-underline-offset: 2px;
 }
 
 .drslon-site-footer a:hover {
@@ -34,10 +63,20 @@
 
 .drslon-footer-bottom {
 	row-gap: 0.35rem;
+	column-gap: 0.65rem;
 }
 
 .drslon-footer-bottom p {
 	margin: 0;
+}
+
+/* Dot separator between copyright and tagline on wider screens */
+.drslon-footer-bottom__tagline::before {
+	content: "·";
+	margin-right: 0.65rem;
+	opacity: 0.55;
+	text-decoration: none;
+	speak: never;
 }
 
 .drslon-footer-connect {
@@ -124,6 +163,46 @@
 	outline-offset: 2px;
 }
 
+/* Logo: keep aspect (source is taller than wide) */
+.drslon-site-footer .wp-block-site-logo {
+	margin-top: 0;
+	margin-bottom: 0.55rem;
+	line-height: 0;
+}
+
+.drslon-site-footer .wp-block-site-logo .custom-logo,
+.drslon-site-footer .wp-block-site-logo .custom-logo img,
+.drslon-site-footer .wp-block-site-logo img {
+	width: 52px !important;
+	max-width: 52px !important;
+	height: auto !important;
+	max-height: 64px !important;
+	object-fit: contain;
+}
+
+/* ── RWD: tablet 2×2, phone stack ──
+   Gutenberg forces 4-col nowrap from 782px; override for footer only. */
+
+@media (max-width: 1100px) {
+	.drslon-site-footer .drslon-footer-columns.wp-block-columns {
+		flex-wrap: wrap !important;
+		gap: 28px 24px !important;
+	}
+
+	.drslon-site-footer .drslon-footer-columns > .wp-block-column {
+		flex-basis: calc(50% - 12px) !important;
+		flex-grow: 0 !important;
+		width: calc(50% - 12px) !important;
+		min-width: 0;
+	}
+
+	/* Brand spans full width on tablet for breathing room */
+	.drslon-site-footer .drslon-footer-columns > .drslon-footer-col--brand {
+		flex-basis: 100% !important;
+		width: 100% !important;
+	}
+}
+
 @media (max-width: 900px) {
 	.drslon-site-footer {
 		padding-top: 36px !important;
@@ -131,9 +210,30 @@
 		padding-bottom: 24px !important;
 		padding-left: 18px !important;
 	}
+}
 
-	.drslon-site-footer .wp-block-list li {
-		margin-bottom: 0.34rem;
+@media (max-width: 640px) {
+	.drslon-site-footer .drslon-footer-columns.wp-block-columns {
+		gap: 22px 0 !important;
+	}
+
+	.drslon-site-footer .drslon-footer-columns > .wp-block-column,
+	.drslon-site-footer .drslon-footer-columns > .drslon-footer-col--brand {
+		flex-basis: 100% !important;
+		width: 100% !important;
+	}
+
+	.drslon-footer-bottom {
+		flex-direction: column;
+		align-items: center;
+	}
+
+	.drslon-footer-bottom__tagline::before {
+		display: none;
+	}
+
+	.drslon-footer-connect__row {
+		gap: 12px;
 	}
 }
 
