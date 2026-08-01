@@ -380,6 +380,9 @@ body.drslon-list-sidebar-disabled .drslon-single-layout > .wp-block-column:first
         .drslon-site-header {
                 padding-top: 12px !important;
                 padding-bottom: 12px !important;
+                /* Keep side air even if other rules fight root padding:0 */
+                padding-left: max(16px, env(safe-area-inset-left, 0px)) !important;
+                padding-right: max(16px, env(safe-area-inset-right, 0px)) !important;
         }
 
         .drslon-site-header .drslon-header-social .wp-social-link {
@@ -439,10 +442,11 @@ body.drslon-list-sidebar-disabled .drslon-single-layout > .wp-block-column:first
 
         .drslon-site-header .drslon-site-branding .custom-logo,
         .drslon-site-header .drslon-site-branding .custom-logo img {
-                width: 36px !important;
-                height: 36px !important;
+                width: auto !important;
+                height: auto !important;
                 max-width: 36px !important;
-                max-height: 36px !important;
+                max-height: 40px !important;
+                object-fit: contain !important;
         }
 }
 
@@ -1533,15 +1537,17 @@ body:has(.drslon-main-navigation .wp-block-navigation__responsive-container.is-m
                 overflow-x: hidden;
         }
 
+        /* Align main gutters with header side padding (~16px) */
         body.blog main.wp-block-group.drslon-home-shell,
         body.single-post main.wp-block-group,
         body.single-project main.wp-block-group,
         body.search main.wp-block-group,
         body.archive main.wp-block-group,
         body.category main.wp-block-group,
-        body.error404 main.wp-block-group {
-                padding-left: 12px !important;
-                padding-right: 12px !important;
+        body.error404 main.wp-block-group,
+        body.home main.wp-block-group {
+                padding-left: max(16px, env(safe-area-inset-left, 0px)) !important;
+                padding-right: max(16px, env(safe-area-inset-right, 0px)) !important;
                 box-sizing: border-box !important;
         }
 
@@ -1640,8 +1646,8 @@ body:has(.drslon-main-navigation .wp-block-navigation__responsive-container.is-m
 /* === prod hotfix: mobile legacy pages width === */
 @media (max-width: 781px) {
         body.page main.wp-block-group {
-                padding-left: 10px !important;
-                padding-right: 10px !important;
+                padding-left: max(16px, env(safe-area-inset-left, 0px)) !important;
+                padding-right: max(16px, env(safe-area-inset-right, 0px)) !important;
                 box-sizing: border-box !important;
         }
 
@@ -2353,10 +2359,10 @@ body:has(.drslon-main-navigation .wp-block-navigation__responsive-container.is-m
 
 	.drslon-site-header.is-scrolled .drslon-site-branding .custom-logo,
 	.drslon-site-header.is-scrolled .drslon-site-branding .custom-logo img {
-		width: 32px !important;
-		height: 32px !important;
+		width: auto !important;
+		height: auto !important;
 		max-width: 32px !important;
-		max-height: 32px !important;
+		max-height: 36px !important;
 	}
 
 	.drslon-site-header.is-scrolled .drslon-site-branding .wp-block-site-title {
@@ -2796,14 +2802,21 @@ body.drslon-search-modal-open {
 
 /*
  * Compact header for all phones + tablets (≤1099):
- *   [logo] ………… [burger][search][theme]
+ *   [logo] ………… [theme][search][burger]
  * Utility MUST NOT flex-grow (was full-width → burger floated mid-row).
  * Full horizontal nav starts at 1100px.
+ *
+ * Root --wp--style--root--padding-left/right is 0, so without explicit
+ * side padding the logo and control cluster stick to the screen edges.
  */
 @media (max-width: 1099px) {
 	.drslon-site-header {
 		padding-top: 10px !important;
 		padding-bottom: 10px !important;
+		/* Pull brand + controls off the bezel (and notched phones) */
+		padding-left: max(16px, env(safe-area-inset-left, 0px)) !important;
+		padding-right: max(16px, env(safe-area-inset-right, 0px)) !important;
+		box-sizing: border-box !important;
 	}
 
 	.drslon-site-header__inner {
@@ -2811,8 +2824,10 @@ body.drslon-search-modal-open {
 		flex-wrap: nowrap !important;
 		align-items: center !important;
 		justify-content: space-between !important;
-		gap: 0.5rem !important;
+		gap: 0.65rem !important;
 		width: 100% !important;
+		max-width: 100% !important;
+		box-sizing: border-box !important;
 	}
 
 	/* Logo only */
@@ -2822,6 +2837,9 @@ body.drslon-search-modal-open {
 		max-width: none !important;
 		width: auto !important;
 		gap: 0 !important;
+		/* Extra air so mark is not glued to the left edge */
+		padding-left: 2px !important;
+		margin-right: 4px !important;
 	}
 
 	.drslon-site-branding .wp-block-site-title {
@@ -2840,8 +2858,9 @@ body.drslon-search-modal-open {
 		display: block !important;
 		width: auto !important;
 		height: auto !important;
-		max-height: 36px !important;
-		max-width: 40px !important;
+		/* Natural aspect (asset is taller than wide) — no 1:1 squash */
+		max-height: 40px !important;
+		max-width: 36px !important;
 		object-fit: contain !important;
 		visibility: visible !important;
 		opacity: 1 !important;
@@ -2860,9 +2879,10 @@ body.drslon-search-modal-open {
 		max-width: none !important;
 		min-width: 0 !important;
 		margin-left: auto !important;
+		/* Symmetric air vs left brand — not flush to right bezel */
 		margin-right: 0 !important;
-		padding: 0 !important;
-		gap: 0.35rem !important;
+		padding: 0 2px 0 0 !important;
+		gap: 0.4rem !important;
 		flex-wrap: nowrap !important;
 		align-items: center !important;
 		justify-content: flex-end !important;

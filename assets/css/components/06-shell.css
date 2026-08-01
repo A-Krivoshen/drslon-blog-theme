@@ -16,6 +16,9 @@
         .drslon-site-header {
                 padding-top: 12px !important;
                 padding-bottom: 12px !important;
+                /* Keep side air even if other rules fight root padding:0 */
+                padding-left: max(16px, env(safe-area-inset-left, 0px)) !important;
+                padding-right: max(16px, env(safe-area-inset-right, 0px)) !important;
         }
 
         .drslon-site-header .drslon-header-social .wp-social-link {
@@ -75,10 +78,11 @@
 
         .drslon-site-header .drslon-site-branding .custom-logo,
         .drslon-site-header .drslon-site-branding .custom-logo img {
-                width: 36px !important;
-                height: 36px !important;
+                width: auto !important;
+                height: auto !important;
                 max-width: 36px !important;
-                max-height: 36px !important;
+                max-height: 40px !important;
+                object-fit: contain !important;
         }
 }
 
@@ -1169,15 +1173,17 @@ body:has(.drslon-main-navigation .wp-block-navigation__responsive-container.is-m
                 overflow-x: hidden;
         }
 
+        /* Align main gutters with header side padding (~16px) */
         body.blog main.wp-block-group.drslon-home-shell,
         body.single-post main.wp-block-group,
         body.single-project main.wp-block-group,
         body.search main.wp-block-group,
         body.archive main.wp-block-group,
         body.category main.wp-block-group,
-        body.error404 main.wp-block-group {
-                padding-left: 12px !important;
-                padding-right: 12px !important;
+        body.error404 main.wp-block-group,
+        body.home main.wp-block-group {
+                padding-left: max(16px, env(safe-area-inset-left, 0px)) !important;
+                padding-right: max(16px, env(safe-area-inset-right, 0px)) !important;
                 box-sizing: border-box !important;
         }
 
@@ -1276,8 +1282,8 @@ body:has(.drslon-main-navigation .wp-block-navigation__responsive-container.is-m
 /* === prod hotfix: mobile legacy pages width === */
 @media (max-width: 781px) {
         body.page main.wp-block-group {
-                padding-left: 10px !important;
-                padding-right: 10px !important;
+                padding-left: max(16px, env(safe-area-inset-left, 0px)) !important;
+                padding-right: max(16px, env(safe-area-inset-right, 0px)) !important;
                 box-sizing: border-box !important;
         }
 
