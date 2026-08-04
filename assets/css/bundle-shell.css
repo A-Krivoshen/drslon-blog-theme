@@ -422,10 +422,10 @@ body.drslon-list-sidebar-disabled .drslon-single-layout > .wp-block-column:first
 
 .drslon-site-header .drslon-site-branding .custom-logo,
 .drslon-site-header .drslon-site-branding .custom-logo img {
-        width: 52px !important;
-        height: 52px !important;
-        max-width: 52px !important;
-        max-height: 52px !important;
+        width: 40px !important;
+        height: 40px !important;
+        max-width: 40px !important;
+        max-height: 40px !important;
         object-fit: contain;
 }
 
@@ -466,8 +466,8 @@ body.drslon-list-sidebar-disabled .drslon-single-layout > .wp-block-column:first
                 white-space: nowrap;
                 overflow: visible;
                 text-overflow: clip;
-                /* slightly tighter so full FIO fits beside nav at 1280 */
-                font-size: clamp(0.9rem, 0.82rem + 0.22vw, 1.05rem) !important;
+                /* Stage 2: readable FIO after utility declutter */
+                font-size: clamp(0.98rem, 0.92rem + 0.2vw, 1.12rem) !important;
                 line-height: 1.15 !important;
                 letter-spacing: -0.015em;
         }
@@ -489,16 +489,16 @@ body.drslon-list-sidebar-disabled .drslon-single-layout > .wp-block-column:first
 /* Mid desktop: full FIO without clip; slightly smaller type + tighter utility */
 @media (min-width: 1100px) and (max-width: 1360px) {
         .drslon-site-header .drslon-site-branding .wp-block-site-title {
-                font-size: 0.84rem !important;
-                letter-spacing: -0.02em !important;
+                font-size: clamp(0.95rem, 0.9rem + 0.2vw, 1.08rem) !important;
+                letter-spacing: -0.015em !important;
         }
 
         .drslon-site-header .drslon-header-utility {
-                gap: 0.45rem !important;
+                gap: 0.55rem !important;
         }
 
         .drslon-main-navigation .wp-block-navigation__container {
-                gap: 0.7rem !important;
+                gap: 0.85rem !important;
         }
 }
 
@@ -1475,14 +1475,14 @@ body:has(.drslon-main-navigation .wp-block-navigation__responsive-container.is-m
 }
 /* === prod hotfix: header socials + adjacent post cards === */
 
-/* Header: keep social icons in one row on desktop */
+/* Header desktop: single-line shell after Stage 2 declutter */
 @media (min-width: 1100px) {
         .drslon-site-header__inner {
                 display: flex !important;
                 flex-wrap: nowrap !important;
                 align-items: center !important;
                 justify-content: space-between !important;
-                gap: 18px !important;
+                gap: 14px !important;
         }
 
         /* Branding keeps full site title (incl. «Сергеевич») — utility flexes instead */
@@ -1498,7 +1498,7 @@ body:has(.drslon-main-navigation .wp-block-navigation__responsive-container.is-m
                 min-width: 0 !important;
                 align-items: center !important;
                 justify-content: flex-end !important;
-                gap: 18px !important;
+                gap: 10px !important;
                 flex-wrap: nowrap !important;
         }
 
@@ -1512,21 +1512,11 @@ body:has(.drslon-main-navigation .wp-block-navigation__responsive-container.is-m
                 flex-wrap: nowrap !important;
         }
 
+        /* Secondary: socials hidden on desktop (footer / contacts) */
         .drslon-site-header .drslon-header-social,
+        .drslon-site-header .wp-block-social-links.drslon-header-social,
         .drslon-site-header .wp-block-social-links {
-                display: flex !important;
-                flex: 0 0 auto !important;
-                flex-wrap: nowrap !important;
-                align-items: center !important;
-                justify-content: flex-end !important;
-                gap: 0.42rem !important;
-                margin: 0 !important;
-        }
-
-        .drslon-site-header .drslon-header-social .wp-social-link,
-        .drslon-site-header .wp-block-social-links .wp-social-link {
-                flex: 0 0 auto !important;
-                margin: 0 !important;
+                display: none !important;
         }
 }
 
@@ -2243,7 +2233,7 @@ body:has(.drslon-main-navigation .wp-block-navigation__responsive-container.is-m
 	}
 
 	.wp-site-blocks > main {
-		margin-top: var(--drslon-header-height, 108px) !important;
+		margin-top: var(--drslon-header-height, 72px) !important;
 	}
 }
 
@@ -2321,14 +2311,14 @@ body:has(.drslon-main-navigation .wp-block-navigation__responsive-container.is-m
 	.drslon-home-layout > .wp-block-column:last-child,
 	.drslon-archive-layout > .wp-block-column:last-child,
 	.drslon-single-layout > .wp-block-column:last-child {
-		top: calc(var(--drslon-header-height, 108px) + 12px) !important;
+		top: calc(var(--drslon-header-height, 72px) + 12px) !important;
 	}
 
 	body.admin-bar .drslon-blog-layout > .wp-block-column:last-child,
 	body.admin-bar .drslon-home-layout > .wp-block-column:last-child,
 	body.admin-bar .drslon-archive-layout > .wp-block-column:last-child,
 	body.admin-bar .drslon-single-layout > .wp-block-column:last-child {
-		top: calc(32px + var(--drslon-header-height, 108px) + 12px) !important;
+		top: calc(32px + var(--drslon-header-height, 72px) + 12px) !important;
 	}
 }
 
@@ -2405,15 +2395,15 @@ body:has(.drslon-main-navigation .wp-block-navigation__responsive-container.is-m
 }
 
 .drslon-header-cta .wp-block-button__link {
-	min-height: 40px;
-	padding: 9px 16px !important;
+	min-height: 36px;
+	padding: 8px 14px !important;
 	border-radius: 999px !important;
 	background: var(--wp--preset--color--accent) !important;
 	color: #ffffff !important;
-	font-size: 0.92rem !important;
-	font-weight: 700 !important;
+	font-size: 0.88rem !important;
+	font-weight: 650 !important;
 	line-height: 1.2 !important;
-	box-shadow: 0 10px 22px rgba(81, 129, 254, 0.22);
+	box-shadow: 0 6px 16px rgba(49, 95, 232, 0.18);
 	white-space: nowrap;
 }
 
@@ -2423,7 +2413,7 @@ body:has(.drslon-main-navigation .wp-block-navigation__responsive-container.is-m
 }
 
 .drslon-header-cta .wp-block-button__link:focus-visible {
-	outline: 3px solid rgba(81, 129, 254, 0.45);
+	outline: 3px solid rgba(49, 95, 232, 0.4);
 	outline-offset: 2px;
 }
 
@@ -2458,17 +2448,17 @@ body:has(.drslon-main-navigation .wp-block-navigation__responsive-container.is-m
 	border-color: #b9caff;
 	background: #eef4ff;
 	color: var(--wp--preset--color--accent-hover);
-	box-shadow: 0 10px 22px rgba(81, 129, 254, 0.14);
+	box-shadow: 0 10px 22px rgba(49, 95, 232, 0.14);
 	transform: translateY(-1px);
 }
 
 .drslon-header-max:focus-visible {
-	outline: 3px solid rgba(81, 129, 254, 0.35);
+	outline: 3px solid rgba(49, 95, 232, 0.35);
 	outline-offset: 2px;
 }
 
 .drslon-header-social .wp-block-social-link-anchor:focus-visible {
-	outline: 3px solid rgba(81, 129, 254, 0.35);
+	outline: 3px solid rgba(49, 95, 232, 0.35);
 	outline-offset: 2px;
 	border-radius: 999px;
 }
@@ -2506,8 +2496,13 @@ body:has(.drslon-main-navigation .wp-block-navigation__responsive-container.is-m
 		padding-bottom: 12px !important;
 	}
 
+	/* Declutter: socials + MAX off tablet chrome; search + theme + CTA remain */
+	.drslon-site-header .drslon-header-social,
+	.drslon-site-header .wp-block-social-links.drslon-header-social,
 	.drslon-header-social .wp-social-link.drslon-header-social-extra,
-	.drslon-header-social .wp-social-link:not(.wp-social-link-telegram) {
+	.drslon-header-social .wp-social-link:not(.wp-social-link-telegram),
+	.drslon-header-utility .drslon-header-max,
+	.drslon-header-utility > p:has(.drslon-header-max) {
 		display: none !important;
 	}
 }
@@ -3094,6 +3089,80 @@ html[data-theme="dark"] .drslon-main-navigation .wp-block-navigation__responsive
 		min-height: 34px !important;
 		max-width: 34px !important;
 		flex: 0 0 34px !important;
+	}
+}
+
+
+/* === Stage 2: Header declutter (calm technical-premium) === */
+
+/* Nav current page — calm accent hairline */
+.drslon-main-navigation .wp-block-navigation-item.current-menu-item > .wp-block-navigation-item__content,
+.drslon-main-navigation .wp-block-navigation-item.current-menu-ancestor > .wp-block-navigation-item__content,
+.drslon-main-navigation .wp-block-navigation-item.current-menu-parent > .wp-block-navigation-item__content,
+.drslon-main-navigation .wp-block-navigation-item[aria-current="page"] > .wp-block-navigation-item__content,
+.drslon-main-navigation .wp-block-navigation-item .wp-block-navigation-item__content[aria-current="page"] {
+	color: var(--wp--preset--color--accent, #315fe8);
+	font-weight: 650;
+	text-decoration: none;
+	box-shadow: inset 0 -2px 0 0 var(--wp--preset--color--accent, #315fe8);
+}
+
+@media (min-width: 1100px) {
+	.drslon-site-header {
+		padding-top: 12px !important;
+		padding-bottom: 12px !important;
+	}
+
+	.drslon-site-header .drslon-site-branding .custom-logo,
+	.drslon-site-header .drslon-site-branding .custom-logo img {
+		width: 40px !important;
+		height: 40px !important;
+		max-width: 40px !important;
+		max-height: 40px !important;
+	}
+
+	/* Secondary chrome off desktop: socials, search, MAX */
+	.drslon-site-header .drslon-header-social,
+	.drslon-site-header .wp-block-social-links.drslon-header-social,
+	.drslon-site-header .drslon-header-search,
+	.drslon-site-header form.drslon-header-search,
+	.drslon-header-utility .drslon-header-search,
+	.drslon-header-utility form.drslon-header-search,
+	.drslon-header-utility .drslon-header-max,
+	.drslon-header-utility > p:has(.drslon-header-max) {
+		display: none !important;
+	}
+
+	.drslon-header-utility {
+		gap: 10px !important;
+	}
+
+	.drslon-site-header.is-scrolled {
+		padding-top: 8px !important;
+		padding-bottom: 8px !important;
+	}
+
+	.drslon-site-header.is-scrolled .drslon-site-branding .custom-logo,
+	.drslon-site-header.is-scrolled .drslon-site-branding .custom-logo img {
+		width: 36px !important;
+		height: 36px !important;
+		max-width: 36px !important;
+		max-height: 36px !important;
+	}
+
+	.drslon-site-header.is-scrolled .drslon-site-branding .wp-block-site-title {
+		font-size: clamp(0.95rem, 0.9rem + 0.15vw, 1.08rem) !important;
+		line-height: 1.12 !important;
+	}
+}
+
+/* Mobile ≤781: hide header social row (contacts live in drawer chips) */
+@media (max-width: 781px) {
+	.drslon-site-header .drslon-header-social,
+	.drslon-site-header .wp-block-social-links.drslon-header-social,
+	.drslon-header-utility .drslon-header-max,
+	.drslon-header-utility > p:has(.drslon-header-max) {
+		display: none !important;
 	}
 }
 

@@ -58,10 +58,10 @@
 
 .drslon-site-header .drslon-site-branding .custom-logo,
 .drslon-site-header .drslon-site-branding .custom-logo img {
-        width: 52px !important;
-        height: 52px !important;
-        max-width: 52px !important;
-        max-height: 52px !important;
+        width: 40px !important;
+        height: 40px !important;
+        max-width: 40px !important;
+        max-height: 40px !important;
         object-fit: contain;
 }
 
@@ -102,8 +102,8 @@
                 white-space: nowrap;
                 overflow: visible;
                 text-overflow: clip;
-                /* slightly tighter so full FIO fits beside nav at 1280 */
-                font-size: clamp(0.9rem, 0.82rem + 0.22vw, 1.05rem) !important;
+                /* Stage 2: readable FIO after utility declutter */
+                font-size: clamp(0.98rem, 0.92rem + 0.2vw, 1.12rem) !important;
                 line-height: 1.15 !important;
                 letter-spacing: -0.015em;
         }
@@ -125,16 +125,16 @@
 /* Mid desktop: full FIO without clip; slightly smaller type + tighter utility */
 @media (min-width: 1100px) and (max-width: 1360px) {
         .drslon-site-header .drslon-site-branding .wp-block-site-title {
-                font-size: 0.84rem !important;
-                letter-spacing: -0.02em !important;
+                font-size: clamp(0.95rem, 0.9rem + 0.2vw, 1.08rem) !important;
+                letter-spacing: -0.015em !important;
         }
 
         .drslon-site-header .drslon-header-utility {
-                gap: 0.45rem !important;
+                gap: 0.55rem !important;
         }
 
         .drslon-main-navigation .wp-block-navigation__container {
-                gap: 0.7rem !important;
+                gap: 0.85rem !important;
         }
 }
 
@@ -1111,14 +1111,14 @@ body:has(.drslon-main-navigation .wp-block-navigation__responsive-container.is-m
 }
 /* === prod hotfix: header socials + adjacent post cards === */
 
-/* Header: keep social icons in one row on desktop */
+/* Header desktop: single-line shell after Stage 2 declutter */
 @media (min-width: 1100px) {
         .drslon-site-header__inner {
                 display: flex !important;
                 flex-wrap: nowrap !important;
                 align-items: center !important;
                 justify-content: space-between !important;
-                gap: 18px !important;
+                gap: 14px !important;
         }
 
         /* Branding keeps full site title (incl. «Сергеевич») — utility flexes instead */
@@ -1134,7 +1134,7 @@ body:has(.drslon-main-navigation .wp-block-navigation__responsive-container.is-m
                 min-width: 0 !important;
                 align-items: center !important;
                 justify-content: flex-end !important;
-                gap: 18px !important;
+                gap: 10px !important;
                 flex-wrap: nowrap !important;
         }
 
@@ -1148,21 +1148,11 @@ body:has(.drslon-main-navigation .wp-block-navigation__responsive-container.is-m
                 flex-wrap: nowrap !important;
         }
 
+        /* Secondary: socials hidden on desktop (footer / contacts) */
         .drslon-site-header .drslon-header-social,
+        .drslon-site-header .wp-block-social-links.drslon-header-social,
         .drslon-site-header .wp-block-social-links {
-                display: flex !important;
-                flex: 0 0 auto !important;
-                flex-wrap: nowrap !important;
-                align-items: center !important;
-                justify-content: flex-end !important;
-                gap: 0.42rem !important;
-                margin: 0 !important;
-        }
-
-        .drslon-site-header .drslon-header-social .wp-social-link,
-        .drslon-site-header .wp-block-social-links .wp-social-link {
-                flex: 0 0 auto !important;
-                margin: 0 !important;
+                display: none !important;
         }
 }
 
