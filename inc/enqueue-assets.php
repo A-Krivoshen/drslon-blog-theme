@@ -287,6 +287,19 @@ function drslon_enqueue_theme_scripts(): void {
 			);
 		}
 	}
+
+	if ( is_singular( 'project' ) ) {
+		$slider_js = $theme_dir . '/assets/js/project-posts-slider.js';
+		if ( file_exists( $slider_js ) ) {
+			wp_enqueue_script(
+				'drslon-project-posts-slider',
+				$theme_uri . '/assets/js/project-posts-slider.js',
+				array(),
+				(string) filemtime( $slider_js ),
+				true
+			);
+		}
+	}
 }
 add_action( 'wp_enqueue_scripts', 'drslon_enqueue_theme_scripts', 25 );
 /**

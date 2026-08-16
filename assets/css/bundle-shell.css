@@ -3756,6 +3756,25 @@ html[data-theme="dark"] .drslon-featured-slider__arrow:hover {
   color: #ffffff !important;
 }
 
+html[data-theme="dark"] .krv-project-posts__arrow {
+  background: #121a2b;
+  border-color: #243049;
+}
+
+html[data-theme="dark"] .krv-project-posts__arrow:hover,
+html[data-theme="dark"] .krv-project-posts__arrow:focus-visible {
+  background: #315fe8;
+  border-color: #315fe8;
+}
+
+html[data-theme="dark"] .krv-project-posts__dot-btn {
+  background: #243049;
+}
+
+html[data-theme="dark"] .krv-project-posts__dot-btn.is-active {
+  background: #8aacff;
+}
+
 html[data-theme="dark"] .drslon-featured-slider__button {
   background: #315fe8 !important;
   color: #ffffff !important;
