@@ -566,6 +566,11 @@
                 pointer-events: none !important;
         }
 
+        .drslon-home-featured-wrap .drslon-featured-slider__content {
+                padding-left: 52px !important;
+                padding-right: 52px !important;
+        }
+
         .drslon-home-featured-wrap .drslon-featured-slider__arrow {
                 display: inline-flex !important;
                 visibility: visible !important;
@@ -1512,5 +1517,13 @@ body:has(.drslon-main-navigation .wp-block-navigation__responsive-container.is-m
 		background: rgba(255, 255, 255, 0.2);
 		outline: 3px solid #ffffff;
 		outline-offset: 2px;
+	}
+}
+
+@media (max-width: 781px) {
+	.wp-block-search__input,
+	input[type="search"],
+	input[type="text"].wp-block-search__input {
+		font-size: 16px !important;
 	}
 }

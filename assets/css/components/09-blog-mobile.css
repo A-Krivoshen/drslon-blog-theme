@@ -115,7 +115,7 @@
 		width: calc(100% - 16px) !important;
 		max-width: 100% !important;
 		margin: 0 !important;
-		padding: 14px 14px 16px !important;
+		padding: 14px 64px 16px !important;
 		box-sizing: border-box !important;
 		border-radius: 12px !important;
 		background: var(--wp--preset--color--surface, #ffffff) !important;
