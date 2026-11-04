@@ -69,6 +69,7 @@ function drslon_shell_bundle_sources(): array {
 		'assets/css/components/08-footer.css',
 		'assets/css/components/07-header-sticky.css',
 		'assets/css/components/10-theme-dark.css',
+		'assets/css/components/11-cookie.css',
 	);
 }
 

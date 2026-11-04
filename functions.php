@@ -12,6 +12,7 @@ require_once get_template_directory() . '/inc/plugin-page-shell.php';
 require_once get_template_directory() . '/inc/enqueue-assets.php';
 require_once get_template_directory() . '/inc/performance-frontend.php';
 require_once get_template_directory() . '/inc/krv-assistant.php';
+require_once get_template_directory() . '/inc/krv-cookie.php';
 require_once get_template_directory() . '/inc/auto-toc.php';
 require_once get_template_directory() . '/inc/entry-meta.php';
 

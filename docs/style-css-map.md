@@ -16,6 +16,7 @@
 | `06-shell.css` | Mobile hotfixes, 404, legacy pages, lightbox |
 | `07-header-sticky.css` | Fixed/sticky header, CTA, header search |
 | `08-footer.css` | Footer layout, connect icon chips |
+| `11-cookie.css` | Cookie bar and settings. Bundled with the shell, not enqueued alone. |
 
 Условная загрузка: `inc/enqueue-assets.php` (archive/blog-home/sections/single — по контексту страницы).
 
