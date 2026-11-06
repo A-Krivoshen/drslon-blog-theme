@@ -1031,6 +1031,15 @@ html[data-theme="dark"] .drslon-main-navigation .wp-block-navigation__responsive
  * Footer logo is re-asserted at the end so it does not inherit these heights.
  * 10-theme-dark.css and 11-cookie.css do not set header logo size.
  */
+.drslon-site-header .drslon-header-logo-wrap {
+	display: flex;
+	margin: 0;
+	line-height: 0;
+}
+
+.drslon-site-header .drslon-site-branding > p {
+	margin: 0 !important;
+}
 @media (min-width: 1100px) {
 	.drslon-site-header,
 	.drslon-site-header.is-scrolled {

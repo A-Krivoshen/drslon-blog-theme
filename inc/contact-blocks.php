@@ -40,7 +40,7 @@ function drslon_header_brand_shortcode(): string {
 	$src  = get_theme_file_uri( 'assets/brand/logo-mark.svg' );
 
 	return sprintf(
-		'<a class="custom-logo-link drslon-header-logo" href="%1$s" rel="home"><img class="custom-logo" src="%2$s" width="67" height="64" alt="%3$s" decoding="async" fetchpriority="high" /></a><p class="wp-block-site-title"><a href="%1$s" rel="home">%4$s</a></p>',
+		'<div class="drslon-header-logo-wrap"><a class="custom-logo-link drslon-header-logo" href="%1$s" rel="home"><img class="custom-logo" src="%2$s" width="67" height="64" alt="%3$s" decoding="async" fetchpriority="high" /></a></div><p class="wp-block-site-title"><a href="%1$s" rel="home">%4$s</a></p>',
 		esc_url( $home ),
 		esc_url( $src ),
 		esc_attr( $name ),
