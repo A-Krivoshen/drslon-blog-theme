@@ -420,12 +420,14 @@ body.drslon-list-sidebar-disabled .drslon-single-layout > .wp-block-column:first
         gap: 14px;
 }
 
+/* SVG mark viewBox 1088×1040: 64px tall from 1100px, 48px below. Width follows the ratio. */
 .drslon-site-header .drslon-site-branding .custom-logo,
 .drslon-site-header .drslon-site-branding .custom-logo img {
-        width: 40px !important;
-        height: 40px !important;
-        max-width: 40px !important;
-        max-height: 40px !important;
+        width: auto !important;
+        height: 64px !important;
+        max-width: none !important;
+        max-height: 64px !important;
+        aspect-ratio: 1088 / 1040;
         object-fit: contain;
 }
 
@@ -435,17 +437,18 @@ body.drslon-list-sidebar-disabled .drslon-single-layout > .wp-block-column:first
         letter-spacing: -0.01em;
 }
 
-@media (max-width: 781px) {
+@media (max-width: 1099px) {
         .drslon-site-header .drslon-site-branding {
-                gap: 12px;
+                gap: 8px;
         }
 
         .drslon-site-header .drslon-site-branding .custom-logo,
         .drslon-site-header .drslon-site-branding .custom-logo img {
                 width: auto !important;
-                height: auto !important;
-                max-width: 36px !important;
-                max-height: 40px !important;
+                height: 48px !important;
+                max-width: none !important;
+                max-height: 48px !important;
+                aspect-ratio: 1088 / 1040;
                 object-fit: contain !important;
         }
 }
@@ -454,7 +457,7 @@ body.drslon-list-sidebar-disabled .drslon-single-layout > .wp-block-column:first
 
 @media (min-width: 1100px) {
         .drslon-site-header .drslon-site-branding {
-                flex: 0 0 auto; /* full name — do not shrink/clip «Сергеевич» */
+                flex: 0 0 auto; /* short brand «ИТ Решения» — do not shrink or clip */
                 min-width: 0;
                 max-width: none;
                 gap: 12px;
@@ -466,7 +469,7 @@ body.drslon-list-sidebar-disabled .drslon-single-layout > .wp-block-column:first
                 white-space: nowrap;
                 overflow: visible;
                 text-overflow: clip;
-                /* Stage 2: readable FIO after utility declutter */
+                /* Short brand «ИТ Решения», one line */
                 font-size: clamp(0.98rem, 0.92rem + 0.2vw, 1.12rem) !important;
                 line-height: 1.15 !important;
                 letter-spacing: -0.015em;
@@ -486,7 +489,7 @@ body.drslon-list-sidebar-disabled .drslon-single-layout > .wp-block-column:first
         }
 }
 
-/* Mid desktop: full FIO without clip; slightly smaller type + tighter utility */
+/* Mid desktop: short brand stays one line; slightly tighter type + utility */
 @media (min-width: 1100px) and (max-width: 1360px) {
         .drslon-site-header .drslon-site-branding .wp-block-site-title {
                 font-size: clamp(0.95rem, 0.9rem + 0.2vw, 1.08rem) !important;
@@ -1490,7 +1493,7 @@ body:has(.drslon-main-navigation .wp-block-navigation__responsive-container.is-m
                 gap: 14px !important;
         }
 
-        /* Branding keeps full site title (incl. «Сергеевич») — utility flexes instead */
+        /* Branding keeps the short title «ИТ Решения» — utility flexes instead */
         .drslon-site-branding {
                 flex: 0 0 auto !important;
                 min-width: auto !important;
@@ -3177,6 +3180,156 @@ html[data-theme="dark"] .drslon-main-navigation .wp-block-navigation__responsive
 	.drslon-header-utility > p:has(.drslon-header-max) {
 		display: none !important;
 	}
+}
+
+/*
+ * Header brand lock. Same logo size when .is-scrolled (no jump).
+ * Desktop: Telegram + MAX. Extras stay hidden. Search stays off.
+ * Footer logo is re-asserted at the end so it does not inherit these heights.
+ * 10-theme-dark.css and 11-cookie.css do not set header logo size.
+ */
+@media (min-width: 1100px) {
+	.drslon-site-header,
+	.drslon-site-header.is-scrolled {
+		padding-top: 12px !important;
+		padding-bottom: 12px !important;
+	}
+
+	.drslon-site-header .drslon-site-branding .custom-logo,
+	.drslon-site-header .drslon-site-branding .custom-logo img,
+	.drslon-site-header .drslon-site-branding .custom-logo-link img,
+	.drslon-site-header .drslon-header-logo img,
+	.drslon-site-header.is-scrolled .drslon-site-branding .custom-logo,
+	.drslon-site-header.is-scrolled .drslon-site-branding .custom-logo img,
+	.drslon-site-header.is-scrolled .drslon-site-branding .custom-logo-link img,
+	.drslon-site-header.is-scrolled .drslon-header-logo img {
+		width: auto !important;
+		height: 64px !important;
+		max-width: none !important;
+		max-height: 64px !important;
+		aspect-ratio: 1088 / 1040 !important;
+		object-fit: contain !important;
+	}
+
+	.drslon-site-header .drslon-site-branding .wp-block-site-title,
+	.drslon-site-header.is-scrolled .drslon-site-branding .wp-block-site-title {
+		display: block !important;
+		margin: 0 !important;
+		font-size: 1.32rem !important;
+		font-weight: 700 !important;
+		line-height: 1.15 !important;
+		white-space: nowrap !important;
+		overflow: visible !important;
+		text-overflow: clip !important;
+		max-width: none !important;
+		-webkit-line-clamp: unset !important;
+		line-clamp: unset !important;
+	}
+
+	.drslon-site-header .drslon-site-branding .wp-block-site-title a,
+	.drslon-site-header.is-scrolled .drslon-site-branding .wp-block-site-title a {
+		white-space: nowrap !important;
+		overflow: visible !important;
+		text-overflow: clip !important;
+		-webkit-line-clamp: unset !important;
+		line-clamp: unset !important;
+	}
+
+	.drslon-site-header .drslon-header-utility .wp-block-social-links.drslon-header-social,
+	.drslon-site-header .drslon-header-utility ul.drslon-header-social {
+		display: flex !important;
+	}
+
+	.drslon-site-header .drslon-header-social .wp-social-link.drslon-header-social-extra,
+	.drslon-site-header .drslon-header-social .wp-social-link:not(.wp-social-link-telegram) {
+		display: none !important;
+	}
+
+	.drslon-site-header .drslon-header-social .wp-social-link.wp-social-link-telegram {
+		display: inline-flex !important;
+	}
+
+	.drslon-site-header .drslon-header-utility > p:has(.drslon-header-max),
+	.drslon-site-header .drslon-header-utility p:has(.drslon-header-max) {
+		display: flex !important;
+		margin: 0 !important;
+		align-items: center !important;
+	}
+
+	.drslon-site-header .drslon-header-utility .drslon-header-max,
+	.drslon-site-header .drslon-header-max {
+		display: inline-flex !important;
+	}
+
+	.drslon-site-header .drslon-header-search,
+	.drslon-site-header form.drslon-header-search,
+	.drslon-site-header .drslon-header-utility .drslon-header-search,
+	.drslon-site-header .drslon-header-utility form.drslon-header-search {
+		display: none !important;
+	}
+}
+
+@media (max-width: 1099px) {
+	.drslon-site-header,
+	.drslon-site-header.is-scrolled {
+		padding-top: 10px !important;
+		padding-bottom: 10px !important;
+	}
+
+	.drslon-site-header .drslon-site-branding,
+	.drslon-site-header.is-scrolled .drslon-site-branding {
+		gap: 8px !important;
+	}
+
+	.drslon-site-header .drslon-site-branding .custom-logo,
+	.drslon-site-header .drslon-site-branding .custom-logo img,
+	.drslon-site-header .drslon-site-branding .custom-logo-link img,
+	.drslon-site-header .drslon-header-logo img,
+	.drslon-site-header.is-scrolled .drslon-site-branding .custom-logo,
+	.drslon-site-header.is-scrolled .drslon-site-branding .custom-logo img,
+	.drslon-site-header.is-scrolled .drslon-site-branding .custom-logo-link img,
+	.drslon-site-header.is-scrolled .drslon-header-logo img {
+		width: auto !important;
+		height: 48px !important;
+		max-width: none !important;
+		max-height: 48px !important;
+		aspect-ratio: 1088 / 1040 !important;
+		object-fit: contain !important;
+	}
+
+	.drslon-site-header .drslon-site-branding .wp-block-site-title,
+	.drslon-site-header.is-scrolled .drslon-site-branding .wp-block-site-title {
+		display: block !important;
+		margin: 0 !important;
+		font-size: clamp(0.92rem, 2.8vw, 1.05rem) !important;
+		font-weight: 700 !important;
+		line-height: 1.15 !important;
+		white-space: nowrap !important;
+		overflow: visible !important;
+		text-overflow: clip !important;
+		max-width: none !important;
+		-webkit-line-clamp: unset !important;
+		line-clamp: unset !important;
+	}
+
+	.drslon-site-header .drslon-site-branding .wp-block-site-title a,
+	.drslon-site-header.is-scrolled .drslon-site-branding .wp-block-site-title a {
+		display: block !important;
+		white-space: nowrap !important;
+		overflow: visible !important;
+		text-overflow: clip !important;
+		-webkit-line-clamp: unset !important;
+		line-clamp: unset !important;
+	}
+}
+
+.drslon-site-footer .wp-block-site-logo .custom-logo,
+.drslon-site-footer .wp-block-site-logo .custom-logo img,
+.drslon-site-footer .wp-block-site-logo img {
+	width: 52px !important;
+	max-width: 52px !important;
+	height: auto !important;
+	max-height: 64px !important;
 }
 
 

@@ -466,22 +466,14 @@ function drslon_perf_preload_logo(): void {
 		return;
 	}
 
-	$logo_id = (int) get_option( 'site_logo' );
-	if ( $logo_id <= 0 ) {
-		return;
-	}
-
-	$url = wp_get_attachment_image_url( $logo_id, 'drslon-site-logo' );
-	if ( ! $url ) {
-		$url = wp_get_attachment_image_url( $logo_id, 'full' );
-	}
-	if ( ! $url ) {
+	$path = get_theme_file_path( 'assets/brand/logo-mark.svg' );
+	if ( ! is_readable( $path ) ) {
 		return;
 	}
 
 	printf(
-		'<link rel="preload" as="image" href="%s" fetchpriority="high" />' . "\n",
-		esc_url( $url )
+		'<link rel="preload" as="image" href="%s" type="image/svg+xml" fetchpriority="high" />' . "\n",
+		esc_url( get_theme_file_uri( 'assets/brand/logo-mark.svg' ) )
 	);
 }
 add_action( 'wp_head', 'drslon_perf_preload_logo', 2 );

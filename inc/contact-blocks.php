@@ -32,6 +32,24 @@ function drslon_header_max_shortcode(): string {
 add_shortcode( 'drslon_header_max', 'drslon_header_max_shortcode' );
 
 /**
+ * Header lockup: elephant mark plus the short brand. The legal name stays in the footer.
+ */
+function drslon_header_brand_shortcode(): string {
+	$home = home_url( '/' );
+	$name = 'ИТ Решения';
+	$src  = get_theme_file_uri( 'assets/brand/logo-mark.svg' );
+
+	return sprintf(
+		'<a class="custom-logo-link drslon-header-logo" href="%1$s" rel="home"><img class="custom-logo" src="%2$s" width="67" height="64" alt="%3$s" decoding="async" fetchpriority="high" /></a><p class="wp-block-site-title"><a href="%1$s" rel="home">%4$s</a></p>',
+		esc_url( $home ),
+		esc_url( $src ),
+		esc_attr( $name ),
+		esc_html( $name )
+	);
+}
+add_shortcode( 'drslon_header_brand', 'drslon_header_brand_shortcode' );
+
+/**
  * Three contact chips for the mobile menu (right after «Контакты»).
  */
 function drslon_mobile_menu_contacts_markup(): string {
@@ -141,11 +159,11 @@ function drslon_render_contact_shortcode_block( string $block_content, array $bl
 		$raw = trim( (string) $block['innerContent'][0] );
 	}
 
-	if ( '' === $raw && preg_match( '/\[(drslon_footer_connect|drslon_header_max)\]/', $block_content, $matches ) ) {
+	if ( '' === $raw && preg_match( '/\[(drslon_footer_connect|drslon_header_max|drslon_header_brand)\]/', $block_content, $matches ) ) {
 		$raw = '[' . $matches[1] . ']';
 	}
 
-	if ( ! preg_match( '/^\[(drslon_footer_connect|drslon_header_max)\]$/', $raw ) ) {
+	if ( ! preg_match( '/^\[(drslon_footer_connect|drslon_header_max|drslon_header_brand)\]$/', $raw ) ) {
 		return $block_content;
 	}
 

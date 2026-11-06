@@ -56,12 +56,14 @@
         gap: 14px;
 }
 
+/* SVG mark viewBox 1088×1040: 64px tall from 1100px, 48px below. Width follows the ratio. */
 .drslon-site-header .drslon-site-branding .custom-logo,
 .drslon-site-header .drslon-site-branding .custom-logo img {
-        width: 40px !important;
-        height: 40px !important;
-        max-width: 40px !important;
-        max-height: 40px !important;
+        width: auto !important;
+        height: 64px !important;
+        max-width: none !important;
+        max-height: 64px !important;
+        aspect-ratio: 1088 / 1040;
         object-fit: contain;
 }
 
@@ -71,17 +73,18 @@
         letter-spacing: -0.01em;
 }
 
-@media (max-width: 781px) {
+@media (max-width: 1099px) {
         .drslon-site-header .drslon-site-branding {
-                gap: 12px;
+                gap: 8px;
         }
 
         .drslon-site-header .drslon-site-branding .custom-logo,
         .drslon-site-header .drslon-site-branding .custom-logo img {
                 width: auto !important;
-                height: auto !important;
-                max-width: 36px !important;
-                max-height: 40px !important;
+                height: 48px !important;
+                max-width: none !important;
+                max-height: 48px !important;
+                aspect-ratio: 1088 / 1040;
                 object-fit: contain !important;
         }
 }
@@ -90,7 +93,7 @@
 
 @media (min-width: 1100px) {
         .drslon-site-header .drslon-site-branding {
-                flex: 0 0 auto; /* full name — do not shrink/clip «Сергеевич» */
+                flex: 0 0 auto; /* short brand «ИТ Решения» — do not shrink or clip */
                 min-width: 0;
                 max-width: none;
                 gap: 12px;
@@ -102,7 +105,7 @@
                 white-space: nowrap;
                 overflow: visible;
                 text-overflow: clip;
-                /* Stage 2: readable FIO after utility declutter */
+                /* Short brand «ИТ Решения», one line */
                 font-size: clamp(0.98rem, 0.92rem + 0.2vw, 1.12rem) !important;
                 line-height: 1.15 !important;
                 letter-spacing: -0.015em;
@@ -122,7 +125,7 @@
         }
 }
 
-/* Mid desktop: full FIO without clip; slightly smaller type + tighter utility */
+/* Mid desktop: short brand stays one line; slightly tighter type + utility */
 @media (min-width: 1100px) and (max-width: 1360px) {
         .drslon-site-header .drslon-site-branding .wp-block-site-title {
                 font-size: clamp(0.95rem, 0.9rem + 0.2vw, 1.08rem) !important;
@@ -1126,7 +1129,7 @@ body:has(.drslon-main-navigation .wp-block-navigation__responsive-container.is-m
                 gap: 14px !important;
         }
 
-        /* Branding keeps full site title (incl. «Сергеевич») — utility flexes instead */
+        /* Branding keeps the short title «ИТ Решения» — utility flexes instead */
         .drslon-site-branding {
                 flex: 0 0 auto !important;
                 min-width: auto !important;
