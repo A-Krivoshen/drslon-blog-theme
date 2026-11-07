@@ -795,11 +795,6 @@ a.krv-source-cards__item > span:not(:first-child) {
 	opacity: 1 !important;
 }
 
-@media (min-width: 782px) {
-	.drslon-single-content > :where(p, ul, ol, blockquote, h2, h3, h4) {
-		max-width: 66ch;
-	}
-}
 .drslon-single-content > .wp-block-heading {
 	margin-block-start: 1.9rem;
 }
