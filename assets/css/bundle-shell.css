@@ -25,6 +25,12 @@ Tags: blog, block-theme, full-site-editing, editor-style, technical
 /* >>> assets/css/components/01-base.css */
 /* DrSlon Blog — 01-base.css */
 
+/* Keep the scrollbar lane reserved so short and long pages do not shove the header. */
+html {
+	overflow-y: scroll;
+	scrollbar-gutter: stable;
+}
+
 .drslon-site-header {
 	position: relative;
 	z-index: 20;
@@ -2249,7 +2255,9 @@ body:has(.drslon-main-navigation .wp-block-navigation__responsive-container.is-m
 	}
 
 	.wp-site-blocks > main {
-		margin-top: var(--drslon-header-height, 72px) !important;
+		/* 89px = 64px mark + 12px + 12px padding + 1px border.
+		   Fallback must match the painted header, or the page drops when sticky-header.js measures it. */
+		margin-top: var(--drslon-header-height, 89px) !important;
 	}
 }
 
@@ -2257,7 +2265,6 @@ body:has(.drslon-main-navigation .wp-block-navigation__responsive-container.is-m
 	position: relative;
 	z-index: 200;
 	transition:
-		padding 0.2s ease,
 		box-shadow 0.2s ease,
 		background-color 0.2s ease;
 }
@@ -2327,14 +2334,14 @@ body:has(.drslon-main-navigation .wp-block-navigation__responsive-container.is-m
 	.drslon-home-layout > .wp-block-column:last-child,
 	.drslon-archive-layout > .wp-block-column:last-child,
 	.drslon-single-layout > .wp-block-column:last-child {
-		top: calc(var(--drslon-header-height, 72px) + 12px) !important;
+		top: calc(var(--drslon-header-height, 89px) + 12px) !important;
 	}
 
 	body.admin-bar .drslon-blog-layout > .wp-block-column:last-child,
 	body.admin-bar .drslon-home-layout > .wp-block-column:last-child,
 	body.admin-bar .drslon-archive-layout > .wp-block-column:last-child,
 	body.admin-bar .drslon-single-layout > .wp-block-column:last-child {
-		top: calc(32px + var(--drslon-header-height, 72px) + 12px) !important;
+		top: calc(32px + var(--drslon-header-height, 89px) + 12px) !important;
 	}
 }
 
@@ -3342,6 +3349,19 @@ html[data-theme="dark"] .drslon-main-navigation .wp-block-navigation__responsive
 }
 
 
+/* RU | EN stay the same width when the current item is bold, so the row does not shift. */
+@media (min-width: 1100px) {
+	.drslon-main-navigation .drslon-lang > .wp-block-navigation-item__content {
+		flex: 0 0 2.25rem;
+		width: 2.25rem;
+		justify-content: center;
+		padding-left: 0;
+		padding-right: 0;
+		font-weight: 650 !important;
+		box-shadow: none !important;
+	}
+}
+
 /* >>> assets/css/components/10-theme-dark.css */
 /**
  * Theme toggle UI + dark mode for DrSlon Blog shell.
@@ -3387,14 +3407,27 @@ html[data-theme="dark"] .drslon-main-navigation .wp-block-navigation__responsive
 }
 
 .krv-theme-btn__icon {
-  display: block;
-  width: 1.15em;
-  height: 1.15em;
-  line-height: 1.15em;
-  text-align: center;
-  font-size: 1em;
-  /* prevent ☀/☾ advance-width differences from shifting siblings */
-  font-variant-numeric: tabular-nums;
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  overflow: hidden;
+  /* Text glyph is swapped by krv-theme.js after first paint (☽ → ☾/☀).
+     Hide it. The visible mark comes from ::before and follows data-theme,
+     which the head script sets before paint. */
+  font-size: 0;
+  line-height: 0;
+}
+
+.krv-theme-btn__icon::before {
+  content: "\263E";
+  font-size: 18px;
+  line-height: 1;
+  color: inherit;
+}
+
+html[data-theme="dark"] .krv-theme-btn__icon::before {
+  content: "\2600";
 }
 
 .krv-theme-btn:hover {

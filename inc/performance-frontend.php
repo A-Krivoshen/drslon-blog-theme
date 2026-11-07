@@ -70,6 +70,9 @@ function drslon_perf_needs_fontawesome( string $content ): bool {
 	if ( is_singular() && has_shortcode( $content, 'krv_consultations' ) ) {
 		return true;
 	}
+	if ( is_singular() && has_shortcode( $content, 'krv_en_consult' ) ) {
+		return true;
+	}
 
 	if ( $content === '' ) {
 		return false;

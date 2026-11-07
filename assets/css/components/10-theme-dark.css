@@ -42,14 +42,27 @@
 }
 
 .krv-theme-btn__icon {
-  display: block;
-  width: 1.15em;
-  height: 1.15em;
-  line-height: 1.15em;
-  text-align: center;
-  font-size: 1em;
-  /* prevent ☀/☾ advance-width differences from shifting siblings */
-  font-variant-numeric: tabular-nums;
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  overflow: hidden;
+  /* Text glyph is swapped by krv-theme.js after first paint (☽ → ☾/☀).
+     Hide it. The visible mark comes from ::before and follows data-theme,
+     which the head script sets before paint. */
+  font-size: 0;
+  line-height: 0;
+}
+
+.krv-theme-btn__icon::before {
+  content: "\263E";
+  font-size: 18px;
+  line-height: 1;
+  color: inherit;
+}
+
+html[data-theme="dark"] .krv-theme-btn__icon::before {
+  content: "\2600";
 }
 
 .krv-theme-btn:hover {

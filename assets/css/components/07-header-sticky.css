@@ -92,7 +92,9 @@
 	}
 
 	.wp-site-blocks > main {
-		margin-top: var(--drslon-header-height, 72px) !important;
+		/* 89px = 64px mark + 12px + 12px padding + 1px border.
+		   Fallback must match the painted header, or the page drops when sticky-header.js measures it. */
+		margin-top: var(--drslon-header-height, 89px) !important;
 	}
 }
 
@@ -100,7 +102,6 @@
 	position: relative;
 	z-index: 200;
 	transition:
-		padding 0.2s ease,
 		box-shadow 0.2s ease,
 		background-color 0.2s ease;
 }
@@ -170,14 +171,14 @@
 	.drslon-home-layout > .wp-block-column:last-child,
 	.drslon-archive-layout > .wp-block-column:last-child,
 	.drslon-single-layout > .wp-block-column:last-child {
-		top: calc(var(--drslon-header-height, 72px) + 12px) !important;
+		top: calc(var(--drslon-header-height, 89px) + 12px) !important;
 	}
 
 	body.admin-bar .drslon-blog-layout > .wp-block-column:last-child,
 	body.admin-bar .drslon-home-layout > .wp-block-column:last-child,
 	body.admin-bar .drslon-archive-layout > .wp-block-column:last-child,
 	body.admin-bar .drslon-single-layout > .wp-block-column:last-child {
-		top: calc(32px + var(--drslon-header-height, 72px) + 12px) !important;
+		top: calc(32px + var(--drslon-header-height, 89px) + 12px) !important;
 	}
 }
 
@@ -1182,4 +1183,17 @@ html[data-theme="dark"] .drslon-main-navigation .wp-block-navigation__responsive
 	max-width: 52px !important;
 	height: auto !important;
 	max-height: 64px !important;
+}
+
+/* RU | EN stay the same width when the current item is bold, so the row does not shift. */
+@media (min-width: 1100px) {
+	.drslon-main-navigation .drslon-lang > .wp-block-navigation-item__content {
+		flex: 0 0 2.25rem;
+		width: 2.25rem;
+		justify-content: center;
+		padding-left: 0;
+		padding-right: 0;
+		font-weight: 650 !important;
+		box-shadow: none !important;
+	}
 }

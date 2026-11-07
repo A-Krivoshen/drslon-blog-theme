@@ -1,5 +1,11 @@
 /* DrSlon Blog — 01-base.css */
 
+/* Keep the scrollbar lane reserved so short and long pages do not shove the header. */
+html {
+	overflow-y: scroll;
+	scrollbar-gutter: stable;
+}
+
 .drslon-site-header {
 	position: relative;
 	z-index: 20;
