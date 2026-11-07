@@ -1,9 +1,18 @@
 /* DrSlon Blog — 01-base.css */
 
-/* Keep the scrollbar lane reserved so short and long pages do not shove the header. */
+/* Desktop: keep the scrollbar lane reserved so short and long pages do not shove the fixed header.
+   Phones and tablets use an in-flow header and overlay scrollbars. A stable gutter there
+   leaves a blank strip on the right, so the bar sits left of the screen. */
 html {
 	overflow-y: scroll;
 	scrollbar-gutter: stable;
+}
+
+@media (max-width: 1099px) {
+	html {
+		overflow-y: auto;
+		scrollbar-gutter: auto;
+	}
 }
 
 .drslon-site-header {
