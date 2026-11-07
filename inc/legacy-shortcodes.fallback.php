@@ -263,11 +263,7 @@ function drslon_blog_sections_shortcode(): string {
                     <?php endwhile; ?>
                 </div>
 
-                <div class="drslon-blog-sections__footer">
-                    <a class="drslon-blog-sections__more" href="<?php echo esc_url( get_category_link( $category->term_id ) ); ?>">
-                        <?php esc_html_e( 'Смотреть все', 'drslon-blog' ); ?>
-                    </a>
-                </div>
+                <div class="drslon-blog-sections__footer"><a class="drslon-blog-sections__more" href="<?php echo esc_url( get_category_link( $category->term_id ) ); ?>"><?php esc_html_e( 'Смотреть все', 'drslon-blog' ); ?></a></div>
             </section>
             <?php wp_reset_postdata(); ?>
         <?php endforeach; ?>

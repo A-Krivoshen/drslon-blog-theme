@@ -210,6 +210,10 @@
     white-space: nowrap !important;
 }
 
+.drslon-blog-sections__more br {
+    display: none !important;
+}
+
 .drslon-blog-sections__more:hover {
     transform: none !important;
 }
