@@ -232,7 +232,21 @@
 		display: none;
 	}
 
+	.drslon-site-footer .drslon-footer-col,
+	.drslon-site-footer .drslon-footer-nav,
+	.drslon-site-footer .drslon-footer-nav__list,
+	.drslon-site-footer .wp-block-site-logo,
+	.drslon-footer-connect,
+	.drslon-footer-connect__label {
+		text-align: center;
+	}
+
+	.drslon-site-footer .wp-block-site-logo a {
+		display: inline-block;
+	}
+
 	.drslon-footer-connect__row {
+		justify-content: center;
 		gap: 12px;
 	}
 }
