@@ -107,6 +107,20 @@
     })(window, document, "_top100q");
   }
 
+  function loadContext() {
+    var marker = "/ads/system/context.js";
+    var scripts = document.scripts;
+    for (var i = 0; i < scripts.length; i++) {
+      if (scripts[i].src && scripts[i].src.indexOf(marker) !== -1) {
+        return;
+      }
+    }
+    var node = document.createElement("script");
+    node.async = true;
+    node.src = "https://yandex.ru/ads/system/context.js";
+    document.head.appendChild(node);
+  }
+
   function loadAnalytics() {
     if (analyticsLoaded) {
       return;
@@ -114,6 +128,7 @@
     analyticsLoaded = true;
     loadMetrika();
     loadTop100();
+    loadContext();
   }
 
   function syncBarSpace() {
@@ -139,11 +154,18 @@
     root().classList.add("krv-cookie-chosen");
     closeDialog();
     syncBarSpace();
+    window.krvConsent = {
+      analytics: value === "a",
+      ads: value !== "n",
+      necessary: true
+    };
+    window.dispatchEvent(new Event("krv-consent-change"));
     if (value === "a") {
       loadAnalytics();
+      window.dispatchEvent(new Event("krv-ads-ready"));
       return;
     }
-    if (reloadIfRevoked && previous === "a") {
+    if (reloadIfRevoked && previous !== "n") {
       location.reload();
     }
   }
@@ -224,6 +246,7 @@
       }
     } else {
       root().classList.remove("krv-cookie-chosen");
+      loadContext();
     }
     document.addEventListener("click", onClick);
     document.addEventListener("keydown", onKey);
