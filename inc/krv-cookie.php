@@ -2,8 +2,8 @@
 /**
  * Cookie notice for krivoshein.site.
  *
- * Necessary cookies (theme, this choice) stay on. Yandex Metrika and
- * Rambler Top100 start only after an explicit analytics choice.
+ * Necessary cookies (theme, this choice) stay on. Yandex Metrika starts
+ * only after an explicit analytics choice. Recommendations are independent.
  * Replaces the Moove GDPR Cookie Compliance plugin.
  *
  * @package drslon-blog-theme
@@ -35,25 +35,60 @@ function drslon_krv_cookie_head(): void {
 	echo <<<'JS'
 <script id="drslon-krv-cookie-head">
 (function(){
-  function get(n){
+  /* Keep decoding and legacy precedence aligned with krv-cookie.js. */
+  function values(n){
+    var out=[];
     try{
-      var m=document.cookie.match(new RegExp("(?:^|;\\s*)"+n+"=([^;]*)"));
-      return m?decodeURIComponent(m[1]):"";
-    }catch(e){return "";}
+      var parts=document.cookie.split(";");
+      for(var i=0;i<parts.length;i++){
+        var c=parts[i].replace(/^\s+/,"");
+        if(c.indexOf(n+"=")!==0)continue;
+        try{out.push(decodeURIComponent(c.slice(n.length+1)));}catch(e){}
+      }
+    }catch(e){}
+    return out;
   }
-  var v=get("krv_consent");
-  if(v!=="a"&&v!=="n"){
-    var legacy=get("moove_gdpr_popup");
-    if(legacy){
+  function flag(v){
+    if(v===1||v==="1"||v===true)return true;
+    if(v===0||v==="0"||v===false)return false;
+    return null;
+  }
+  function choice(a,d){return a?(d?"a":"m"):(d?"d":"n");}
+  function restrict(list){
+    var a=true,d=true;
+    for(var i=0;i<list.length;i++){
+      a=a&&(list[i]==="a"||list[i]==="m");
+      d=d&&(list[i]!=="n"&&list[i]!=="m");
+    }
+    return choice(a,d);
+  }
+  var raw=values("krv_consent"),current=[],legacy=[];
+  for(var i=0;i<raw.length;i++){
+    var v=raw[i];
+    if(/^[anmd]$/.test(v))current.push(v);
+    else if(v==="all"||v==="necessary")legacy.push(v==="all"?"a":"n");
+    else{
       try{
-        var d=JSON.parse(legacy);
-        if(d&&(d.thirdparty==="1"||d.thirdparty===1))v="a";
-        else if(d&&(d.strict==="1"||d.strict===1||d.thirdparty==="0"||d.thirdparty===0))v="n";
+        var data=JSON.parse(v);
+        if(!data||typeof data!=="object")continue;
+        var a=flag(data.a),d=flag(data.d);
+        if(a!==null&&d!==null)legacy.push(choice(a,d));
       }catch(e){}
     }
   }
-  window.krvConsent={analytics:v==="a",ads:v!=="n",necessary:true};
-  if(v==="a"||v==="n")document.documentElement.classList.add("krv-cookie-chosen");
+  if(!current.length&&!legacy.length){
+    raw=values("moove_gdpr_popup");
+    for(var j=0;j<raw.length;j++){
+      try{
+        var data=JSON.parse(raw[j]);
+        if(data&&flag(data.thirdparty)===true)legacy.push("a");
+        else if(data&&(flag(data.thirdparty)===false||flag(data.strict)===true))legacy.push("n");
+      }catch(e){}
+    }
+  }
+  var v=current.length?restrict(current):(legacy.length?restrict(legacy):"");
+  window.krvConsent={analytics:v==="a"||v==="m",ads:v!=="n"&&v!=="m",necessary:true};
+  if(v)document.documentElement.classList.add("krv-cookie-chosen");
 })();
 </script>
 JS;
@@ -74,7 +109,7 @@ function drslon_krv_cookie_footer(): void {
 <aside class="krv-cookie" id="krv-cookie" aria-label="Уведомление о cookie">
 	<div class="krv-cookie__panel">
 		<p class="krv-cookie__title" id="krv-cookie-title">Файлы cookie</p>
-		<p class="krv-cookie__text">Нужные cookie помнят тему оформления. Яндекс Метрика и Rambler Top100 включаются только с вашего согласия. Блок рекомендаций показывается сразу, его можно отключить кнопкой «Только нужные». Подробности в <a href="<?php echo esc_url( $policy ); ?>">политике ПДн и cookie</a>.</p>
+		<p class="krv-cookie__text">Нужные cookie помнят тему оформления. Яндекс.Метрика включается только с вашего согласия. Рекомендации РСЯ показываются сразу, их можно отключить кнопкой «Только нужные» или в настройках. Подробности в <a href="<?php echo esc_url( $policy ); ?>">политике ПДн и cookie</a>.</p>
 		<div class="krv-cookie__actions">
 			<button type="button" class="krv-cookie__btn krv-cookie__btn--primary" data-krv-consent="a">Принять</button>
 			<button type="button" class="krv-cookie__btn" data-krv-consent="n">Только нужные</button>
@@ -97,7 +132,14 @@ function drslon_krv_cookie_footer(): void {
 			<input type="checkbox" id="krv-cookie-analytics">
 			<span>
 				<strong>Аналитика</strong>
-				<span>Яндекс Метрика и Rambler Top100 без запуска до согласия. Если снять галочку, скроется и блок рекомендаций.</span>
+				<span>Яндекс.Метрика. Статистика посещений, без запуска до согласия.</span>
+			</span>
+		</label>
+		<label class="krv-cookie-choice" for="krv-cookie-ads">
+			<input type="checkbox" id="krv-cookie-ads">
+			<span>
+				<strong>Рекомендации РСЯ</strong>
+				<span>Рекламная сеть Яндекса. Можно отключить независимо от аналитики.</span>
 			</span>
 		</label>
 		<div class="krv-cookie__actions">
