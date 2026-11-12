@@ -105,6 +105,8 @@ stubs and serves the actual JavaScript/CSS. Its DNS-shaped origin is forwarded
 to a local HTTP server only within isolated test contexts, allowing real
 parent-domain/host-only duplicate-cookie tests. If a local Yandex Browser binary
 exists, it is tested too; `CONSENT_YANDEX_EXECUTABLE` overrides its path.
+Each Yandex scenario gets a fresh browser process because the external binary
+is not version-pinned to Playwright like its bundled Chromium build.
 To test the deployed integration:
 
 ```sh
@@ -120,7 +122,9 @@ with blocked deferred JavaScript, including historical preferences;
 loader deduplication; legacy migration and conflicting Domain/Path scopes;
 invalid encoding; cookie reset; blocked writes; mobile viewport/theme toggle;
 Enter acceptance and preservation of normal Enter behavior in forms.
-Tracking responses are stubbed to avoid generating analytics visits.
+Tracking responses are stubbed to avoid generating analytics visits. The
+unrelated remote chat widget is also stubbed in this component suite: its
+deferred script can stall DOMContentLoaded despite consent already working.
 This checks consent gates and script insertion, not successful ad fill.
 
 Chromium is required to perform a genuine back/forward-cache restore.
