@@ -18,6 +18,7 @@ const live = process.env.CONSENT_TEST_URL;
 const paths = ['/', '/blog/', '/sait-snova-otkryt-kopii-na-github/', '/category/devops/', '/konsultatsii/', '/politika-v-otnoshenii-obrabotki-personalnyh-dannyh/'];
 let server;
 let base;
+let fixtureOrigin;
 
 before(async () => {
   if (live) {
@@ -61,27 +62,44 @@ before(async () => {
       <script defer src="/theme.js"></script></body></html>`);
   });
   await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
-  base = `http://127.0.0.1:${server.address().port}`;
+  fixtureOrigin = `http://127.0.0.1:${server.address().port}`;
+  // A real DNS-shaped origin is needed to reproduce parent-domain/host-only duplicates.
+  // Requests are forwarded only inside these isolated browser contexts.
+  base = `http://cookie.krivoshein.site:${server.address().port}`;
 });
 
 after(async () => {
   if (server) await new Promise(resolve => server.close(resolve));
 });
 
-for (const [name, type] of Object.entries({ chromium, firefox })) {
+const yandexExecutable = process.env.CONSENT_YANDEX_EXECUTABLE || '/opt/yandex/browser/yandex_browser';
+const browsers = { chromium, firefox };
+if (fs.existsSync(yandexExecutable)) browsers.yandex = chromium;
+
+for (const [name, type] of Object.entries(browsers)) {
   describe(name, { concurrency: false }, () => {
     let browser;
     let context;
     let errors;
+    let removedCounterRequests;
     const launchOptions = name === 'chromium'
       ? { channel: 'chromium', ignoreDefaultArgs: ['--disable-back-forward-cache'] }
-      : {};
+      : name === 'yandex' ? { executablePath: yandexExecutable, ignoreDefaultArgs: ['--disable-back-forward-cache'] } : {};
 
     async function prepare(ctx) {
+      if (fixtureOrigin) {
+        await ctx.route(base + '/**', async route => {
+          const response = await route.fetch({ url: route.request().url().replace(base, fixtureOrigin) });
+          await route.fulfill({ response });
+        });
+      }
       // Preserve the consent gates and request counts; do not execute tracking.
       await ctx.route(/^https:\/\/(?:mc\.yandex\.ru|st\.top100\.ru|yandex\.ru)\//, route =>
         route.fulfill({ contentType: 'text/javascript', body: '' }));
       ctx.on('page', page => page.on('pageerror', error => errors.push(error.message)));
+      ctx.on('request', request => {
+        if (/top100|rambler/i.test(request.url())) removedCounterRequests.push(request.url());
+      });
     }
 
     async function visit(page, pathname = '/') {
@@ -110,24 +128,28 @@ for (const [name, type] of Object.entries({ chromium, firefox })) {
       assert.equal((await context.cookies(base)).find(c => c.name === 'krv_consent').value, value);
     }
 
-    async function cookie(value, cookieName = 'krv_consent') {
-      await context.addCookies([{
+    async function cookie(value, cookieName = 'krv_consent', scope = {}) {
+      const stored = {
         name: cookieName, value, url: base + '/',
         expires: Math.floor(Date.now() / 1000) + 31536000,
-        secure: base.startsWith('https:'), sameSite: 'Lax'
-      }]);
+        secure: base.startsWith('https:'), sameSite: 'Lax', ...scope
+      };
+      if (scope.domain) delete stored.url;
+      await context.addCookies([stored]);
     }
 
     before(async () => { browser = await type.launch({ headless: true, ...launchOptions }); });
     after(async () => { await browser.close(); });
     beforeEach(async () => {
       errors = [];
+      removedCounterRequests = [];
       context = await browser.newContext();
       await prepare(context);
     });
     afterEach(async () => {
       await context.close();
       assert.deepEqual(errors, [], 'No uncaught JavaScript exceptions');
+      assert.deepEqual(removedCounterRequests, [], 'Removed counter must never be requested');
     });
 
     it('shows the banner to a new visitor; analytics waits for consent', async () => {
@@ -203,7 +225,7 @@ for (const [name, type] of Object.entries({ chromium, firefox })) {
         assert.equal(restored, true, 'Document really restored, not reloaded');
         assert.equal(await page.evaluate(() => window.__consentPageShows.includes(true)), true);
       } else {
-        t.diagnostic('Firefox automation reloaded history entry; additionally exercising persisted pageshow explicitly.');
+        t.diagnostic(`${name} automation reloaded history entry; additionally exercising persisted pageshow explicitly.`);
         await page.evaluate(() => {
           document.documentElement.classList.remove('krv-cookie-chosen');
           dispatchEvent(new PageTransitionEvent('pageshow', { persisted: true }));
@@ -226,6 +248,7 @@ for (const [name, type] of Object.entries({ chromium, firefox })) {
       assert.equal(await original.evaluate(() => window.krvConsent.analytics), true);
       await other.locator('a[href="#krv-cookie-settings"]').first().click();
       await other.locator('#krv-cookie-analytics').uncheck();
+      await other.locator('#krv-cookie-ads').uncheck();
       await Promise.all([
         other.waitForNavigation({ waitUntil: 'domcontentloaded' }),
         other.locator('[data-krv-consent="save"]').click()
@@ -255,12 +278,14 @@ for (const [name, type] of Object.entries({ chromium, firefox })) {
       assert.equal(await link.evaluate(el => el === document.activeElement), true);
       await link.click();
       await page.locator('#krv-cookie-analytics').check();
+      await page.locator('#krv-cookie-ads').check();
       await page.locator('[data-krv-consent="save"]').click();
       await hidden(page);
       assert.equal((await context.cookies(base)).find(c => c.name === 'krv_consent').value, 'a');
       await page.reload({ waitUntil: 'domcontentloaded' });
       await link.click();
       await page.locator('#krv-cookie-analytics').uncheck();
+      await page.locator('#krv-cookie-ads').uncheck();
       await Promise.all([
         page.waitForNavigation({ waitUntil: 'domcontentloaded' }),
         page.locator('[data-krv-consent="save"]').click()
@@ -276,7 +301,7 @@ for (const [name, type] of Object.entries({ chromium, firefox })) {
       const gate = new Promise(resolve => { release = resolve; });
       await context.route(/\/(?:krv-cookie|cookie)\.js(?:\?|$)/, async route => {
         await gate;
-        await route.continue();
+        await route.fallback();
       });
       const page = await context.newPage();
       await page.addInitScript(() => {
@@ -309,11 +334,152 @@ for (const [name, type] of Object.entries({ chromium, firefox })) {
           document.dispatchEvent(new Event('DOMContentLoaded'));
         }
       });
-      for (const marker of ['metrika/tag.js', 'top100/top100.js', 'ads/system/context.js']) {
+      for (const marker of ['metrika/tag.js', 'ads/system/context.js']) {
         assert.equal(await page.locator(`script[src*="${marker}"]`).count(), 1, marker);
       }
       assert.deepEqual(await page.evaluate(() => window.__consentEvents), []);
     });
+
+    it('accepts with Enter on the initially focused button, without a mouse', async () => {
+      const page = await visit(await context.newPage());
+      assert.equal(await page.locator('#krv-cookie [data-krv-consent="a"]').evaluate(el => el === document.activeElement), true);
+      await page.keyboard.press('Enter');
+      await hidden(page);
+      assert.equal((await context.cookies(base)).find(c => c.name === 'krv_consent').value, 'a');
+      await visit(page, '/blog/');
+      await hidden(page);
+    });
+
+    it('does not capture Enter in forms or turn it into consent', async () => {
+      const page = await visit(await context.newPage());
+      await page.evaluate(() => {
+        const form = document.createElement('form');
+        form.innerHTML = '<input name="search" aria-label="Search test">';
+        form.addEventListener('submit', event => { event.preventDefault(); window.__searchSubmitted = true; });
+        document.body.prepend(form);
+        form.querySelector('input').focus();
+      });
+      await page.keyboard.press('Enter');
+      assert.equal(await page.evaluate(() => window.__searchSubmitted), true);
+      assert.equal(await page.locator('#krv-cookie').isVisible(), true);
+      assert.equal((await context.cookies(base)).some(c => c.name === 'krv_consent'), false);
+    });
+
+    it('does not steal focus if a visitor starts typing before deferred JavaScript loads', async () => {
+      let release;
+      const gate = new Promise(resolve => { release = resolve; });
+      await context.route(/\/(?:krv-cookie|cookie)\.js(?:\?|$)/, async route => {
+        await gate;
+        await route.fallback();
+      });
+      const page = await context.newPage();
+      try {
+        await page.goto(base + '/', { waitUntil: 'commit' });
+        await page.waitForFunction(() => !!document.getElementById('krv-cookie'));
+        await page.evaluate(() => {
+          const input = document.createElement('input');
+          input.id = 'typing-before-consent';
+          document.body.prepend(input);
+          input.focus();
+        });
+      } finally { release(); }
+      await page.waitForLoadState('domcontentloaded');
+      assert.equal(await page.locator('#typing-before-consent').evaluate(el => el === document.activeElement), true);
+    });
+
+    for (const [legacy, expected, analytics, ads] of [
+      ['all', 'a', true, true],
+      ['necessary', 'n', false, false],
+      ['{"a":1,"d":1}', 'a', true, true],
+      ['{"a":0,"d":0}', 'n', false, false],
+      ['{"a":1,"d":0}', 'm', true, false],
+      ['{"a":0,"d":1}', 'd', false, true]
+    ]) {
+      it(`migrates historical parent-domain ${legacy} without losing either preference`, async () => {
+        await cookie(encodeURIComponent(legacy), 'krv_consent', { domain: '.krivoshein.site', path: '/' });
+        let release;
+        const gate = new Promise(resolve => { release = resolve; });
+        await context.route(/\/(?:krv-cookie|cookie)\.js(?:\?|$)/, async route => {
+          await gate;
+          await route.fallback();
+        });
+        const page = await context.newPage();
+        try {
+          await page.goto(base + '/', { waitUntil: 'commit' });
+          await hidden(page);
+          assert.deepEqual(await page.evaluate(() => window.krvConsent), { analytics, ads, necessary: true });
+        } finally { release(); }
+        await page.waitForLoadState('domcontentloaded');
+        await hidden(page);
+        assert.deepEqual(await page.evaluate(() => window.krvConsent), { analytics, ads, necessary: true });
+        const saved = (await context.cookies(base)).filter(c => c.name === 'krv_consent');
+        assert.equal(saved.length, 1);
+        assert.equal(saved[0].value, expected);
+        assert.equal(saved[0].domain, new URL(base).hostname);
+        await visit(page, '/blog/');
+        await hidden(page);
+        assert.deepEqual(await page.evaluate(() => window.krvConsent), { analytics, ads, necessary: true });
+      });
+    }
+
+    it('keeps a newer compact refusal over old domain consent and removes only the duplicate', async () => {
+      await cookie('all', 'krv_consent', { domain: '.krivoshein.site', path: '/' });
+      await cookie('n');
+      await cookie('keep', 'unrelated_cookie', { domain: '.krivoshein.site', path: '/' });
+      const page = await visit(await context.newPage());
+      await hidden(page);
+      assert.deepEqual(await page.evaluate(() => window.krvConsent), { analytics: false, ads: false, necessary: true });
+      const saved = await context.cookies(base);
+      assert.equal(saved.filter(c => c.name === 'krv_consent').length, 1);
+      assert.equal(saved.find(c => c.name === 'unrelated_cookie').value, 'keep');
+    });
+
+    it('normalizes conflicting compact scopes conservatively and permits an explicit new choice', async () => {
+      await cookie('n', 'krv_consent', { domain: '.krivoshein.site', path: '/' });
+      await cookie('a');
+      const page = await visit(await context.newPage());
+      await hidden(page);
+      assert.equal(await page.evaluate(() => window.krvConsent.analytics), false);
+      await page.locator('a[href="#krv-cookie-settings"]').first().click();
+      await page.locator('#krv-cookie-settings [data-krv-consent="a"]').click();
+      assert.equal(await page.evaluate(() => window.krvConsent.analytics), true);
+      assert.equal((await context.cookies(base)).filter(c => c.name === 'krv_consent').length, 1);
+    });
+
+    it('removes an invalid shadowing domain cookie when a choice is saved', async () => {
+      await cookie('true', 'krv_consent', { domain: '.krivoshein.site', path: '/' });
+      const page = await visit(await context.newPage());
+      await choose(page, 'a');
+      assert.equal((await context.cookies(base)).filter(c => c.name === 'krv_consent').length, 1);
+      await visit(page, '/blog/');
+      await hidden(page);
+    });
+
+    it('normalizes a shadowing subpath cookie and preserves the newer root preference', async () => {
+      await cookie('necessary', 'krv_consent', { domain: '.krivoshein.site', path: '/blog/' });
+      await cookie('a');
+      const page = await visit(await context.newPage(), '/blog/');
+      await hidden(page);
+      assert.equal(await page.evaluate(() => window.krvConsent.analytics), true);
+      assert.equal((await context.cookies(base + '/blog/')).filter(c => c.name === 'krv_consent').length, 1);
+    });
+
+    for (const [analytics, ads, expected] of [[true, false, 'm'], [false, true, 'd']]) {
+      it(`saves independent analytics=${analytics}, ads=${ads} settings`, async () => {
+        await cookie('n');
+        const page = await visit(await context.newPage());
+        await page.locator('a[href="#krv-cookie-settings"]').first().click();
+        await page.locator('#krv-cookie-analytics').setChecked(analytics);
+        await page.locator('#krv-cookie-ads').setChecked(ads);
+        await page.locator('[data-krv-consent="save"]').click();
+        await hidden(page);
+        assert.equal((await context.cookies(base)).find(c => c.name === 'krv_consent').value, expected);
+        await page.reload({ waitUntil: 'domcontentloaded' });
+        assert.deepEqual(await page.evaluate(() => window.krvConsent), { analytics, ads, necessary: true });
+        assert.equal(await page.locator('script[src*="metrika/tag.js"]').count(), analytics ? 1 : 0);
+        assert.equal(await page.locator('script[src*="ads/system/context.js"]').count(), ads ? 1 : 0);
+      });
+    }
 
     for (const [legacy, expected] of [
       [{ strict: '1', thirdparty: '1' }, 'a'],

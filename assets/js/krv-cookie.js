@@ -1,11 +1,10 @@
 /**
  * Cookie choice for krivoshein.site.
- * krv_consent=a analytics, krv_consent=n necessary only.
- * An old moove_gdpr_popup cookie is read once and copied over.
+ * krv_consent: a=all, n=necessary, m=metrics only, d=ads only.
+ * Historical domain cookies and Moove preferences are migrated without opting in.
  */
 (function () {
   var METRIKA_ID = 51907757;
-  var TOP100_ID = 7712953;
   var YEAR = 60 * 60 * 24 * 365;
   var analyticsLoaded = false;
   var contextLoaded = false;
@@ -29,43 +28,115 @@
     return document.getElementById("krv-cookie-analytics");
   }
 
-  function readRaw(name) {
+  function adsBox() {
+    return document.getElementById("krv-cookie-ads");
+  }
+
+  function readValues(name) {
+    var values = [];
     try {
-      var match = document.cookie.match(new RegExp("(?:^|;\\s*)" + name + "=([^;]*)"));
-      return match ? decodeURIComponent(match[1]) : "";
-    } catch (error) {
-      return "";
+      var cookies = document.cookie.split(";");
+      for (var i = 0; i < cookies.length; i++) {
+        var cookie = cookies[i].replace(/^\s+/, "");
+        if (cookie.indexOf(name + "=") !== 0) continue;
+        try { values.push(decodeURIComponent(cookie.slice(name.length + 1))); } catch (error) {}
+      }
+    } catch (error) {}
+    return values;
+  }
+
+  function allowsAnalytics(choice) {
+    return choice === "a" || choice === "m";
+  }
+
+  function allowsAds(choice) {
+    // Preserve the existing opt-out policy for recommendations before any choice.
+    return choice !== "n" && choice !== "m";
+  }
+
+  function choiceFromFlags(analytics, ads) {
+    return analytics ? (ads ? "a" : "m") : (ads ? "d" : "n");
+  }
+
+  function flag(value) {
+    if (value === 1 || value === "1" || value === true) return true;
+    if (value === 0 || value === "0" || value === false) return false;
+    return null;
+  }
+
+  function restrictChoices(choices) {
+    var analytics = true;
+    var ads = true;
+    for (var i = 0; i < choices.length; i++) {
+      analytics = analytics && allowsAnalytics(choices[i]);
+      ads = ads && allowsAds(choices[i]);
     }
+    return choiceFromFlags(analytics, ads);
   }
 
   function readConsent() {
-    var own = readRaw("krv_consent");
-    if (own === "a" || own === "n") {
-      return own;
-    }
-    var legacy = readRaw("moove_gdpr_popup");
-    if (!legacy) {
-      return "";
-    }
-    try {
-      var data = JSON.parse(legacy);
-      if (data && (data.thirdparty === "1" || data.thirdparty === 1)) {
-        return "a";
+    var values = readValues("krv_consent");
+    var current = [];
+    var legacy = [];
+    for (var i = 0; i < values.length; i++) {
+      var value = values[i];
+      if (/^[anmd]$/.test(value)) {
+        current.push(value);
+      } else if (value === "all" || value === "necessary") {
+        legacy.push(value === "all" ? "a" : "n");
+      } else {
+        try {
+          var data = JSON.parse(value);
+          if (!data || typeof data !== "object") continue;
+          var analytics = flag(data.a);
+          var ads = flag(data.d);
+          if (analytics !== null && ads !== null) legacy.push(choiceFromFlags(analytics, ads));
+        } catch (error) {}
       }
-      if (data && (data.strict === "1" || data.strict === 1 || data.thirdparty === "0" || data.thirdparty === 0)) {
-        return "n";
-      }
-    } catch (error) {
-      return "";
     }
-    return "";
+    // A later explicit compact choice overrides the older MU-plugin format.
+    // Conflicting compact duplicates are combined conservatively until normalized.
+    if (current.length) return restrictChoices(current);
+    if (legacy.length) return restrictChoices(legacy);
+    values = readValues("moove_gdpr_popup");
+    for (var j = 0; j < values.length; j++) {
+      try {
+        var moove = JSON.parse(values[j]);
+        if (moove && flag(moove.thirdparty) === true) legacy.push("a");
+        else if (moove && (flag(moove.thirdparty) === false || flag(moove.strict) === true)) legacy.push("n");
+      } catch (error) {}
+    }
+    return legacy.length ? restrictChoices(legacy) : "";
   }
 
   function writeConsent(value) {
+    if (!/^[anmd]$/.test(value)) return false;
     var secure = location.protocol === "https:" ? "; Secure" : "";
     try {
       document.cookie = "krv_consent=" + value + "; Path=/; Max-Age=" + YEAR + "; SameSite=Lax" + secure;
-      return readRaw("krv_consent") === value;
+      if (readValues("krv_consent").indexOf(value) === -1) return false;
+      // The previous MU-plugin used Domain=.krivoshein.site. A host-only write
+      // does not replace that cookie. Remove only same-name obsolete scopes.
+      var domains = [""];
+      if (location.hostname.indexOf(".") !== -1 && !/^[0-9.]+$/.test(location.hostname)) {
+        domains.push("; Domain=" + location.hostname);
+      }
+      if (/\.krivoshein\.site$/.test(location.hostname)) domains.push("; Domain=krivoshein.site");
+      var paths = ["/"];
+      var parts = location.pathname.split("/");
+      var path = "";
+      for (var i = 1; i < parts.length; i++) {
+        if (!parts[i]) continue;
+        path += "/" + parts[i];
+        paths.push(path, path + "/");
+      }
+      for (var p = 0; p < paths.length; p++) {
+        for (var d = 0; d < domains.length; d++) {
+          if (paths[p] === "/" && domains[d] === "") continue;
+          document.cookie = "krv_consent=; Path=" + paths[p] + domains[d] + "; Max-Age=0; SameSite=Lax" + secure;
+        }
+      }
+      return readConsent() === value;
     } catch (error) {
       return false;
     }
@@ -98,28 +169,6 @@
     });
   }
 
-  function loadTop100() {
-    (function (w, d, c) {
-      (w[c] = w[c] || []).push(function () {
-        try {
-          w.top100Counter = new w.top100({ project: TOP100_ID });
-        } catch (error) {}
-      });
-      var n = d.getElementsByTagName("script")[0];
-      var s = d.createElement("script");
-      var f = function () {
-        n.parentNode.insertBefore(s, n);
-      };
-      s.async = true;
-      s.src = (d.location.protocol === "https:" ? "https:" : "http:") + "//st.top100.ru/top100/top100.js";
-      if (w.opera == "[object Opera]") {
-        d.addEventListener("DOMContentLoaded", f, false);
-      } else {
-        f();
-      }
-    })(window, document, "_top100q");
-  }
-
   function loadContext() {
     contextLoaded = true;
     var marker = "/ads/system/context.js";
@@ -141,8 +190,6 @@
     }
     analyticsLoaded = true;
     loadMetrika();
-    loadTop100();
-    loadContext();
   }
 
   function syncBarSpace() {
@@ -176,36 +223,36 @@
     var choice = readConsent();
     // The head already published initial state; do not restart ad placements at boot.
     var changed = currentChoice !== null && currentChoice !== choice;
+    var adsWereAllowed = allowsAds(currentChoice);
     currentChoice = choice;
-    var chosen = choice === "a" || choice === "n";
-    if (chosen && readRaw("krv_consent") !== choice) {
+    var chosen = choice !== "";
+    var values = readValues("krv_consent");
+    if (chosen && (values.length !== 1 || values[0] !== choice)) {
       writeConsent(choice);
     }
     root().classList.toggle("krv-cookie-chosen", chosen);
     syncBarSpace();
     window.krvConsent = {
-      analytics: choice === "a",
-      // Recommendations retain the existing opt-out policy; "n" disables them.
-      ads: choice !== "n",
+      analytics: allowsAnalytics(choice),
+      ads: allowsAds(choice),
       necessary: true
     };
     if (changed) {
       window.dispatchEvent(new Event("krv-consent-change"));
     }
-    if (reloadIfRevoked && ((analyticsLoaded && choice !== "a") || (contextLoaded && choice === "n"))) {
+    if (reloadIfRevoked && ((analyticsLoaded && !allowsAnalytics(choice)) || (contextLoaded && !allowsAds(choice)))) {
       // Already executed third-party code cannot be unloaded safely in-place.
       location.reload();
       return;
     }
-    if (choice === "a") {
+    if (allowsAnalytics(choice)) {
       loadAnalytics();
-      if (changed) {
+    }
+    if (allowsAds(choice)) {
+      loadContext();
+      if (changed && !adsWereAllowed) {
         window.dispatchEvent(new Event("krv-ads-ready"));
       }
-      return;
-    }
-    if (!chosen) {
-      loadContext();
     }
   }
 
@@ -216,12 +263,14 @@
   function openSettings() {
     var node = dialog();
     var box = analyticsBox();
+    var ads = adsBox();
     if (!node) {
       return;
     }
     if (box) {
-      box.checked = readConsent() === "a";
+      box.checked = allowsAnalytics(readConsent());
     }
+    if (ads) ads.checked = allowsAds(readConsent());
     if (node.hidden) {
       settingsFocus = document.activeElement;
     }
@@ -270,7 +319,8 @@
     }
     if (action === "save") {
       var box = analyticsBox();
-      apply(box && box.checked ? "a" : "n", true);
+      var ads = adsBox();
+      apply(choiceFromFlags(box && box.checked, ads && ads.checked), true);
       return;
     }
     if (action === "a" || action === "n") {
@@ -313,6 +363,11 @@
       openSettings();
     }
     syncBarSpace();
+    // Native Enter activates the focused button; never capture Enter globally.
+    if (!readConsent() && !dialogOpen() && (document.activeElement === document.body || document.activeElement === root())) {
+      var accept = bar() && bar().querySelector('[data-krv-consent="a"]');
+      if (accept) accept.focus({ preventScroll: true });
+    }
   }
 
   if (document.readyState === "loading") {
