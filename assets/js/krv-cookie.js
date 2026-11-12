@@ -8,6 +8,10 @@
   var TOP100_ID = 7712953;
   var YEAR = 60 * 60 * 24 * 365;
   var analyticsLoaded = false;
+  var contextLoaded = false;
+  var currentChoice = null;
+  var started = false;
+  var settingsFocus = null;
 
   function root() {
     return document.documentElement;
@@ -26,8 +30,12 @@
   }
 
   function readRaw(name) {
-    var match = document.cookie.match(new RegExp("(?:^|;\\s*)" + name + "=([^;]*)"));
-    return match ? decodeURIComponent(match[1]) : "";
+    try {
+      var match = document.cookie.match(new RegExp("(?:^|;\\s*)" + name + "=([^;]*)"));
+      return match ? decodeURIComponent(match[1]) : "";
+    } catch (error) {
+      return "";
+    }
   }
 
   function readConsent() {
@@ -44,7 +52,7 @@
       if (data && (data.thirdparty === "1" || data.thirdparty === 1)) {
         return "a";
       }
-      if (data && (data.strict === "1" || data.strict === 1 || data.thirdparty === "0")) {
+      if (data && (data.strict === "1" || data.strict === 1 || data.thirdparty === "0" || data.thirdparty === 0)) {
         return "n";
       }
     } catch (error) {
@@ -55,7 +63,12 @@
 
   function writeConsent(value) {
     var secure = location.protocol === "https:" ? "; Secure" : "";
-    document.cookie = "krv_consent=" + value + "; Path=/; Max-Age=" + YEAR + "; SameSite=Lax" + secure;
+    try {
+      document.cookie = "krv_consent=" + value + "; Path=/; Max-Age=" + YEAR + "; SameSite=Lax" + secure;
+      return readRaw("krv_consent") === value;
+    } catch (error) {
+      return false;
+    }
   }
 
   function loadMetrika() {
@@ -108,6 +121,7 @@
   }
 
   function loadContext() {
+    contextLoaded = true;
     var marker = "/ads/system/context.js";
     var scripts = document.scripts;
     for (var i = 0; i < scripts.length; i++) {
@@ -149,25 +163,54 @@
   }
 
   function apply(value, reloadIfRevoked) {
-    var previous = readConsent();
-    writeConsent(value);
-    root().classList.add("krv-cookie-chosen");
-    closeDialog();
-    syncBarSpace();
-    window.krvConsent = {
-      analytics: value === "a",
-      ads: value !== "n",
-      necessary: true
-    };
-    window.dispatchEvent(new Event("krv-consent-change"));
-    if (value === "a") {
-      loadAnalytics();
-      window.dispatchEvent(new Event("krv-ads-ready"));
+    if (!writeConsent(value)) {
       return;
     }
-    if (reloadIfRevoked && previous !== "n") {
-      location.reload();
+    closeDialog();
+    syncConsent(reloadIfRevoked);
+  }
+
+  // A bfcache restore does not run DOMContentLoaded or the head bootstrap again.
+  // Cookies can also change in another tab while this document stays alive.
+  function syncConsent(reloadIfRevoked) {
+    var choice = readConsent();
+    // The head already published initial state; do not restart ad placements at boot.
+    var changed = currentChoice !== null && currentChoice !== choice;
+    currentChoice = choice;
+    var chosen = choice === "a" || choice === "n";
+    if (chosen && readRaw("krv_consent") !== choice) {
+      writeConsent(choice);
     }
+    root().classList.toggle("krv-cookie-chosen", chosen);
+    syncBarSpace();
+    window.krvConsent = {
+      analytics: choice === "a",
+      // Recommendations retain the existing opt-out policy; "n" disables them.
+      ads: choice !== "n",
+      necessary: true
+    };
+    if (changed) {
+      window.dispatchEvent(new Event("krv-consent-change"));
+    }
+    if (reloadIfRevoked && ((analyticsLoaded && choice !== "a") || (contextLoaded && choice === "n"))) {
+      // Already executed third-party code cannot be unloaded safely in-place.
+      location.reload();
+      return;
+    }
+    if (choice === "a") {
+      loadAnalytics();
+      if (changed) {
+        window.dispatchEvent(new Event("krv-ads-ready"));
+      }
+      return;
+    }
+    if (!chosen) {
+      loadContext();
+    }
+  }
+
+  function refreshConsent() {
+    syncConsent(true);
   }
 
   function openSettings() {
@@ -179,6 +222,9 @@
     if (box) {
       box.checked = readConsent() === "a";
     }
+    if (node.hidden) {
+      settingsFocus = document.activeElement;
+    }
     node.hidden = false;
     syncBarSpace();
     var focus = box || node.querySelector("button");
@@ -189,11 +235,15 @@
 
   function closeDialog() {
     var node = dialog();
+    var wasOpen = dialogOpen();
     if (node) {
       node.hidden = true;
     }
     if (location.hash === "#krv-cookie-settings") {
       history.replaceState(null, "", location.pathname + location.search);
+    }
+    if (wasOpen && settingsFocus && settingsFocus.isConnected) {
+      settingsFocus.focus();
     }
     syncBarSpace();
   }
@@ -232,25 +282,33 @@
     if (event.key === "Escape" && dialogOpen()) {
       closeDialog();
     }
+    if (event.key === "Tab" && dialogOpen()) {
+      var controls = dialog().querySelectorAll('button, input:not([disabled])');
+      var first = controls[0];
+      var last = controls[controls.length - 1];
+      if ((event.shiftKey && document.activeElement === first) || (!event.shiftKey && document.activeElement === last)) {
+        event.preventDefault();
+        (event.shiftKey ? last : first).focus();
+      }
+    }
   }
 
   function start() {
-    var choice = readConsent();
-    if (choice === "a" || choice === "n") {
-      if (readRaw("krv_consent") !== choice) {
-        writeConsent(choice);
-      }
-      root().classList.add("krv-cookie-chosen");
-      if (choice === "a") {
-        loadAnalytics();
-      }
-    } else {
-      root().classList.remove("krv-cookie-chosen");
-      loadContext();
+    if (started) {
+      return;
     }
+    started = true;
+    syncConsent(false);
     document.addEventListener("click", onClick);
     document.addEventListener("keydown", onKey);
     window.addEventListener("resize", syncBarSpace);
+    window.addEventListener("pageshow", refreshConsent);
+    window.addEventListener("focus", refreshConsent);
+    document.addEventListener("visibilitychange", function () {
+      if (!document.hidden) {
+        refreshConsent();
+      }
+    });
     if (location.hash === "#krv-cookie-settings") {
       openSettings();
     }
