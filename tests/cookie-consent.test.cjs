@@ -99,7 +99,13 @@ for (const [name, type] of Object.entries({ chromium, firefox })) {
     }
 
     async function choose(page, value) {
-      await page.locator(`#krv-cookie [data-krv-consent="${value}"]`).click();
+      const click = () => page.locator(`#krv-cookie [data-krv-consent="${value}"]`).click();
+      if (value === 'n') {
+        // The first refusal reloads the document to unload opt-out recommendations.
+        await Promise.all([page.waitForNavigation({ waitUntil: 'domcontentloaded' }), click()]);
+      } else {
+        await click();
+      }
       await hidden(page);
       assert.equal((await context.cookies(base)).find(c => c.name === 'krv_consent').value, value);
     }
@@ -220,10 +226,14 @@ for (const [name, type] of Object.entries({ chromium, firefox })) {
       assert.equal(await original.evaluate(() => window.krvConsent.analytics), true);
       await other.locator('a[href="#krv-cookie-settings"]').first().click();
       await other.locator('#krv-cookie-analytics').uncheck();
-      await other.locator('[data-krv-consent="save"]').click();
-      await other.waitForFunction(() => window.krvConsent.analytics === false);
+      await Promise.all([
+        other.waitForNavigation({ waitUntil: 'domcontentloaded' }),
+        other.locator('[data-krv-consent="save"]').click()
+      ]);
+      const reloaded = original.waitForNavigation({ waitUntil: 'domcontentloaded' });
       await original.bringToFront();
       await original.evaluate(() => dispatchEvent(new Event('focus'))).catch(() => {});
+      await reloaded;
       await original.waitForFunction(() => window.krvConsent.analytics === false);
       await hidden(original);
       const sources = await original.locator('script[src]').evaluateAll(nodes => nodes.map(n => n.src));
@@ -251,7 +261,10 @@ for (const [name, type] of Object.entries({ chromium, firefox })) {
       await page.reload({ waitUntil: 'domcontentloaded' });
       await link.click();
       await page.locator('#krv-cookie-analytics').uncheck();
-      await page.locator('[data-krv-consent="save"]').click();
+      await Promise.all([
+        page.waitForNavigation({ waitUntil: 'domcontentloaded' }),
+        page.locator('[data-krv-consent="save"]').click()
+      ]);
       await page.waitForFunction(() => window.krvConsent.analytics === false);
       await hidden(page);
       assert.equal((await context.cookies(base)).find(c => c.name === 'krv_consent').value, 'n');
