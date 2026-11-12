@@ -83,6 +83,25 @@ Chromium is required to perform a genuine back/forward-cache restore.
 Firefox automation may reload history entries instead; the test reports
 that limitation and additionally exercises a persisted `pageshow` explicitly.
 
+### Verification on 2026-11-12
+
+- All 38 tests passed both against the local fixture and against production,
+  using Chromium 158 and Firefox 159. Revocation assertions wait for the
+  replacement document, not just the old document's immediately updated flag.
+- Both persistent choices survived an actual browser-process restart.
+- A real Chromium bfcache restore passed after the production deployment.
+- Separate, unstubbed Chromium smoke testing received HTTP 200 for Metrika,
+  Top100 and Yandex context scripts, with no console errors or uncaught
+  exceptions. Revoking consent reloaded the page without those scripts.
+- All six checked page types returned HTTP 200, referenced the new cookie
+  script version, and included the new head bootstrap. Served optimized CSS
+  retained the cookie hiding rules.
+- No new PHP warnings/fatal errors appeared in the Nginx error log during
+  deployment checks. Active Moove GDPR plugin was not present.
+- Actual Firefox bfcache restoration and physical mobile/Safari devices were
+  not verified; Firefox history navigation, persisted-event handling and
+  mobile viewports in both automated browsers were verified.
+
 ## Deployment and cache scope
 
 Production uses SSH alias `beget`, source checkout
