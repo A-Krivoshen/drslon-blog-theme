@@ -2,7 +2,7 @@
  * Browser regressions. Requires PHP, Playwright and its Chromium/Firefox builds locally.
  * Run: node --test tests/cookie-consent.test.cjs
  * Live smoke: CONSENT_TEST_URL=https://krivoshein.site node --test tests/cookie-consent.test.cjs
- * Third-party scripts are stubbed: these tests never send analytics visits.
+ * Tracking and the unrelated chat widget are stubbed; no analytics visits are sent.
  */
 const assert = require('node:assert/strict');
 const { execFileSync } = require('node:child_process');
@@ -25,17 +25,20 @@ before(async () => {
     base = live.replace(/\/$/, '');
     return;
   }
-  // Render the real PHP bootstrap and dialog, without installing WordPress.
+  // Render the real PHP bootstrap, notice and dialog, without installing WordPress.
   const markup = JSON.parse(execFileSync('php', ['-r', `
     define('ABSPATH', __DIR__);
     function is_admin(){return false;} function is_feed(){return false;}
     function is_embed(){return false;} function wp_is_json_request(){return false;}
-    function add_action(...$args){} function home_url($p){return $p;}
+    function add_action(...$args){} function add_filter(...$args){}
+    function home_url($p){return $p;}
     function esc_url($p){return htmlspecialchars($p, ENT_QUOTES);}
     require 'inc/krv-cookie.php';
+    require 'inc/enqueue-assets.php';
     ob_start(); drslon_krv_cookie_head(); $head=ob_get_clean();
+    ob_start(); drslon_theme_fouc_script(); $fouc=ob_get_clean();
     ob_start(); drslon_krv_cookie_footer(); $footer=ob_get_clean();
-    echo json_encode(['head'=>$head, 'footer'=>$footer]);
+    echo json_encode(['head'=>$head, 'fouc'=>$fouc, 'footer'=>$footer]);
   `], { cwd: root, encoding: 'utf8' }));
   server = http.createServer((req, res) => {
     const pathname = new URL(req.url, 'http://localhost').pathname;
@@ -52,7 +55,7 @@ before(async () => {
       return;
     }
     res.setHeader('Content-Type', 'text/html; charset=utf-8');
-    res.end(`<!doctype html><html><head><meta charset="utf-8">${markup.head}
+    res.end(`<!doctype html><html><head><meta charset="utf-8">${markup.fouc}${markup.head}
       <link rel="stylesheet" href="/cookie.css"></head><body>
       <header class="drslon-header-utility"><button class="krv-theme-btn" type="button">Theme</button></header>
       <nav><a href="/">Home</a> <a href="/blog/">Blog</a></nav>
@@ -96,6 +99,10 @@ for (const [name, type] of Object.entries(browsers)) {
       // Preserve the consent gates and request counts; do not execute tracking.
       await ctx.route(/^https:\/\/(?:mc\.yandex\.ru|st\.top100\.ru|yandex\.ru)\//, route =>
         route.fulfill({ contentType: 'text/javascript', body: '' }));
+      // The remote deferred widget can stall DOMContentLoaded independently of
+      // consent. Keep the component suite independent of that service's latency.
+      await ctx.route('https://support.krivoshein.site/widget/krv-assistant.js*', route =>
+        route.fulfill({ contentType: 'text/javascript', body: '' }));
       ctx.on('page', page => page.on('pageerror', error => errors.push(error.message)));
       ctx.on('request', request => {
         if (/top100|rambler/i.test(request.url())) removedCounterRequests.push(request.url());
@@ -138,16 +145,22 @@ for (const [name, type] of Object.entries(browsers)) {
       await context.addCookies([stored]);
     }
 
-    before(async () => { browser = await type.launch({ headless: true, ...launchOptions }); });
-    after(async () => { await browser.close(); });
+    before(async () => {
+      if (name !== 'yandex') browser = await type.launch({ headless: true, ...launchOptions });
+    });
+    after(async () => { if (name !== 'yandex') await browser.close(); });
     beforeEach(async () => {
       errors = [];
       removedCounterRequests = [];
+      // Unlike bundled Chromium, the external Yandex executable is not pinned
+      // to Playwright's CDP version. Isolate its process as well as its context.
+      if (name === 'yandex') browser = await type.launch({ headless: true, ...launchOptions });
       context = await browser.newContext();
       await prepare(context);
     });
     afterEach(async () => {
       await context.close();
+      if (name === 'yandex') await browser.close();
       assert.deepEqual(errors, [], 'No uncaught JavaScript exceptions');
       assert.deepEqual(removedCounterRequests, [], 'Removed counter must never be requested');
     });
@@ -542,16 +555,81 @@ for (const [name, type] of Object.entries(browsers)) {
     it('keeps consent and the independent theme toggle working on a mobile viewport', async () => {
       const page = await context.newPage();
       await page.setViewportSize({ width: 390, height: 844 });
+      await page.clock.install({ time: '2026-11-13T23:00:00' });
       await visit(page);
       await choose(page, 'n');
-      const previous = await page.locator('html').getAttribute('data-theme');
+      assert.equal(await page.locator('html').getAttribute('data-theme'), 'dark');
       await page.locator('.drslon-header-utility .krv-theme-btn').first().click();
-      const selected = await page.locator('html').getAttribute('data-theme');
-      assert.notEqual(selected, previous);
+      assert.equal(await page.locator('html').getAttribute('data-theme'), 'light');
       await page.reload({ waitUntil: 'domcontentloaded' });
       await hidden(page);
-      assert.equal(await page.locator('html').getAttribute('data-theme'), selected);
+      assert.equal(await page.locator('html').getAttribute('data-theme'), 'light');
       assert.equal(await page.evaluate(() => localStorage.getItem('krv_consent')), null);
+    });
+
+    it('defaults to auto: theme follows the time of day before deferred scripts load', async () => {
+      for (const [time, expected] of [['2026-11-13T12:00:00', 'light'], ['2026-11-13T23:30:00', 'dark'], ['2026-11-13T06:59:00', 'dark'], ['2026-11-13T07:00:00', 'light']]) {
+        const page = await context.newPage();
+        await page.clock.install({ time });
+        await page.goto(base + '/', { waitUntil: 'commit' });
+        // The head bootstrap decides before the deferred theme script runs.
+        assert.equal(await page.evaluate(() => document.documentElement.getAttribute('data-theme')), expected, time);
+        await page.waitForLoadState('domcontentloaded');
+        assert.equal(await page.locator('html').getAttribute('data-theme'), expected, time);
+        assert.equal(await page.evaluate(() => localStorage.getItem('krv_theme')), null, time);
+        const label = await page.locator('.drslon-header-utility .krv-theme-btn').getAttribute('title');
+        assert.match(label, /авто/i, time);
+      }
+    });
+
+    it('cycles auto, light, dark and persists an explicit choice over the clock', async () => {
+      const page = await context.newPage();
+      await page.clock.install({ time: '2026-11-13T23:00:00' });
+      await visit(page);
+      const button = page.locator('.drslon-header-utility .krv-theme-btn').first();
+      assert.equal(await page.locator('html').getAttribute('data-theme'), 'dark');
+      assert.equal(await page.evaluate(() => localStorage.getItem('krv_theme')), null);
+
+      await button.click();
+      assert.equal(await page.locator('html').getAttribute('data-theme'), 'light');
+      assert.match(await button.getAttribute('title'), /светлая/i);
+      assert.equal(await page.evaluate(() => localStorage.getItem('krv_theme')), 'light');
+
+      await page.reload({ waitUntil: 'domcontentloaded' });
+      assert.equal(await page.locator('html').getAttribute('data-theme'), 'light');
+
+      await button.click();
+      assert.equal(await page.locator('html').getAttribute('data-theme'), 'dark');
+      assert.match(await button.getAttribute('title'), /тёмная/i);
+
+      await button.click();
+      assert.equal(await page.locator('html').getAttribute('data-theme'), 'dark');
+      assert.match(await button.getAttribute('title'), /авто/i);
+      assert.equal(await page.evaluate(() => localStorage.getItem('krv_theme')), 'auto');
+    });
+
+    it('switches automatically at the day/night boundary without a reload', async () => {
+      const page = await context.newPage();
+      await page.clock.install({ time: '2026-11-13T19:58:00' });
+      await visit(page);
+      assert.equal(await page.locator('html').getAttribute('data-theme'), 'light');
+      await page.clock.fastForward('05:00');
+      await page.waitForFunction(() => document.documentElement.getAttribute('data-theme') === 'dark');
+      assert.match(await page.locator('.drslon-header-utility .krv-theme-btn').first().getAttribute('title'), /авто/i);
+    });
+
+    it('respects a legacy stored light or dark choice as a manual mode', async () => {
+      const page = await context.newPage();
+      await page.clock.install({ time: '2026-11-13T12:00:00' });
+      await page.addInitScript(() => {
+        document.cookie = 'krv_theme=dark; path=/; max-age=31536000; domain=.krivoshein.site';
+      });
+      await visit(page);
+      assert.equal(await page.locator('html').getAttribute('data-theme'), 'dark');
+      assert.match(await page.locator('.drslon-header-utility .krv-theme-btn').first().getAttribute('title'), /тёмная/i);
+      await page.locator('.drslon-header-utility .krv-theme-btn').first().click();
+      assert.equal(await page.locator('html').getAttribute('data-theme'), 'light');
+      assert.equal(await page.evaluate(() => localStorage.getItem('krv_theme')), 'auto');
     });
   });
 }
