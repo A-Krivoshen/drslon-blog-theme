@@ -32,7 +32,32 @@ function drslon_krv_cookie_head(): void {
 		return;
 	}
 
-	echo "<script>(function(){var c=document.cookie;function get(n){var m=c.match(new RegExp(\"(?:^|;\\\\s*)\"+n+\"=([^;]*)\"));return m?decodeURIComponent(m[1]):\"\";}var v=get(\"krv_consent\");if(v!==\"a\"&&v!==\"n\"){var legacy=get(\"moove_gdpr_popup\");if(legacy){try{var d=JSON.parse(legacy);if(d&&(d.thirdparty===\"1\"||d.thirdparty===1))v=\"a\";else if(d&&(d.strict===\"1\"||d.strict===1||d.thirdparty===\"0\"))v=\"n\";}catch(e){}}}window.krvConsent={analytics:v===\"a\",ads:v!==\"n\",necessary:true};if(v===\"a\"||v===\"n\"){document.documentElement.classList.add(\"krv-cookie-chosen\");}})();</script>\n";
+	echo <<<'JS'
+<script id="drslon-krv-cookie-head">
+(function(){
+  function get(n){
+    try{
+      var m=document.cookie.match(new RegExp("(?:^|;\\s*)"+n+"=([^;]*)"));
+      return m?decodeURIComponent(m[1]):"";
+    }catch(e){return "";}
+  }
+  var v=get("krv_consent");
+  if(v!=="a"&&v!=="n"){
+    var legacy=get("moove_gdpr_popup");
+    if(legacy){
+      try{
+        var d=JSON.parse(legacy);
+        if(d&&(d.thirdparty==="1"||d.thirdparty===1))v="a";
+        else if(d&&(d.strict==="1"||d.strict===1||d.thirdparty==="0"||d.thirdparty===0))v="n";
+      }catch(e){}
+    }
+  }
+  window.krvConsent={analytics:v==="a",ads:v!=="n",necessary:true};
+  if(v==="a"||v==="n")document.documentElement.classList.add("krv-cookie-chosen");
+})();
+</script>
+JS;
+	echo "\n";
 }
 add_action( 'wp_head', 'drslon_krv_cookie_head', 0 );
 
