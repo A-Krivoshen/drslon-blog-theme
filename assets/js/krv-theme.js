@@ -1,9 +1,11 @@
 /**
- * DrSlon theme toggle — same contract as static landings.
+ * DrSlon theme modes — same contract as static landings.
  * - html[data-theme="light|dark"]
- * - localStorage krv_theme
- * - cookie krv_theme on .krivoshein.site (cross-subdomain)
- * - auto: 07:00–19:59 light, else dark (when no stored choice)
+ * - stored mode in localStorage krv_theme and cookie krv_theme on
+ *   .krivoshein.site: "auto" (default), "light", "dark"
+ * - auto: 07:00-19:59 light, else dark; re-checked while the page is open
+ * - legacy stored "light"/"dark" values stay valid manual choices
+ * - one header button cycles auto -> light -> dark -> auto
  */
 (function () {
   "use strict";
@@ -12,9 +14,23 @@
   var COOKIE_DOMAIN = ".krivoshein.site";
   var DAY_START = 7;
   var DAY_END = 20;
+  var AUTO_CHECK_MS = 30000;
+
+  var NEXT_MODE = { auto: "light", light: "dark", dark: "auto" };
+  var MODE_GLYPH = { auto: "\u25D0", light: "\u2600", dark: "\u263E" };
+  var MODE_LABEL = {
+    auto: "Тема: авто (по времени)",
+    light: "Тема: светлая",
+    dark: "Тема: тёмная"
+  };
+  var NEXT_LABEL = { auto: "светлая", light: "тёмная", dark: "авто" };
 
   function $(sel, root) {
     return (root || document).querySelector(sel);
+  }
+
+  function validMode(value) {
+    return value === "auto" || value === "light" || value === "dark";
   }
 
   function autoTheme() {
@@ -29,7 +45,7 @@
         var p = parts[i].replace(/^\s+/, "");
         if (p.indexOf(name + "=") === 0) {
           var v = p.slice(name.length + 1);
-          if (v === "light" || v === "dark") return v;
+          if (validMode(v)) return v;
         }
       }
     } catch (e) {}
@@ -50,14 +66,20 @@
     } catch (e) {}
   }
 
-  function getTheme() {
-    var c = readCookie(THEME_KEY);
-    if (c === "light" || c === "dark") return c;
+  function readStorage() {
     try {
       var s = localStorage.getItem(THEME_KEY);
-      if (s === "light" || s === "dark") return s;
+      if (validMode(s)) return s;
     } catch (e) {}
-    return autoTheme();
+    return null;
+  }
+
+  function getMode() {
+    return readCookie(THEME_KEY) || readStorage() || "auto";
+  }
+
+  function effectiveTheme(mode) {
+    return mode === "auto" ? autoTheme() : mode;
   }
 
   function setThemeColorMeta(theme) {
@@ -70,8 +92,8 @@
     m.setAttribute("content", theme === "dark" ? "#0b1220" : "#315fe8");
   }
 
-  function setButtonGlyph(btn, theme) {
-    // Fixed-width glyph slot — ☀/☾ metrics differ and used to nudge the menu.
+  function describeButton(btn, mode) {
+    // Fixed-width glyph slot — metrics differ between ☀/☾/◐ and used to nudge the menu.
     var icon = btn.querySelector(".krv-theme-btn__icon");
     if (!icon) {
       icon = document.createElement("span");
@@ -80,30 +102,31 @@
       btn.textContent = "";
       btn.appendChild(icon);
     }
-    icon.textContent = theme === "dark" ? "\u2600" : "\u263E";
+    icon.textContent = MODE_GLYPH[mode];
+    btn.title = MODE_LABEL[mode] + ". Нажмите: " + NEXT_LABEL[mode];
+    btn.setAttribute("aria-label", btn.title);
+    // aria-pressed cannot represent three states.
+    btn.removeAttribute("aria-pressed");
   }
 
-  function applyTheme(theme, anim, persist) {
+  function applyMode(mode, anim, persist) {
     var html = document.documentElement;
-    var t = theme === "dark" ? "dark" : "light";
+    if (!validMode(mode)) mode = "auto";
+    var t = effectiveTheme(mode);
     if (anim) html.classList.add("theme-anim");
     html.setAttribute("data-theme", t);
     setThemeColorMeta(t);
 
     var btns = document.querySelectorAll(".krv-theme-btn");
     for (var i = 0; i < btns.length; i++) {
-      var btn = btns[i];
-      setButtonGlyph(btn, t);
-      btn.title = t === "dark" ? "Светлая тема / Light" : "Тёмная тема / Dark";
-      btn.setAttribute("aria-label", btn.title);
-      btn.setAttribute("aria-pressed", t === "dark" ? "true" : "false");
+      describeButton(btns[i], mode);
     }
 
     if (persist) {
       try {
-        localStorage.setItem(THEME_KEY, t);
+        localStorage.setItem(THEME_KEY, mode);
       } catch (e) {}
-      writeCookie(THEME_KEY, t);
+      writeCookie(THEME_KEY, mode);
     }
 
     if (anim) {
@@ -118,11 +141,18 @@
       e.preventDefault();
       e.stopPropagation();
     }
-    var cur =
-      document.documentElement.getAttribute("data-theme") === "dark"
-        ? "dark"
-        : "light";
-    applyTheme(cur === "dark" ? "light" : "dark", true, true);
+    applyMode(NEXT_MODE[getMode()], true, true);
+  }
+
+  function checkAuto() {
+    if (getMode() !== "auto") {
+      return;
+    }
+    var current = document.documentElement.getAttribute("data-theme");
+    var expected = autoTheme();
+    if (expected !== current) {
+      applyMode("auto", true, false);
+    }
   }
 
   function makeButton() {
@@ -133,7 +163,7 @@
     var icon = document.createElement("span");
     icon.className = "krv-theme-btn__icon";
     icon.setAttribute("aria-hidden", "true");
-    icon.textContent = "\u263E";
+    icon.textContent = MODE_GLYPH.auto;
     btn.appendChild(icon);
     btn.addEventListener("click", toggleTheme);
     return btn;
@@ -218,23 +248,29 @@
 
   try {
     var c = readCookie(THEME_KEY);
-    var s = null;
-    try {
-      s = localStorage.getItem(THEME_KEY);
-    } catch (e) {}
-    if ((c === "light" || c === "dark") && s !== c) {
+    var s = readStorage();
+    if (c && s !== c) {
       try {
         localStorage.setItem(THEME_KEY, c);
       } catch (e) {}
-    } else if ((s === "light" || s === "dark") && c !== s) {
+    } else if (s && c !== s) {
       writeCookie(THEME_KEY, s);
     }
   } catch (e) {}
 
-  applyTheme(getTheme(), false, false);
+  applyMode(getMode(), false, false);
+
+  // auto follows the clock while the document stays open (laptop sleep, long tabs).
+  setInterval(checkAuto, AUTO_CHECK_MS);
+  document.addEventListener("visibilitychange", function () {
+    if (!document.hidden) {
+      checkAuto();
+    }
+  });
+  window.addEventListener("pageshow", checkAuto);
 
   ready(function () {
     injectControls();
-    applyTheme(getTheme(), false, false);
+    applyMode(getMode(), false, false);
   });
 })();

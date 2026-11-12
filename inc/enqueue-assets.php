@@ -199,15 +199,17 @@ function drslon_theme_fouc_script(): void {
 	?>
 <script>
 (function(){try{
+  /* Mode: auto (default), light, dark. Keep in sync with krv-theme.js. */
   var t=null;
   try{
-    var m=document.cookie.match(/(?:^|;\s*)krv_theme=(light|dark)/);
+    var m=document.cookie.match(/(?:^|;\s*)krv_theme=(auto|light|dark)/);
     if(m) t=m[1];
   }catch(e){}
-  if(t!=='light'&&t!=='dark'){
+  if(t!=='auto'&&t!=='light'&&t!=='dark'){
     try{t=localStorage.getItem('krv_theme');}catch(e){}
   }
-  if(t!=='light'&&t!=='dark'){
+  if(t!=='auto'&&t!=='light'&&t!=='dark') t='auto';
+  if(t==='auto'){
     var h=new Date().getHours();
     t=(h>=7&&h<20)?'light':'dark';
   }
