@@ -139,16 +139,24 @@ its dry run against the existing production page without database writes.
 
 ## Policy content correction
 
-`scripts/update-cookie-policy.php` corrects only the existing policy page and
-its obsolete service reference in `_genesis_description`. It removes the
+`scripts/update-cookie-policy.php` corrects only the existing policy page,
+its `_genesis_description` and its featured-image alt text. It removes the
 retired counter, describes recommendations/RSYA and fixes the old settings
 anchors. It does not change the page slug, title, design or publication date.
 
 Run the script through WP-CLI with the social autopost plugins skipped, as
 documented in its header. The default is a database-free dry run. Applying
-requires the reviewed original content SHA in `KRV_POLICY_EXPECTED_SHA` and
+requires an administrator with `unfiltered_html`, the reviewed original
+content SHA in `KRV_POLICY_EXPECTED_SHA` and
 an unused `KRV_POLICY_BACKUP` path outside the web root. The original post and
-affected description are backed up before `wp_update_post()` is called.
+affected description/image alt are backed up before any update. An unrelated
+legacy page-template value is preserved without revalidation by the current
+block theme; otherwise WordPress can return a template error after writing
+the body. An unchanged body is not written again.
+
+Run `TMPDIR=/tmp/opencode php tests/update-cookie-policy.test.php` for eight
+standalone migration regressions, including template preservation, metadata-only
+updates, HTML capability, SHA/backup guards and idempotence.
 
 ## Deployment and cache scope
 

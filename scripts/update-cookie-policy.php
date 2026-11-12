@@ -3,7 +3,7 @@
  * Targeted, repeatable policy correction. Dry-run by default.
  *
  * wp --skip-plugins=wp-linkedin-auto-publish,wptelegram,share-on-mastodon,max-autopost \
- *   eval-file scripts/update-cookie-policy.php
+ *   --user=<administrator-id> eval-file scripts/update-cookie-policy.php
  * Apply with the final argument "apply", KRV_POLICY_EXPECTED_SHA and
  * KRV_POLICY_BACKUP set to an unused backup file outside the web root.
  */
@@ -60,7 +60,10 @@ if ( preg_match( '/rambler|top100|рамблер/iu', $content ) ) {
 
 $meta_before = (string) get_post_meta( $post->ID, '_genesis_description', true );
 $meta_after  = str_replace( ' и Rambler Top100', '', $meta_before );
-if ( preg_match( '/rambler|top100|рамблер/iu', $meta_after ) ) {
+$thumbnail   = (int) get_post_thumbnail_id( $post->ID );
+$alt_before  = $thumbnail ? (string) get_post_meta( $thumbnail, '_wp_attachment_image_alt', true ) : '';
+$alt_after   = str_replace( ' и Rambler Top100', '', $alt_before );
+if ( preg_match( '/rambler|top100|рамблер/iu', $meta_after . $alt_after ) ) {
 	WP_CLI::error( 'An obsolete metadata reference remains; update refused.' );
 }
 
@@ -70,14 +73,18 @@ WP_CLI::log( 'Original content SHA256: ' . $sha );
 WP_CLI::log( 'Updated content SHA256: ' . hash( 'sha256', $content ) );
 WP_CLI::log( 'Content changed: ' . ( $content !== $original ? 'yes' : 'no' ) );
 WP_CLI::log( 'Description changed: ' . ( $meta_after !== $meta_before ? 'yes' : 'no' ) );
+WP_CLI::log( 'Featured-image alt changed: ' . ( $alt_after !== $alt_before ? 'yes' : 'no' ) );
 
 if ( ! isset( $args[0] ) || 'apply' !== $args[0] ) {
 	WP_CLI::success( 'Dry run only; no database writes.' );
 	return;
 }
-if ( $content === $original && $meta_before === $meta_after ) {
+if ( $content === $original && $meta_before === $meta_after && $alt_before === $alt_after ) {
 	WP_CLI::success( 'Policy already updated.' );
 	return;
+}
+if ( ! current_user_can( 'unfiltered_html' ) ) {
+	WP_CLI::error( 'An administrator with unfiltered_html is required; update refused.' );
 }
 if ( getenv( 'KRV_POLICY_EXPECTED_SHA' ) !== $sha ) {
 	WP_CLI::error( 'Policy changed since review; update refused.' );
@@ -95,7 +102,11 @@ if ( $backup_dir === $web_root || 0 === strpos( $backup_dir, $web_root . DIRECTO
 $saved = file_put_contents(
 	$backup,
 	wp_json_encode(
-		array( 'post' => $post->to_array(), 'description' => $meta_before ),
+		array(
+			'post'        => $post->to_array(),
+			'description' => $meta_before,
+			'thumbnail'   => array( 'ID' => $thumbnail, 'alt' => $alt_before ),
+		),
 		JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES
 	),
 	LOCK_EX
@@ -105,10 +116,21 @@ if ( false === $saved ) {
 }
 chmod( $backup, 0600 );
 
-$result = wp_update_post( array( 'ID' => $post->ID, 'post_content' => wp_slash( $content ) ), true );
-if ( is_wp_error( $result ) ) {
-	WP_CLI::error( $result->get_error_message() );
+if ( $content !== $original ) {
+	// An unrelated legacy template may no longer exist in the active block theme.
+	// Empty page_template skips revalidation without changing its stored metadata.
+	$result = wp_update_post(
+		array( 'ID' => $post->ID, 'post_content' => wp_slash( $content ), 'page_template' => '' ),
+		true
+	);
+	if ( is_wp_error( $result ) ) {
+		WP_CLI::error( $result->get_error_message() );
+	}
 }
 update_post_meta( $post->ID, '_genesis_description', $meta_after );
+if ( $thumbnail && $alt_after !== $alt_before ) {
+	update_post_meta( $thumbnail, '_wp_attachment_image_alt', $alt_after );
+	clean_post_cache( $thumbnail );
+}
 clean_post_cache( $post->ID );
-WP_CLI::success( 'Policy and its description updated; original content backed up.' );
+WP_CLI::success( 'Policy, description and featured-image alt updated; originals backed up.' );
