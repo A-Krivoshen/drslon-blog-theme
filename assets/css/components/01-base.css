@@ -308,6 +308,7 @@ html {
 
 	.drslon-main-navigation .wp-block-navigation-item__content {
 		font-size: 0.95rem;
+		padding: 0.75rem 0.25rem;
 	}
 
 	.drslon-featured-post__layout {
