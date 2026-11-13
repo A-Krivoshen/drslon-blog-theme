@@ -128,11 +128,13 @@
 	background: transparent;
 }
 
-.drslon-site-header.is-scrolled {
-	box-shadow: 0 4px 18px rgba(23, 33, 51, 0.08);
-	background-color: var(--wp--preset--color--surface, #ffffff) !important;
-	border-bottom-color: var(--wp--preset--color--border) !important;
-}
+/* is-scrolled: класс остаётся для JS-хуков, но шапка больше ничего не меняет —
+   ни фона, ни тени, ни геометрии. Раньше переключение фона/тени при пересечении
+   порога 24px выглядело как «дёргание» шапки при кликах по якорям. */
+/* is-scrolled: класс остаётся как JS-хук, но никакой визуальной стилизации —
+   шапка не меняет ни фон, ни тень, ни геометрию ни на одной ширине экрана.
+   (Раньше переключение фона/тени при пороге 24px выглядело как дёргание
+   шапки при кликах по якорям.) */
 
 .drslon-site-footer .wp-block-site-logo {
 	margin-top: 0;
@@ -149,23 +151,8 @@
 }
 
 @media (min-width: 1100px) {
-	.drslon-site-header.is-scrolled {
-		padding-top: 12px !important;
-		padding-bottom: 12px !important;
-	}
-
-	.drslon-site-header.is-scrolled .drslon-site-branding .custom-logo,
-	.drslon-site-header.is-scrolled .drslon-site-branding .custom-logo img {
-		width: 44px !important;
-		height: 44px !important;
-		max-width: 44px !important;
-		max-height: 44px !important;
-	}
-
-	.drslon-site-header.is-scrolled .drslon-site-branding .wp-block-site-title {
-		font-size: clamp(0.98rem, 0.9rem + 0.2vw, 1.18rem) !important;
-		line-height: 1.12 !important;
-	}
+	/* Стабильная шапка при скролле: без сжатия паддингов, лого и шрифта —
+	   геометрия шапки не должна меняться ни на один пиксель. */
 
 	.drslon-blog-layout > .wp-block-column:last-child,
 	.drslon-home-layout > .wp-block-column:last-child,

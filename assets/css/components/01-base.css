@@ -6,6 +6,16 @@
 html {
 	overflow-y: scroll;
 	scrollbar-gutter: stable;
+	/* Плавные якорные переходы: клики по навигации не прыгают рывком,
+	   а цели-якоря не прячутся под fixed/sticky шапку. */
+	scroll-behavior: smooth;
+	scroll-padding-top: calc(var(--drslon-header-height, 89px) + 8px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	html {
+		scroll-behavior: auto;
+	}
 }
 
 @media (max-width: 1099px) {
