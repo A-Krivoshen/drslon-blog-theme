@@ -22,7 +22,7 @@ function drslon_lang_pairs(): array {
 	return array(
 		'/'               => '/en/home/',
 		'/servisy/'       => '/en/services/',
-		'/prays-list/'    => '/en/price/',
+		'/ceny/'    => '/en/price/',
 		'/konsultatsii/'  => '/en/consultations/',
 		'/resume/'        => '/en/resume/',
 		'/contacts/'      => '/en/contacts/',
@@ -119,7 +119,7 @@ function drslon_lang_urls(): array {
 function drslon_en_nav_map(): array {
 	return array(
 		'/#uslugi'        => array( '/en/home/#services', 'Services' ),
-		'/prays-list/'    => array( '/en/price/', 'Price list' ),
+		'/ceny/'    => array( '/en/price/', 'Price list' ),
 		'/konsultatsii/'  => array( '/en/consultations/', 'Consultations' ),
 		'/resume/'        => array( '/en/resume/', 'Resume' ),
 		'/project/'       => array( '/project/', 'Projects' ),
@@ -191,7 +191,7 @@ function drslon_lang_render_price_button( string $html, array $block ): string {
 		return $html;
 	}
 
-	$html = str_replace( 'href="/prays-list/"', 'href="' . esc_url( '/en/price/' ) . '"', $html );
+	$html = str_replace( 'href="/ceny/"', 'href="' . esc_url( '/en/price/' ) . '"', $html );
 	$html = str_replace( '>Прайс<', '>Price<', $html );
 
 	return $html;
@@ -320,7 +320,7 @@ function drslon_lang_render_en_page( string $html, array $block ): string {
 			'>Быстрые ссылки<'            => '>Shortcuts<',
 			'href="/#uslugi"'             => 'href="/en/home/#services"',
 			'>Услуги<'                    => '>Services<',
-			'href="/prays-list/"'         => 'href="/en/price/"',
+			'href="/ceny/"'         => 'href="/en/price/"',
 			'>Прайс-лист<'                => '>Price list<',
 			'href="/contacts/"'           => 'href="/en/contacts/"',
 			'>Контакты<'                  => '>Contacts<',
