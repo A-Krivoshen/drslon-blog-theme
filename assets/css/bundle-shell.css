@@ -31,6 +31,16 @@ Tags: blog, block-theme, full-site-editing, editor-style, technical
 html {
 	overflow-y: scroll;
 	scrollbar-gutter: stable;
+	/* Плавные якорные переходы: клики по навигации не прыгают рывком,
+	   а цели-якоря не прячутся под fixed/sticky шапку. */
+	scroll-behavior: smooth;
+	scroll-padding-top: calc(var(--drslon-header-height, 89px) + 8px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	html {
+		scroll-behavior: auto;
+	}
 }
 
 @media (max-width: 1099px) {
@@ -333,6 +343,7 @@ html {
 
 	.drslon-main-navigation .wp-block-navigation-item__content {
 		font-size: 0.95rem;
+		padding: 0.75rem 0.25rem;
 	}
 
 	.drslon-featured-post__layout {
@@ -2314,11 +2325,13 @@ body:has(.drslon-main-navigation .wp-block-navigation__responsive-container.is-m
 	background: transparent;
 }
 
-.drslon-site-header.is-scrolled {
-	box-shadow: 0 4px 18px rgba(23, 33, 51, 0.08);
-	background-color: var(--wp--preset--color--surface, #ffffff) !important;
-	border-bottom-color: var(--wp--preset--color--border) !important;
-}
+/* is-scrolled: класс остаётся для JS-хуков, но шапка больше ничего не меняет —
+   ни фона, ни тени, ни геометрии. Раньше переключение фона/тени при пересечении
+   порога 24px выглядело как «дёргание» шапки при кликах по якорям. */
+/* is-scrolled: класс остаётся как JS-хук, но никакой визуальной стилизации —
+   шапка не меняет ни фон, ни тень, ни геометрию ни на одной ширине экрана.
+   (Раньше переключение фона/тени при пороге 24px выглядело как дёргание
+   шапки при кликах по якорям.) */
 
 .drslon-site-footer .wp-block-site-logo {
 	margin-top: 0;
@@ -2335,23 +2348,8 @@ body:has(.drslon-main-navigation .wp-block-navigation__responsive-container.is-m
 }
 
 @media (min-width: 1100px) {
-	.drslon-site-header.is-scrolled {
-		padding-top: 12px !important;
-		padding-bottom: 12px !important;
-	}
-
-	.drslon-site-header.is-scrolled .drslon-site-branding .custom-logo,
-	.drslon-site-header.is-scrolled .drslon-site-branding .custom-logo img {
-		width: 44px !important;
-		height: 44px !important;
-		max-width: 44px !important;
-		max-height: 44px !important;
-	}
-
-	.drslon-site-header.is-scrolled .drslon-site-branding .wp-block-site-title {
-		font-size: clamp(0.98rem, 0.9rem + 0.2vw, 1.18rem) !important;
-		line-height: 1.12 !important;
-	}
+	/* Стабильная шапка при скролле: без сжатия паддингов, лого и шрифта —
+	   геометрия шапки не должна меняться ни на один пиксель. */
 
 	.drslon-blog-layout > .wp-block-column:last-child,
 	.drslon-home-layout > .wp-block-column:last-child,
@@ -3371,7 +3369,6 @@ html[data-theme="dark"] .drslon-main-navigation .wp-block-navigation__responsive
 	max-height: 64px !important;
 }
 
-
 /* RU | EN stay the same width when the current item is bold, so the row does not shift. */
 @media (min-width: 1100px) {
 	.drslon-main-navigation .drslon-lang > .wp-block-navigation-item__content {
@@ -3384,6 +3381,7 @@ html[data-theme="dark"] .drslon-main-navigation .wp-block-navigation__responsive
 		box-shadow: none !important;
 	}
 }
+
 
 /* >>> assets/css/components/10-theme-dark.css */
 /**
@@ -3522,11 +3520,6 @@ html[data-theme="dark"] .wp-site-blocks > header.wp-block-template-part {
   color: var(--wp--preset--color--text);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-}
-
-html[data-theme="dark"] .drslon-site-header.is-scrolled {
-  background-color: rgba(11, 18, 32, 0.98) !important;
-  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
 }
 
 html[data-theme="dark"] .drslon-site-branding .wp-block-site-title a,
@@ -3926,11 +3919,6 @@ html[data-theme="dark"] .drslon-category-tiles__item:hover {
 .custom-logo-link {
   background: transparent !important;
   box-shadow: none !important;
-}
-
-html[data-theme="dark"] .drslon-site-header.is-scrolled {
-  background-color: rgba(11, 18, 32, 0.98) !important;
-  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
 }
 
 /* ═══════════ Blog / archive / slider: beat light !important whites ═══════════ */
