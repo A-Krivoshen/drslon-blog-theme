@@ -804,3 +804,44 @@ a.krv-source-cards__item > span:not(:first-child) {
 body.single-post .drslon-single-content .enlighter-default {
 	line-height: 1.55;
 }
+
+/* Thematic service offer. Sits after the article, before navigation and Yandex widgets. */
+.krv-service-offer {
+	margin: 8px 0 4px;
+	padding: 18px 20px;
+	border: 1px solid var(--wp--preset--color--border, #d8e0ee);
+	border-radius: 12px;
+	background: var(--wp--preset--color--surface, #fff);
+	color: var(--wp--preset--color--text, #172133);
+}
+
+.krv-service-offer__title {
+	margin: 0 0 8px;
+	font-size: 1.15rem;
+	font-weight: 700;
+	line-height: 1.35;
+}
+
+.krv-service-offer__text {
+	margin: 0 0 14px;
+	color: var(--wp--preset--color--muted, #5b6b86);
+	line-height: 1.5;
+}
+
+.krv-service-offer__cta {
+	display: inline-flex;
+	align-items: center;
+	min-height: 44px;
+	padding: 0 16px;
+	border-radius: 10px;
+	background: var(--wp--preset--color--accent, #315fe8);
+	color: #fff;
+	font-weight: 700;
+	text-decoration: none;
+}
+
+.krv-service-offer__cta:hover,
+.krv-service-offer__cta:focus {
+	background: var(--wp--preset--color--accent-hover, #244ac2);
+	color: #fff;
+}

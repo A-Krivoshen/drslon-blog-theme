@@ -17,6 +17,7 @@ require_once get_template_directory() . '/inc/krv-rag-demo.php';
 require_once get_template_directory() . '/inc/krv-cookie.php';
 require_once get_template_directory() . '/inc/auto-toc.php';
 require_once get_template_directory() . '/inc/entry-meta.php';
+require_once get_template_directory() . '/inc/service-offer.php';
 
 /**
  * Header Telegram social link: channel (subscribe), not personal DM.
