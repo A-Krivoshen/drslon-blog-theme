@@ -170,9 +170,8 @@ for (const [name, type] of Object.entries(browsers)) {
       assert.equal(await page.locator('#krv-cookie').isVisible(), true);
       assert.equal(await page.evaluate(() => window.krvConsent.analytics), false);
       const sources = await page.locator('script[src]').evaluateAll(nodes => nodes.map(n => n.src));
-      assert.equal(sources.some(s => /metrika\/tag\.js|top100\/top100\.js/.test(s)), false);
-      // Existing production policy deliberately allows recommendations before a refusal.
-      assert.equal(await page.evaluate(() => window.krvConsent.ads), true);
+      assert.equal(sources.some(s => /metrika\/tag\.js|top100\/top100\.js|yandex\.ru\/ads|ads\/system\/context\.js/.test(s)), false);
+      assert.equal(await page.evaluate(() => window.krvConsent.ads), false);
     });
 
     for (const value of ['a', 'n']) {

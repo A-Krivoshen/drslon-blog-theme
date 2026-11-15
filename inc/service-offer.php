@@ -123,7 +123,8 @@ function krv_service_offer_shortcode(): string {
 	$html  = '<aside class="krv-service-offer" data-krv-service="' . esc_attr( $service_id ) . '">';
 	$html .= '<p class="krv-service-offer__title">' . esc_html( $service['title'] ) . '</p>';
 	$html .= '<p class="krv-service-offer__text">' . esc_html( $service['text'] ) . '</p>';
-	$html .= '<a class="krv-service-offer__cta" data-krv-service-offer="' . esc_attr( $service_id ) . '" href="' . esc_url( $service['url'] ) . '">' . esc_html( $service['cta'] ) . '</a>';
+	$cta_href = ( 'Обсудить задачу' === (string) ( $service['cta'] ?? '' ) ) ? home_url( '/max' ) : (string) $service['url'];
+	$html .= '<a class="krv-service-offer__cta" data-krv-service-offer="' . esc_attr( $service_id ) . '" href="' . esc_url( $cta_href ) . '">' . esc_html( $service['cta'] ) . '</a>';
 	$html .= '</aside>';
 
 	return $html;

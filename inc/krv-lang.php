@@ -176,7 +176,7 @@ function drslon_lang_render_link( string $html, array $block ): string {
 add_filter( 'render_block', 'drslon_lang_render_link', 12, 2 );
 
 /**
- * Price button in the header follows the English price page.
+ * Header MAX button keeps the same URL and gets an English label.
  *
  * @param string               $html  Block HTML.
  * @param array<string, mixed> $block Block data.
@@ -191,7 +191,7 @@ function drslon_lang_render_price_button( string $html, array $block ): string {
 		return $html;
 	}
 
-	$html = str_replace( 'href="/ceny/"', 'href="' . esc_url( '/en/price/' ) . '"', $html );
+	$html = str_replace( '>Написать в MAX<', '>Message on MAX<', $html );
 	$html = str_replace( '>Прайс<', '>Price<', $html );
 
 	return $html;

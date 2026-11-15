@@ -85,7 +85,7 @@
 
                 <!-- wp:buttons -->
                 <div class="wp-block-buttons"><!-- wp:button -->
-                <div class="wp-block-button"><a class="wp-block-button__link wp-element-button" href="mailto:aleksey@krivoshein.site">Обсудить задачу</a></div>
+                <div class="wp-block-button"><a class="wp-block-button__link wp-element-button" href="/max">Обсудить задачу</a></div>
                 <!-- /wp:button -->
 
                 <!-- wp:button {"className":"is-style-outline"} -->

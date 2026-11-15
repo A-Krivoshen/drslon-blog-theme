@@ -4827,21 +4827,21 @@ html.krv-cookie-chosen .krv-cookie {
 	border: 1px solid #d8e0ee;
 	border-radius: 16px;
 	box-shadow: 0 16px 40px rgba(23, 33, 51, 0.16);
-	padding: 16px 18px;
+	padding: 12px 14px;
 }
 
 .krv-cookie__title {
-	margin: 0 0 6px;
-	font-size: 1rem;
+	margin: 0 0 4px;
+	font-size: 0.95rem;
 	font-weight: 700;
-	line-height: 1.3;
+	line-height: 1.2;
 	color: #172133;
 }
 
 .krv-cookie__text {
 	margin: 0;
-	font-size: 0.95rem;
-	line-height: 1.45;
+	font-size: 0.88rem;
+	line-height: 1.35;
 	color: #172133;
 }
 
@@ -4854,7 +4854,7 @@ html.krv-cookie-chosen .krv-cookie {
 	display: flex;
 	flex-wrap: wrap;
 	gap: 8px;
-	margin-top: 14px;
+	margin-top: 10px;
 }
 
 .krv-cookie__btn {
@@ -4984,24 +4984,39 @@ html[data-theme="dark"] .krv-cookie__btn--primary {
 
 @media (max-width: 640px) {
 	.krv-cookie {
-		padding: 8px 10px calc(8px + env(safe-area-inset-bottom));
+		padding: 6px 8px calc(6px + env(safe-area-inset-bottom));
 	}
 
 	.krv-cookie__panel {
-		padding: 12px;
+		padding: 8px 10px;
+		border-radius: 12px;
+	}
+
+	.krv-cookie__title {
+		font-size: 0.82rem;
+		margin-bottom: 2px;
 	}
 
 	.krv-cookie__text {
-		font-size: 0.9rem;
+		font-size: 0.75rem;
+		line-height: 1.3;
 	}
 
 	.krv-cookie__actions {
 		display: grid;
-		grid-template-columns: 1fr 1fr;
+		grid-template-columns: 1fr 1fr auto;
+		gap: 6px;
+		margin-top: 6px;
+	}
+
+	.krv-cookie__btn {
+		min-height: 36px;
+		padding: 6px 8px;
+		font-size: 0.78rem;
 	}
 
 	.krv-cookie__btn--quiet {
-		grid-column: 1 / -1;
+		grid-column: auto;
 	}
 }
 

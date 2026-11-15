@@ -50,8 +50,7 @@
   }
 
   function allowsAds(choice) {
-    // Preserve the existing opt-out policy for recommendations before any choice.
-    return choice !== "n" && choice !== "m";
+    return choice === "a" || choice === "d";
   }
 
   function choiceFromFlags(analytics, ads) {

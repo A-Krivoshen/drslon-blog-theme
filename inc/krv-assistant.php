@@ -12,25 +12,57 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Print assistant script in footer (defer + data attributes).
+ * Load the assistant after a click outside the hero, or after a short idle.
+ * The tag is inline so the browser does not fetch the widget during parse.
  */
 function drslon_krv_assistant_footer(): void {
 	if ( is_admin() ) {
 		return;
 	}
 
-	// Skip REST/XML feeds and embeds.
 	if ( is_feed() || is_embed() ) {
 		return;
 	}
 
 	$src = 'https://support.krivoshein.site/widget/krv-assistant.js?v=20261111r';
 	$api = 'https://support.krivoshein.site/api/v1';
+	?>
 
-	printf(
-		"\n<!-- KRV AI Assistant -->\n<script src=\"%s\" defer data-api=\"%s\" data-side=\"right\"></script>\n",
-		esc_url( $src ),
-		esc_attr( $api )
-	);
+<style id="krv-assistant-slot">
+@media (max-width: 640px) {
+	.krv-assistant, .krv-assistant-launcher, #krv-assistant, [data-krv-assistant-root] {
+		bottom: calc(env(safe-area-inset-bottom) + 4.5rem) !important;
+	}
+}
+</style>
+<script id="krv-assistant-loader">
+(function () {
+	if (window.__krvAssistantQueued) return;
+	window.__krvAssistantQueued = true;
+	var loaded = false;
+	function load() {
+		if (loaded) return;
+		loaded = true;
+		var s = document.createElement("script");
+		s.src = <?php echo wp_json_encode( $src ); ?>;
+		s.defer = true;
+		s.setAttribute("data-api", <?php echo wp_json_encode( $api ); ?>);
+		s.setAttribute("data-side", "right");
+		document.body.appendChild(s);
+	}
+	var timer = window.setTimeout(load, 5000);
+	function later() {
+		window.clearTimeout(timer);
+		window.setTimeout(load, 400);
+	}
+	window.addEventListener("pointerdown", function (event) {
+		var node = event.target;
+		if (node && node.closest && node.closest(".krv-landing-hero, .krv-cookie, .drslon-header-cta, a[href*='/max']")) return;
+		later();
+	}, { passive: true });
+	window.addEventListener("keydown", later, { once: true });
+})();
+</script>
+	<?php
 }
 add_action( 'wp_footer', 'drslon_krv_assistant_footer', 99 );

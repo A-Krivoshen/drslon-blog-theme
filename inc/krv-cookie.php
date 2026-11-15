@@ -87,7 +87,7 @@ function drslon_krv_cookie_head(): void {
     }
   }
   var v=current.length?restrict(current):(legacy.length?restrict(legacy):"");
-  window.krvConsent={analytics:v==="a"||v==="m",ads:v!=="n"&&v!=="m",necessary:true};
+  window.krvConsent={analytics:v==="a"||v==="m",ads:v==="a"||v==="d",necessary:true};
   if(v)document.documentElement.classList.add("krv-cookie-chosen");
 })();
 </script>
@@ -109,7 +109,7 @@ function drslon_krv_cookie_footer(): void {
 <aside class="krv-cookie" id="krv-cookie" aria-label="Уведомление о cookie">
 	<div class="krv-cookie__panel">
 		<p class="krv-cookie__title" id="krv-cookie-title">Файлы cookie</p>
-		<p class="krv-cookie__text">Нужные cookie помнят тему оформления. Яндекс.Метрика включается только с вашего согласия. Рекомендации РСЯ показываются сразу, их можно отключить кнопкой «Только нужные» или в настройках. Подробности в <a href="<?php echo esc_url( $policy ); ?>">политике ПДн и cookie</a>.</p>
+		<p class="krv-cookie__text">Нужные cookie помнят тему. Метрика и реклама РСЯ включаются только после согласия. <a href="<?php echo esc_url( $policy ); ?>">Политика ПДн и cookie</a>.</p>
 		<div class="krv-cookie__actions">
 			<button type="button" class="krv-cookie__btn krv-cookie__btn--primary" data-krv-consent="a">Принять</button>
 			<button type="button" class="krv-cookie__btn" data-krv-consent="n">Только нужные</button>
@@ -139,7 +139,7 @@ function drslon_krv_cookie_footer(): void {
 			<input type="checkbox" id="krv-cookie-ads">
 			<span>
 				<strong>Рекомендации РСЯ</strong>
-				<span>Рекламная сеть Яндекса. Можно отключить независимо от аналитики.</span>
+				<span>Рекламная сеть Яндекса. Скрипты загружаются только после согласия, независимо от Метрики.</span>
 			</span>
 		</label>
 		<div class="krv-cookie__actions">
